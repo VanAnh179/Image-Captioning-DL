@@ -1,0 +1,36 @@
+# Deny by default. Only the collaboration files below belong in Git.
+*
+!/.gitignore
+!/README.md
+!/requirements.txt
+!/environment.yml
+!/pyproject.toml
+
+!/src/
+!/src/**/
+!/src/**/*.py
+!/src/**/.gitkeep
+!/scripts/
+!/scripts/**/
+!/scripts/**/*.py
+!/scripts/**/.gitkeep
+!/tests/
+!/tests/**/
+!/tests/**/*.py
+!/tests/**/.gitkeep
+!/demo/
+!/demo/**/
+!/demo/**/*.py
+!/demo/**/.gitkeep
+!/configs/
+!/configs/**/
+!/configs/**/*.yaml
+!/configs/**/*.yml
+!/configs/**/.gitkeep
+
+# Machine-specific files, including config overrides and Python caches.
+*.local.yaml
+*.local.yml
+__pycache__/
+.ipynb_checkpoints/
+.venv/
