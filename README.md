@@ -6,7 +6,7 @@ Phạm vi mở rộng gồm hai sản phẩm. Linh Khánh thử encoder ảnh CL
 
 ## Bắt đầu làm việc
 
-Repo hiện là khung triển khai. Bản thiết kế nằm ở `docs/DRAFT.md` trên máy khởi tạo. Vanh chia sẻ bản này qua thư mục riêng của nhóm để Linh Khánh đọc được sau khi clone. Hai bạn dùng Notion cho đầu việc và dùng cùng một nơi lưu riêng cho tài liệu, log và checkpoint. Ghi đường dẫn chia sẻ vào Notion và kiểm tra quyền truy cập từ tài khoản của bạn còn lại. Mời giảng viên vào repo ngay giai đoạn đầu và cấp quyền xem log theo đề môn.
+Bộ chuẩn bị dữ liệu KTVIC đã chạy được từ gốc repo theo hướng dẫn bên dưới. Bản thiết kế nằm ở `docs/DRAFT.md` trên máy khởi tạo. Vanh chia sẻ bản này qua thư mục riêng của nhóm để Linh Khánh đọc được sau khi clone. Hai bạn dùng Notion cho đầu việc và dùng cùng một nơi lưu riêng cho tài liệu, log và checkpoint. Ghi đường dẫn chia sẻ vào Notion và kiểm tra quyền truy cập từ tài khoản của bạn còn lại. Mời giảng viên vào repo ngay giai đoạn đầu và cấp quyền xem log theo đề môn.
 
 | Thư mục | Đặt gì ở đây | Lưu trên Git |
 |---|---|---|
@@ -35,9 +35,53 @@ $dirs | ForEach-Object { New-Item -ItemType Directory -Force -Path $_ | Out-Null
 - Trước mỗi commit, chạy `git status --short`, thêm đúng file theo tên, rồi đọc `git diff --cached`. Kiểm tra một đường dẫn bằng `git check-ignore -v -- <đường-dẫn>`. Tránh `git add -f`. Quy tắc ignore áp dụng cho file chưa được theo dõi. Mỗi commit nên tương ứng một đầu việc có thể chạy hoặc kiểm tra độc lập.
 - Khi bàn giao thí nghiệm, ghi ở task Notion mã commit, cấu hình, seed, phiên bản/split dữ liệu, phiên bản cache, lệnh chạy, phần cứng, thời gian và link riêng tới log/checkpoint. Hai bạn thử mở link bằng tài khoản bên nhận. Ghi người viết, người review và việc đã dùng AI vào nhật ký để tổng hợp phần đóng góp và khai báo AI trong báo cáo.
 
-## Dữ liệu và môi trường dự kiến
+## Chuẩn bị KTVIC và tạo batch dùng chung (03, 05, 08)
 
-Ưu tiên KTVIC. Tải hai file annotation train/test từ kho tác giả và ảnh ở liên kết trong README của họ. Lưu bản gốc dưới `data/raw/ktvic/`. Kiểm tra ảnh mở được và nối đúng ID trước khi chốt. Giữ nguyên test của tác giả, tách validation theo ảnh từ train bằng seed cố định. Chỉ chia sẻ lại dữ liệu khi điều kiện sử dụng cho phép. [Kho KTVIC và đường dẫn ảnh](https://github.com/pacman-ctm/ktvic)
+Vanh phụ trách kiểm tra dữ liệu, chia tập và chuẩn bị đầu vào cho hai decoder. Linh Khánh dùng cùng manifest, từ vựng và hàm tạo batch. Lưu hai annotation và hai gói ảnh vào `data/raw/ktvic/`. Giải nén ngay tại đó để có cấu trúc sau. [Annotation ở phiên bản đã kiểm tra](https://github.com/pacman-ctm/ktvic/tree/0412501549d57987e8b1db8b39a97a9040872822) · [Hai gói ZIP ảnh do tác giả chia sẻ](https://drive.google.com/drive/folders/16e8cd3AKusPS1H-h55JModiINM0og-ke)
+
+```text
+data/raw/ktvic/
+  train_data.json        test_data.json
+  train-images.zip       public-test-images.zip
+  train-images/          public-test-images/
+```
+
+Môi trường đã chạy trên CPU dùng Python 3.13.7, Pillow 12.2.0, PyYAML 6.0.3 và PyTorch 2.11.0. Từ gốc repo, chạy
+
+```sh
+python -m scripts.prepare_ktvic_dataset --seed 42
+python -m unittest discover -s tests -v
+```
+
+Chương trình giải mã từng ảnh, kiểm tra tên file, ID và năm caption, rồi giữ nguyên test gốc. Trong 3.769 ảnh train gốc, 15 ID (75 caption) trùng hoặc gần trùng ảnh test. Sau khi loại những ID này, chương trình lấy khoảng 10% ảnh còn lại cho validation. Các bản của cùng một ảnh được chia cùng nhau theo SHA-256 của pixel RGB và danh sách nhóm đã đối chiếu bằng mắt. Mỗi dòng manifest chứa một ID ảnh, đường dẫn tương đối, hash pixel và đủ năm caption gốc. [Nhóm ảnh đã đối chiếu](configs/ktvic_duplicate_image_groups.yaml) · [Số liệu công bố, mục 3.2](https://arxiv.org/pdf/2401.08100)
+
+| Tập | Ảnh | Caption |
+|---|---:|---:|
+| Train | 3.379 | 16.895 |
+| Validation | 375 | 1.875 |
+| Test gốc | 558 | 2.790 |
+
+Các file tái tạo trong `data/processed/ktvic/` gồm `{train,val,test}_ids.json`, `{train,val,test}_manifest.jsonl`, `caption_vocabulary.json`, `dataset_audit.json`, `sample_caption_batch.pt` và bản đọc được `sample_caption_batch.json`. Audit chứa ID loại, lý do, số token lạ, hash nguồn và hash manifest. Bản kiểm tra ảnh trực quan và báo cáo bàn giao trên máy nằm trong `reports/ktvic/`.
+
+Văn bản được đưa về Unicode NFC, chữ thường, thay dấu câu bằng khoảng trắng, gộp khoảng trắng rồi tách theo âm tiết. Từ vựng gồm 1.716 token, giữ mọi âm tiết xuất hiện ít nhất một lần trong train, với PAD=0, BOS=1, EOS=2, UNK=3. Hàm `decode` bỏ BOS/PAD và dừng ở EOS. Ví dụ dùng lại batch cho cả hai mô hình
+
+```python
+import json
+from pathlib import Path
+from src.data.vietnamese_caption_batch import CaptionVocabulary, make_caption_batch
+
+outputs = Path("data/processed/ktvic")
+vocab = CaptionVocabulary.load(outputs / "caption_vocabulary.json")
+with (outputs / "train_manifest.jsonl").open(encoding="utf-8") as manifest:
+    row = json.loads(next(manifest))
+samples = [(row["image_id"], row["image_path"], text) for text in row["captions"]]
+batch = make_caption_batch(samples, vocab, "data/raw/ktvic")
+sentence = vocab.decode(batch["labels"][0])
+```
+
+Batch mẫu lưu trên máy gồm bốn ảnh RGB float32 trong [0, 1], kích thước `[4, 3, 224, 224]`. Đầu vào decoder, nhãn int64 và mask bool cùng kích thước `[4, 14]`. Mask bằng True ở token cần tính loss, kể cả EOS. Bước chuẩn hóa ảnh theo trọng số encoder do bộ trích đặc trưng thực hiện.
+
+## Môi trường huấn luyện dự kiến
 
 Dùng PyTorch trên Kaggle. Mỗi run nhắm một T4. Khi chạy thử thành công, người phụ trách môi trường thêm `requirements.txt` hoặc `environment.yml` với phiên bản đã kiểm chứng và ghi lại lệnh cài đặt tại đây. Trên Kaggle, ánh xạ đường dẫn input và thư mục ghi kết quả qua cấu hình. Trước khi kết thúc phiên, lưu checkpoint và log vào nơi nhóm có quyền truy cập.
 
