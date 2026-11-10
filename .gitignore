@@ -2,6 +2,8 @@
 *
 !/.gitignore
 !/README.md
+!/docs/
+!/docs/ktvic.md
 !/requirements.txt
 !/environment.yml
 !/pyproject.toml
