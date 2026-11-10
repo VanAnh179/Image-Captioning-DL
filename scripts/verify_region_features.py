@@ -11,7 +11,8 @@ import torch
 
 from src.data.paths import resolve_image_root, resolve_processed_dir
 from src.data.region_features import (
-    FEATURE_DIM, NUM_REGIONS, FrozenResNet50Grid, RegionFeatureStore, load_image, read_manifest,
+    FEATURE_DIM, FORMAT_VERSION, NUM_REGIONS, WEIGHTS_NAME,
+    FrozenResNet50Grid, RegionFeatureStore, load_image, read_manifest,
 )
 
 
@@ -28,6 +29,14 @@ def verify_split(split, processed, image_root, directory, encoder, device, sampl
         errors.append(f"{split}: số ID danh sách={len(ids)}, số tensor={len(store)}, kỳ vọng={expected_images}")
     if store.image_ids.tolist() != ids:
         errors.append(f"{split}: ID/thứ tự trong cache khác {split}_ids.json")
+    if [r["image_id"] for r in rows] != ids:
+        errors.append(f"{split}: ID/thứ tự trong manifest khác {split}_ids.json")
+    manifest_hash = hashlib.sha256((processed / f"{split}_manifest.jsonl").read_bytes()).hexdigest()
+    if store.meta.get("manifest_sha256") != manifest_hash:
+        errors.append(f"{split}: hash manifest khác bản dùng để trích đặc trưng")
+    if (store.meta.get("format_version") != FORMAT_VERSION or store.meta.get("split") != split
+            or store.meta.get("weights") != WEIGHTS_NAME):
+        errors.append(f"{split}: metadata phiên bản cache/tập dữ liệu/trọng số ResNet không khớp")
     if store.features.shape[1:] != (NUM_REGIONS, FEATURE_DIM):
         errors.append(f"{split}: shape {tuple(store.features.shape)} không phải [N, 49, 2048]")
     if [r["image_path"] for r in rows] != store.image_paths or [r["pixel_sha256"] for r in rows] != store.pixel_sha256:
@@ -48,7 +57,7 @@ def verify_split(split, processed, image_root, directory, encoder, device, sampl
         tensor, digest = load_image(image_root / info["image_path"])
         fresh = encoder(tensor.unsqueeze(0).to(device))[0].float().cpu()
         cached = store.get_batch([image_id])[0]
-        scale = cached.abs().max().item()
+        scale = max(cached.abs().max().item(), 1e-8)
         worst = max(worst, (fresh - cached).abs().max().item() / scale)
         found, distance = store.nearest_id(fresh)
         if digest != info["pixel_sha256"]:
@@ -101,4 +110,6 @@ def main():
 
 
 if __name__ == "__main__":
+    sys.stdout.reconfigure(encoding="utf-8")
+    sys.stderr.reconfigure(encoding="utf-8")
     main()

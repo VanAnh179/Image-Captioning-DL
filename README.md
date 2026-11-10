@@ -81,9 +81,58 @@ sentence = vocab.decode(batch["labels"][0])
 
 Batch mẫu lưu trên máy gồm bốn ảnh RGB float32 trong [0, 1], kích thước `[4, 3, 224, 224]`. Đầu vào decoder, nhãn int64 và mask bool cùng kích thước `[4, 14]`. Mask bằng True ở token cần tính loss, kể cả EOS. Bước chuẩn hóa ảnh theo trọng số encoder do bộ trích đặc trưng thực hiện.
 
+## Đặc trưng ResNet-50 và bộ chấm dùng chung (Linh Khánh)
+
+Cài môi trường bằng `python -m pip install -r requirements.txt`. Bản kiểm tra dùng Python 3.13.7, PyTorch 2.11.0+cu128, torchvision 0.26.0+cu128, Pillow 12.2.0, PyYAML 6.0.3, NumPy 2.4.4 và pycocoevalcap 1.2. `requirements.txt` chốt phiên bản gói Python. Bản CUDA của torch/torchvision phụ thuộc nguồn wheel và phần cứng. Bộ chấm BLEU/CIDEr chạy trên CPU, không gọi Java hoặc tải tokenizer.
+
+Từ gốc repo, sau khi đã chuẩn bị dữ liệu, chạy
+
+```sh
+python -m scripts.extract_region_features --device cuda --batch-size 32 --workers 4
+python -m scripts.verify_region_features --device cuda --samples 25
+python -m scripts.run_scorer_trial --split val
+python -m scripts.run_scorer_trial --split test
+python -m unittest discover -s tests -v
+```
+
+Máy chỉ có CPU dùng `--device cpu` ở hai lệnh đầu. Lần trích đầu tải trọng số torchvision `ResNet50_Weights.IMAGENET1K_V1`. Encoder luôn ở `eval()`, mọi trọng số đóng băng. Ảnh được EXIF transpose, chuyển RGB, resize bilinear về 224×224, rồi chuẩn hóa bằng mean/std ImageNet. Đầu ra conv1…layer4 được xếp từ `[2048, 7, 7]` thành `[49, 2048]`. Chỉ số vùng là `hàng * 7 + cột`, hàng/cột bắt đầu từ 0. Cache lưu đặc trưng trước phép chiếu và embedding của decoder.
+
+Ba file `artifacts/features/ktvic/resnet50_7x7_{train,val,test}.pt` chứa lần lượt 3.379 / 375 / 558 tensor float16. Mỗi file gồm `features [N,49,2048]`, `image_ids [N]`, `image_paths`, `pixel_sha256` và `meta` ghi phiên bản thư viện, trọng số, chuẩn hóa và SHA-256 manifest. File hoàn chỉnh thay thế cache cũ sau khi ghi thành công. Cả hai decoder tra theo ID qua cùng API
+
+```python
+from src.data.region_features import RegionFeatureStore
+
+store = RegionFeatureStore.load("artifacts/features/ktvic", "val")
+image_ids = store.image_ids[:2].tolist()
+features = store.get_batch(image_ids)  # float32 [2, 49, 2048], đúng thứ tự yêu cầu
+origin = store.trace(image_ids[0])     # ID, đường dẫn ảnh và hash pixel
+found_id, distance = store.nearest_id(features[0])
+```
+
+Lệnh verify đối chiếu số lượng, toàn bộ ID/thứ tự, đường dẫn, hash và metadata với split/manifest, kiểm tra NaN/Inf và ID trùng giữa các tập. Với mỗi tập, lệnh tính lại tensor của 25 ID ngẫu nhiên cộng ID đầu/cuối, tìm tensor gần nhất trong cache và đối chiếu ảnh gốc. Các ID có cùng pixel có thể cho cùng tensor, nên truy ngược được chấp nhận khi hash pixel trùng. Báo cáo lưu tại `runs/region_features_check/report.json`, exit 1 nếu có sai lệch. Cache và báo cáo được lưu riêng theo quy ước Git.
+
+File dự đoán nhận JSON dạng `[{"image_id": 2, "caption": "một câu mô tả"}, ...]`, object `{"2": "một câu mô tả", ...}`, hoặc JSONL mỗi dòng một object có `image_id` và `caption`. Mỗi ID trong tập được chấm phải có đúng một câu dự đoán. Chạy chấm và lưu kết quả bằng
+
+```sh
+python -m scripts.score_captions --predictions runs/scorer_trial/val_predictions_dung_ID.json --split val --output runs/scorer_trial/val_scores.json
+```
+
+Bộ chấm lấy toàn bộ năm caption của từng ID trong manifest. Dự đoán và tham chiếu dùng cùng `normalize_caption` của pipeline dữ liệu, tách token theo âm tiết. BLEU-1…4 là điểm corpus của pycocoevalcap. Mục `CIDEr` dùng implementation có clipping và Gaussian length penalty (CIDEr-D) của gói này. Mọi điểm đều nhân 100, nên BLEU có thang 0–100 và CIDEr-D có thang 0–1.000. CIDEr có thể vượt 100. IDF được tính từ tham chiếu của chính tập đang chấm, vì vậy so sánh các run trên cùng tập và cùng cấu hình chấm. JSON kết quả ghi số ảnh, số câu tham chiếu, thang điểm và phiên bản thư viện.
+
+Lệnh trial dùng caption tham chiếu đầu tiên làm dự đoán, rồi tráo caption theo chu trình để mọi ảnh nhận caption của ID khác. Hai trường hợp đều được chấm trên đủ ảnh và đủ năm tham chiếu. Đây là phép kiểm tra bộ chấm bằng caption con người, không đo chất lượng mô hình. Lệnh kiểm tra điểm đúng ID cao hơn điểm tráo ID ở cả năm metric, kiểm tra lỗi thiếu dự đoán/thiếu file ảnh, ghi `runs/scorer_trial/{split}_trial_report.json` và exit 1 nếu điều kiện thất bại.
+
+Lượt xác minh ngày 11/11/2026 trên RTX 3060 khớp đủ 4.312 ID ở ba tập và truy ngược đúng 81/81 mẫu tensor. Cả 17 kiểm thử đều qua, gồm kiểm thử manifest bị đổi ID/hash và lỗi đọc dự đoán. Kết quả trial trên dữ liệu đầy đủ, theo thang nhân 100 ở trên
+
+| Tập | BLEU-4 đúng ID | BLEU-4 tráo ID | CIDEr đúng ID | CIDEr tráo ID |
+|---|---:|---:|---:|---:|
+| Validation (375 ảnh, 1.875 tham chiếu) | 100,00 | 8,18 | 348,87 | 10,75 |
+| Test (558 ảnh, 2.790 tham chiếu) | 100,00 | 8,59 | 353,21 | 12,02 |
+
+Khi đầu vào thiếu hoặc sai, lệnh chấm exit 2 và chỉ ra vấn đề, ví dụ `Thiếu dự đoán cho 5/375 ảnh ... (ID: ...)` hoặc `Thiếu file ảnh ... cho 3 ID (ID: ...)`. ID lạ, nhiều dự đoán cho một ID, caption rỗng và ID trùng trong manifest cũng bị từ chối. Mặc định kiểm tra file ảnh tồn tại. Chấm ở máy chỉ có manifest/predictions có thể truyền `--no-image-check`. Các lệnh nhận `--processed-dir`, `--image-root` để dùng dữ liệu ngoài thư mục mặc định, còn extract/verify nhận đường dẫn cache qua `--output`/`--features`.
+
 ## Môi trường huấn luyện dự kiến
 
-Dùng PyTorch trên Kaggle. Mỗi run nhắm một T4. Khi chạy thử thành công, người phụ trách môi trường thêm `requirements.txt` hoặc `environment.yml` với phiên bản đã kiểm chứng và ghi lại lệnh cài đặt tại đây. Trên Kaggle, ánh xạ đường dẫn input và thư mục ghi kết quả qua cấu hình. Trước khi kết thúc phiên, lưu checkpoint và log vào nơi nhóm có quyền truy cập.
+Dùng PyTorch trên Kaggle. Mỗi run nhắm một T4. Phiên bản cho pipeline dữ liệu, trích đặc trưng và chấm điểm nằm trong `requirements.txt`. Người phụ trách huấn luyện kiểm tra lại môi trường trên Kaggle khi bổ sung decoder. Trên Kaggle, ánh xạ đường dẫn input và thư mục ghi kết quả qua cấu hình. Trước khi kết thúc phiên, lưu checkpoint và log vào nơi nhóm có quyền truy cập.
 
 ## Điều kiện bàn giao phiên bản chạy được
 

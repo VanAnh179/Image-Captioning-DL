@@ -8,7 +8,7 @@ def resolve_processed_dir(root="."):
     path = Path(root) / "data/processed/ktvic"
     if not (path / "train_manifest.jsonl").is_file():
         raise FileNotFoundError(f"Không thấy train_manifest.jsonl trong {path}. "
-                                "Giải nén ktvic_processed_d796bc1.zip ở gốc repo hoặc truyền --processed-dir.")
+                                "Chạy python -m scripts.prepare_ktvic_dataset hoặc truyền --processed-dir.")
     return path
 
 
