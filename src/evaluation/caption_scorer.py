@@ -142,6 +142,6 @@ def score_captions(predictions, references, **validate_options):
         "num_images": len(chosen),
         "num_references": sum(len(v) for v in gts.values()),
         "scale": f"x{SCORE_SCALE:g}; BLEU 0-100, CIDEr-D 0-1000",
-        "scores": {name: round(value * SCORE_SCALE, 2) for name, value in zip(METRICS, values)},
+        "scores": {name: round(float(value) * SCORE_SCALE, 2) for name, value in zip(METRICS, values)},
         "libraries": library_versions(),
     }

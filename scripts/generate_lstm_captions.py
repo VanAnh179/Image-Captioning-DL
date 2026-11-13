@@ -11,6 +11,7 @@ from src.data.paths import resolve_processed_dir
 from src.data.region_features import RegionFeatureStore, read_manifest
 from src.data.vietnamese_caption_batch import CaptionVocabulary
 from src.models.lstm_attention_decoder import LSTMAttentionCaptionDecoder
+from src.training.caption_trainer import load_checkpoint
 
 
 def main():
@@ -30,7 +31,7 @@ def main():
 
     processed = args.processed_dir or resolve_processed_dir()
     vocabulary = CaptionVocabulary.load(processed / "caption_vocabulary.json")
-    checkpoint = torch.load(args.checkpoint, map_location="cpu", weights_only=True)
+    checkpoint = load_checkpoint(args.checkpoint)
     if checkpoint["vocabulary"] != vocabulary.tokens:
         raise ValueError("Checkpoint vocabulary differs from the processed vocabulary")
     model = LSTMAttentionCaptionDecoder(**checkpoint["config"]).to(args.device)

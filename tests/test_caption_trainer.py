@@ -6,13 +6,14 @@ from pathlib import Path
 from unittest.mock import patch
 
 import torch
+import numpy as np
 from torch.nn import functional as F
 
 from src.data.cached_caption_dataset import CachedCaptionDataset
 from src.data.region_features import RegionFeatureStore
 from src.data.vietnamese_caption_batch import PAD, CaptionVocabulary
 from src.evaluation.caption_scorer import ScorerInputError, score_captions
-from src.training.caption_trainer import atomic_save, build_model, fit, logits_from, token_loss
+from src.training.caption_trainer import atomic_save, build_model, fit, load_checkpoint, logits_from, token_loss
 from scripts.export_caption_results import export_results
 
 
@@ -27,6 +28,16 @@ def tiny_data():
 
 
 class CaptionTrainerTests(unittest.TestCase):
+    def test_legacy_numpy_metric_checkpoint_loads_and_new_scores_use_python_floats(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / "legacy.pt"
+            atomic_save({"selection_value": np.float64(79.97), "model_state": {"weight": torch.ones(2)}}, path)
+            checkpoint = load_checkpoint(path)
+            self.assertEqual(float(checkpoint["selection_value"]), 79.97)
+        result = score_captions([(0, "một con chó"), (1, "hai bé gái")],
+                                {0: ["một con chó"], 1: ["hai bé gái"]})
+        self.assertTrue(all(type(value) is float for value in result["scores"].values()))
+
     def setUp(self):
         self.data = tiny_data()
         self.configs = {
