@@ -1,6 +1,6 @@
 # Báo cáo vòng huấn luyện, khôi phục checkpoint và baseline A
 
-**Phụ trách** Vanh · **Ngày** 13/11/2026 · Codex hỗ trợ viết mã, kiểm thử và gửi job Kaggle.
+**Phụ trách** Vanh · **Ngày** 13/11/2026
 
 ## Vòng train dùng chung A và B
 
@@ -31,8 +31,6 @@ python -m scripts.export_caption_results --run-dir runs/a_baseline
 Trên máy phát triển, **40/40 kiểm thử đạt**. A và B đều được thử chạy liền 3 epoch so với chạy 1 epoch rồi khôi phục đến epoch 3. Trọng số, optimizer, trạng thái ngẫu nhiên, số bước và loss từng epoch khớp hoàn toàn trên CPU. Thêm 5 PAD giữ nguyên loss và số token hợp lệ. Các kiểm thử còn xác nhận chọn đúng checkpoint theo CIDEr, dừng sớm, xuất đúng caption của bản tốt nhất và giữ checkpoint cũ khi ghi file thất bại.
 
 ## Pilot và baseline đã gửi lên Kaggle
-
-[Job riêng tư KTVIC A Baseline 20261113](https://www.kaggle.com/code/wann179/ktvic-a-baseline-20261113), kernel ID **144738063**, phiên bản **1**, đã được Kaggle nhận. Yêu cầu GPU T4, bật Internet để cài bộ chấm, giới hạn phiên 3 giờ. Đầu vào riêng tư chứa cache train/val và mã nguồn, tách khỏi token xác thực.
 
 Job thực hiện tuần tự các bước sau.
 

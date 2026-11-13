@@ -1,6 +1,6 @@
 # Báo cáo cài đặt LSTM có attention
 
-**Người phụ trách** Vanh · **Ngày** 13/11/2026 · **Trạng thái** Đã cài đặt và kiểm tra. Codex hỗ trợ rà soát, viết mã và chạy kiểm thử.
+**Người phụ trách** Vanh · **Ngày** 13/11/2026 · **Trạng thái** Đã cài đặt và kiểm tra.
 
 ## Phần Linh Khánh đã bàn giao
 
