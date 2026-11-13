@@ -4,6 +4,8 @@
 !/README.md
 !/docs/
 !/docs/ktvic.md
+!/reports/
+!/reports/Báo_cáo_cài_đặt_LSTM_có_attention.md
 !/requirements.txt
 !/environment.yml
 !/pyproject.toml

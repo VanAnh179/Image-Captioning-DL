@@ -9,8 +9,8 @@ import math
 import torch
 from torch import nn
 
-from src.data.region_features import FEATURE_DIM, NUM_REGIONS
 from src.data.vietnamese_caption_batch import PAD
+from src.models.region_projection import RegionProjection
 
 
 def sinusoidal_positions(max_len, d_model):
@@ -85,21 +85,6 @@ class DecoderLayer(nn.Module):
         x = x + self.dropout(self.self_attn(h, h, self_mask))
         x = x + self.dropout(self.cross_attn(self.norm2(x), memory))  # all 49 regions are valid: no mask
         return x + self.dropout(self.ffn(self.norm3(x)))
-
-
-class RegionProjection(nn.Module):
-    """[B, 49, 2048] ResNet regions -> M [B, 49, d]: Linear + LayerNorm + learned embedding of the region's grid position."""
-
-    def __init__(self, d_model, dropout, feature_dim=FEATURE_DIM, num_regions=NUM_REGIONS):
-        super().__init__()
-        self.linear = nn.Linear(feature_dim, d_model)
-        self.norm = nn.LayerNorm(d_model)
-        self.position = nn.Embedding(num_regions, d_model)
-        self.dropout = nn.Dropout(dropout)
-
-    def forward(self, regions):
-        index = torch.arange(regions.shape[1], device=regions.device)
-        return self.dropout(self.norm(self.linear(regions)) + self.position(index))
 
 
 class TransformerCaptionDecoder(nn.Module):
