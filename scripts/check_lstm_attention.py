@@ -51,7 +51,12 @@ def main():
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.learning_rate, weight_decay=0)
     history = []
     started = time.perf_counter()
+    epoch_seconds = []
+    if regions.is_cuda:
+        torch.cuda.synchronize()
+        torch.cuda.reset_peak_memory_stats()
     for step in range(args.steps):
+        step_started = time.perf_counter()
         model.train()
         optimizer.zero_grad(set_to_none=True)
         output = model(regions, inputs)
@@ -62,9 +67,14 @@ def main():
         loss.backward()
         torch.nn.utils.clip_grad_norm_(model.parameters(), 5)
         optimizer.step()
+        if regions.is_cuda:
+            torch.cuda.synchronize()
+        epoch_seconds.append(time.perf_counter() - step_started)
         if step == 0 or (step + 1) % 50 == 0:
             print(f"step {step + 1}/{args.steps}, loss={loss.item():.6f}", flush=True)
 
+    train_peak_allocated = torch.cuda.max_memory_allocated() / 2**20 if regions.is_cuda else None
+    train_peak_reserved = torch.cuda.max_memory_reserved() / 2**20 if regions.is_cuda else None
     model.eval()
     with torch.no_grad():
         teacher = model(regions, inputs)
@@ -92,6 +102,10 @@ def main():
         "config": config, "steps": args.steps, "learning_rate": args.learning_rate,
         "parameters": sum(p.numel() for p in model.parameters()), "device": args.device,
         "torch": str(torch.__version__), "seconds": round(time.perf_counter() - started, 2),
+        "epoch_seconds": epoch_seconds,
+        "epoch_definition": "One update over all 16 pairs, no checkpoint IO in the timer",
+        "peak_allocated_mib": train_peak_allocated,
+        "peak_reserved_mib": train_peak_reserved,
         "initial_loss": history[0], "final_loss": final_loss,
         "exact_captions": exact_matches, "images": len(rows),
         "eos_count": generated["finished"].sum().item(), "attention_sum_max_error": attention_error,
@@ -107,7 +121,7 @@ def main():
     report["passed"] = (final_loss < history[0] * 0.1 and exact_matches == len(rows)
                         and generated["finished"].all().item() and attention_error < 1e-5 and reload_equal)
     (args.output / "report.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(json.dumps({key: value for key, value in report.items() if key not in ("loss_history", "examples")}, indent=2))
+    print(json.dumps({key: value for key, value in report.items() if key not in ("loss_history", "epoch_seconds", "examples")}, indent=2))
     return 0 if report["passed"] else 1
 
 

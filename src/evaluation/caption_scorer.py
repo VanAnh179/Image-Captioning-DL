@@ -91,7 +91,7 @@ def _preview(ids, limit=10):
     return shown + (f", ... (+{len(ids) - limit})" if len(ids) > limit else "")
 
 
-def validate(predictions, references, image_paths=None, image_root=None):
+def validate(predictions, references, image_paths=None, image_root=None, allow_empty=False):
     """Return {image_id: caption} for the IDs to score, or raise ScorerInputError listing every problem."""
     problems, by_id, repeated = [], {}, set()
     for image_id, caption in predictions:
@@ -108,7 +108,8 @@ def validate(predictions, references, image_paths=None, image_root=None):
     if missing:
         problems.append(f"Thiếu dự đoán cho {len(missing)}/{len(references)} ảnh của tập tham chiếu "
                         f"(ID: {_preview(missing)}). Sinh đủ caption cho mọi ảnh của tập.")
-    bad = [i for i, c in by_id.items() if i in references and (not isinstance(c, str) or not normalize_caption(c))]
+    bad = [i for i, c in by_id.items() if i in references
+           and (not isinstance(c, str) or (not allow_empty and not normalize_caption(c)))]
     if bad:
         problems.append(f"{len(bad)} ảnh có caption rỗng hoặc không phải chuỗi (ID: {_preview(bad)}).")
     short = [i for i in by_id if i in references and not references[i]]

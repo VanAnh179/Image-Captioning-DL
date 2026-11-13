@@ -19,3 +19,5 @@ python -m scripts.run_scorer_trial --split val
 Để chấm caption của mô hình, xem định dạng file dự đoán và lệnh chấm trong [hướng dẫn KTVIC](docs/ktvic.md#chấm-caption).
 
 LSTM có attention đã có đầu ra logits, câu tự sinh và trọng số 49 vùng. [Báo cáo triển khai và lệnh kiểm tra](reports/Báo_cáo_cài_đặt_LSTM_có_attention.md)
+
+[Vòng train, checkpoint và lượt baseline A trên Kaggle](reports/Báo_cáo_huấn_luyện_khôi_phục_và_baseline_A.md)
