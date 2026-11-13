@@ -34,6 +34,8 @@ def build_pairs(rows, vocabulary, generator, min_words=4):
 @torch.no_grad()
 def run(model, store, pairs, batch_size):
     """Head positions: logits of original vs changed sentence. Returns worst abs diff, mismatched argmax, tail diff."""
+    if not pairs or batch_size <= 0:
+        raise ValueError("Causality check needs at least one caption pair and a positive batch size")
     head_diff, head_argmax_mismatch, head_total, tail_changed, tail_total = 0.0, 0, 0, 0, 0
     for start in range(0, len(pairs), batch_size):
         chunk = pairs[start:start + batch_size]
@@ -41,6 +43,8 @@ def run(model, store, pairs, batch_size):
         original = pad_sequence([p[1] for p in chunk], batch_first=True, padding_value=PAD)
         changed = pad_sequence([p[2] for p in chunk], batch_first=True, padding_value=PAD)
         a, b = model(regions, original), model(regions, changed)
+        if not torch.isfinite(a).all() or not torch.isfinite(b).all():
+            raise ValueError("Decoder produced NaN/Inf logits")
         for n, (_, ids, _, first_changed) in enumerate(chunk):
             head_diff = max(head_diff, (a[n, :first_changed] - b[n, :first_changed]).abs().max().item())
             head_argmax_mismatch += int((a[n, :first_changed].argmax(-1) != b[n, :first_changed].argmax(-1)).sum())

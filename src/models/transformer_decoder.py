@@ -19,7 +19,7 @@ def sinusoidal_positions(max_len, d_model):
     rate = torch.exp(torch.arange(0, d_model, 2, dtype=torch.float32) * (-math.log(10000.0) / d_model))
     table = torch.zeros(max_len, d_model)
     table[:, 0::2] = torch.sin(position * rate)
-    table[:, 1::2] = torch.cos(position * rate)
+    table[:, 1::2] = torch.cos(position * rate[:d_model // 2])
     return table
 
 
@@ -38,14 +38,18 @@ def scaled_dot_product_attention(query, key, value, mask=None):
     """softmax(Q Kᵀ / √d_k) V. Shapes [B, H, Tq, d_k], [B, H, Tk, d_k]; mask broadcasts to [B, H, Tq, Tk]."""
     scores = query @ key.transpose(-2, -1) / math.sqrt(query.shape[-1])
     if mask is not None:
-        scores = scores.masked_fill(~mask, float("-inf"))
+        scores = scores.masked_fill(~mask, torch.finfo(scores.dtype).min)
     weights = torch.softmax(scores, dim=-1)
+    if mask is not None:
+        weights = weights.masked_fill(~mask, 0.0)
     return weights @ value, weights
 
 
 class MultiHeadAttention(nn.Module):
     def __init__(self, d_model, num_heads, dropout):
         super().__init__()
+        if d_model <= 0 or num_heads <= 0 or d_model % num_heads:
+            raise ValueError("d_model must be positive and divisible by num_heads")
         self.num_heads, self.d_head = num_heads, d_model // num_heads
         self.q_proj = nn.Linear(d_model, d_model)
         self.k_proj = nn.Linear(d_model, d_model)
@@ -103,6 +107,8 @@ class TransformerCaptionDecoder(nn.Module):
 
     def __init__(self, vocab_size, d_model=512, num_heads=8, num_layers=3, d_ff=2048, dropout=0.1, max_len=64):
         super().__init__()
+        if min(vocab_size, d_model, num_heads, num_layers, d_ff, max_len) <= 0:
+            raise ValueError("Decoder dimensions, layer count and max_len must be positive")
         self.d_model = d_model
         self.regions = RegionProjection(d_model, dropout)
         self.embedding = nn.Embedding(vocab_size, d_model, padding_idx=PAD)
@@ -113,6 +119,8 @@ class TransformerCaptionDecoder(nn.Module):
         self.output = nn.Linear(d_model, vocab_size)
 
     def forward(self, regions, decoder_input):
+        if decoder_input.ndim != 2 or not 0 < decoder_input.shape[1] <= len(self.positions):
+            raise ValueError(f"decoder_input must have shape [B,T] with 1 <= T <= {len(self.positions)}")
         memory = self.regions(regions)
         x = self.embedding(decoder_input) * math.sqrt(self.d_model) + self.positions[:decoder_input.shape[1]]
         x = self.dropout(x)

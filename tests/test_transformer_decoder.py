@@ -4,6 +4,8 @@ import torch
 
 from src.data.vietnamese_caption_batch import BOS, EOS, PAD
 from src.models.transformer_decoder import TransformerCaptionDecoder, causal_mask, self_attention_mask, sinusoidal_positions
+from src.models.transformer_decoder import scaled_dot_product_attention
+from scripts.check_decoder_causality import run
 
 VOCAB = 50
 
@@ -13,6 +15,26 @@ def sentence(*tokens):
 
 
 class TransformerDecoderTests(unittest.TestCase):
+    def test_fully_masked_attention_has_zero_weights_and_finite_gradients(self):
+        query = torch.randn(2, 1, 3, 4, requires_grad=True)
+        mask = torch.zeros(2, 1, 3, 3, dtype=torch.bool)
+        context, weights = scaled_dot_product_attention(query, query, query, mask)
+        self.assertEqual(weights.count_nonzero().item(), 0)
+        self.assertEqual(context.count_nonzero().item(), 0)
+        context.sum().backward()
+        self.assertTrue(torch.isfinite(query.grad).all())
+
+    def test_odd_dimension_and_invalid_configuration(self):
+        self.assertEqual(sinusoidal_positions(4, 9).shape, (4, 9))
+        with self.assertRaisesRegex(ValueError, "divisible"):
+            TransformerCaptionDecoder(VOCAB, d_model=31, num_heads=4)
+        with self.assertRaisesRegex(ValueError, "decoder_input"):
+            self.model(self.regions, torch.ones(1, 17, dtype=torch.long))
+
+    def test_causality_check_rejects_empty_input(self):
+        with self.assertRaisesRegex(ValueError, "at least one"):
+            run(self.model, None, [], 32)
+
     def setUp(self):
         torch.manual_seed(0)
         self.model = TransformerCaptionDecoder(VOCAB, d_model=32, num_heads=4, num_layers=2, d_ff=64, max_len=16).eval()
