@@ -1,0 +1,5 @@
+vocab_size: 1716
+d_model: 512
+hidden_size: 1120
+attention_size: 512
+dropout: 0.1

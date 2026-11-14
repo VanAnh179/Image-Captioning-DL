@@ -75,3 +75,13 @@ A học thử 16 cặp đạt **16/16 câu**, loss **7,44856 → 0,00213**, tổ
 Job Kaggle báo ERROR khi xuất kết quả vì trường metric NumPy trong checkpoint chưa được bộ đọc an toàn nhận diện. Train và checkpoint đã hoàn tất. Đã sửa metric mới sang float Python, hỗ trợ đọc an toàn checkpoint cũ và xuất kết quả cục bộ. Chấm lại caption của best checkpoint cho đúng toàn bộ năm metric ở bảng trên. **41/41 kiểm thử** qua sau bản sửa.
 
 Kết quả đã lấy về `runs/kaggle_inspection_v1/project/runs/a_baseline/`, gồm `best.pt`, `last.pt`, `metrics.json`, `history.json`, `loss_curve.png`, `val_predictions.json` và `rescored_metrics.json`. File caption có đủ 375 ID duy nhất và sẵn dùng cho bước tìm ảnh. Log gốc ở `runs/kaggle_inspection_v1/ktvic-a-baseline-20261113.log`.
+
+## Chạy lại A để đối chiếu quy mô với B · 14/11/2026
+
+Theo cấu hình Vanh yêu cầu, lượt A mới dùng `configs/lstm_attention_matched.yaml` với `d_model=512`, `hidden_size=1120`, `attention_size=512`, dropout 0,1. A có **15.477.236 tham số học được**, B hiện có **15.447.220**, chênh **30.016 tham số, khoảng 0,19%**.
+
+Lượt này train từ đầu, dùng cùng cache/split/từ vựng, batch 32, AdamW LR 0,0003, weight decay 0,01 và seed 42. Giới hạn 20 epoch, dừng sau 4 epoch không tăng CIDEr val; greedy tối đa 40 token. Các bước pilot, học thử 16 cặp và train đều nhận cấu hình A mới. Bộ kiểm thử mã nguồn **43/43 đạt**, gồm kiểm tra cấu hình được truyền đúng qua các bước và xuất kết quả vào thư mục riêng.
+
+[Job Kaggle riêng tư KTVIC A Matched 20261114](https://www.kaggle.com/code/wann179/ktvic-a-matched-20261114), ID **144910628**, phiên bản **1**, đã được Kaggle nhận với yêu cầu GPU T4 và giới hạn phiên 3 giờ. Job dùng mã nguồn mới có bản sửa lỗi metric NumPy, cùng cache train/val đã dùng ở lượt trước.
+
+Kết quả của lượt mới nằm trong `project/runs/a_baseline_matched/`, gồm `best.pt`, `last.pt`, `metrics.json`, `history.json`, `loss_curve.png`, `runtime.json` và `val_predictions.json`. Gói tải về là `a_baseline_matched_results.zip`. Điểm **79,97 CIDEr** ở phần trên thuộc lượt A 256 chiều ngày 13/11. Kết quả A mới chờ lần kiểm tra tiến độ do Vanh yêu cầu.
