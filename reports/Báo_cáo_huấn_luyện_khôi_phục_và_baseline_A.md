@@ -82,6 +82,16 @@ Theo cấu hình Vanh yêu cầu, lượt A mới dùng `configs/lstm_attention_
 
 Lượt này train từ đầu, dùng cùng cache/split/từ vựng, batch 32, AdamW LR 0,0003, weight decay 0,01 và seed 42. Giới hạn 20 epoch, dừng sau 4 epoch không tăng CIDEr val; greedy tối đa 40 token. Các bước pilot, học thử 16 cặp và train đều nhận cấu hình A mới. Bộ kiểm thử mã nguồn **43/43 đạt**, gồm kiểm tra cấu hình được truyền đúng qua các bước và xuất kết quả vào thư mục riêng.
 
-[Job Kaggle riêng tư KTVIC A Matched 20261114](https://www.kaggle.com/code/wann179/ktvic-a-matched-20261114), ID **144910628**, phiên bản **1**, đã được Kaggle nhận với yêu cầu GPU T4 và giới hạn phiên 3 giờ. Job dùng mã nguồn mới có bản sửa lỗi metric NumPy, cùng cache train/val đã dùng ở lượt trước.
+[Job Kaggle riêng tư KTVIC A Matched 20261114](https://www.kaggle.com/code/wann179/ktvic-a-matched-20261114), ID **144910628**, phiên bản **1**, đã **COMPLETE** trên GPU Tesla T4. Job dùng mã nguồn mới có bản sửa lỗi metric NumPy, cùng cache train/val đã dùng ở lượt trước.
 
-Kết quả của lượt mới nằm trong `project/runs/a_baseline_matched/`, gồm `best.pt`, `last.pt`, `metrics.json`, `history.json`, `loss_curve.png`, `runtime.json` và `val_predictions.json`. Gói tải về là `a_baseline_matched_results.zip`. Điểm **79,97 CIDEr** ở phần trên thuộc lượt A 256 chiều ngày 13/11. Kết quả A mới chờ lần kiểm tra tiến độ do Vanh yêu cầu.
+A mới dừng sớm ở **epoch 9**, chọn **epoch 5** theo CIDEr val. Chấm trên đủ **375 ảnh và 1.875 câu tham chiếu**, thang điểm nhân 100.
+
+| BLEU-1 | BLEU-2 | BLEU-3 | BLEU-4 | CIDEr |
+|---:|---:|---:|---:|---:|
+| 63,29 | 49,20 | 38,06 | 30,17 | 76,96 |
+
+Baseline gồm train, validation, lưu checkpoint và xuất kết quả mất **367,46 giây**, khoảng **6 phút 7 giây**. Phần train riêng là **330,78 giây**. Loss train giảm **2,7058 → 0,8611**, loss val **2,0915 → 1,8367**. Điểm **79,97 CIDEr** ở phần trước thuộc A 256 chiều; A mới đạt **76,96**, thấp hơn 3,01 điểm tại seed 42.
+
+Pilot trên GPU đạt resume và PAD cho cả A/B. A mới học đúng **16/16 câu**, loss **7,43632 → 0,000275**, sai số tổng attention **2,38 × 10⁻⁷**. Một epoch trên 16 cặp có trung vị **0,0539 giây**, peak allocated **401 MiB**. Đo 20 batch thật cho A/B lần lượt **1,54 / 0,94 giây**, ước tính riêng phần train một epoch **40,71 / 24,72 giây**. Cả **43/43 kiểm thử** trên Kaggle đều qua.
+
+Kết quả đã tải về `runs/kaggle_matched_inspection/project/runs/a_baseline_matched/`, gồm `best.pt`, `last.pt`, `metrics.json`, `history.json`, `loss_curve.png`, `runtime.json` và `val_predictions.json`. Trên Kaggle có gói `a_baseline_matched_results.zip`. Đã kiểm tra best checkpoint đúng cấu hình 512/1120/512, file caption có đủ 375 ID duy nhất và chấm lại cho điểm trùng hoàn toàn. Cấu hình huấn luyện cùng hash dữ liệu khớp baseline trước. File caption này là đầu vào của phần tìm ảnh cho A mới.
