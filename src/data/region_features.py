@@ -20,8 +20,11 @@ WEIGHTS_NAME = "IMAGENET1K_V1"
 FORMAT_VERSION = 1
 
 
-def feature_path(directory, split):
-    return Path(directory) / f"resnet50_7x7_{split}.pt"
+CACHE_PREFIX = "resnet50_7x7"
+
+
+def feature_path(directory, split, prefix=CACHE_PREFIX):
+    return Path(directory) / f"{prefix}_{split}.pt"
 
 
 def pixel_sha256(rgb):
@@ -69,14 +72,14 @@ class FrozenResNet50Grid(nn.Module):
 
 
 class _ImageRows(Dataset):
-    def __init__(self, rows, image_root):
-        self.rows, self.image_root = rows, Path(image_root)
+    def __init__(self, rows, image_root, image_loader=load_image):
+        self.rows, self.image_root, self.image_loader = rows, Path(image_root), image_loader
 
     def __len__(self):
         return len(self.rows)
 
     def __getitem__(self, index):
-        return load_image(self.image_root / self.rows[index]["image_path"])
+        return self.image_loader(self.image_root / self.rows[index]["image_path"])
 
 
 def read_manifest(path):
@@ -84,9 +87,13 @@ def read_manifest(path):
         return [json.loads(line) for line in stream if line.strip()]
 
 
-def extract_split(rows, image_root, encoder, device, batch_size=32, workers=0, dtype=torch.float16):
-    """Encode rows in manifest order. Raises if any image's pixel hash differs from the manifest."""
-    loader = DataLoader(_ImageRows(rows, image_root), batch_size=batch_size, num_workers=workers)
+def extract_split(rows, image_root, encoder, device, batch_size=32, workers=0, dtype=torch.float16,
+                  image_loader=load_image):
+    """Encode rows in manifest order. Raises if any image's pixel hash differs from the manifest.
+
+    image_loader(path) -> (float32 [3, H, W] ready for the encoder, pixel hash of the untransposed RGB image).
+    """
+    loader = DataLoader(_ImageRows(rows, image_root, image_loader), batch_size=batch_size, num_workers=workers)
     chunks, position = [], 0
     for images, digests in loader:
         for offset, digest in enumerate(digests):
@@ -104,7 +111,7 @@ def extract_split(rows, image_root, encoder, device, batch_size=32, workers=0, d
 class RegionFeatureStore:
     """Read-only lookup of cached region features by image ID. Used identically by both decoders."""
 
-    def __init__(self, payload):
+    def __init__(self, payload, feature_dim=FEATURE_DIM, num_regions=NUM_REGIONS):
         self.image_ids = payload["image_ids"]
         self.features = payload["features"]
         self.image_paths = payload["image_paths"]
@@ -112,7 +119,7 @@ class RegionFeatureStore:
         self.meta = payload["meta"]
         if self.image_ids.ndim != 1 or self.image_ids.dtype != torch.long or not len(self.image_ids):
             raise ValueError("File đặc trưng phải có danh sách ID int64 một chiều, không rỗng")
-        expected_shape = (len(self.image_ids), NUM_REGIONS, FEATURE_DIM)
+        expected_shape = (len(self.image_ids), num_regions, feature_dim)
         if tuple(self.features.shape) != expected_shape or self.features.dtype not in (torch.float16, torch.float32):
             raise ValueError(f"Tensor đặc trưng phải có shape {expected_shape}, dtype float16 hoặc float32")
         if len(self.image_paths) != len(self.image_ids) or len(self.pixel_sha256) != len(self.image_ids):
@@ -122,12 +129,13 @@ class RegionFeatureStore:
             raise ValueError("File đặc trưng có ID trùng hoặc số tensor khác số ID")
 
     @classmethod
-    def load(cls, directory, split):
-        path = feature_path(directory, split)
+    def load(cls, directory, split, prefix=CACHE_PREFIX, feature_dim=FEATURE_DIM, num_regions=NUM_REGIONS):
+        path = feature_path(directory, split, prefix)
         if not path.is_file():
             raise FileNotFoundError(
-                f"Chưa có đặc trưng {split}: {path}. Chạy python -m scripts.extract_region_features trước.")
-        return cls(torch.load(path, map_location="cpu", weights_only=True))
+                f"Chưa có đặc trưng {split}: {path}. Chạy python -m scripts.extract_region_features "
+                "hoặc python -m scripts.extract_clip_features cho đúng loại cache trước.")
+        return cls(torch.load(path, map_location="cpu", weights_only=True), feature_dim, num_regions)
 
     def __len__(self):
         return len(self.row_of)
@@ -136,7 +144,7 @@ class RegionFeatureStore:
         return int(image_id) in self.row_of
 
     def get_batch(self, image_ids, dtype=torch.float32):
-        """[len(image_ids), 49, 2048] in the order requested."""
+        """[len(image_ids), regions, feature_dim] in the order requested."""
         ids = [int(i) for i in (image_ids.tolist() if torch.is_tensor(image_ids) else image_ids)]
         missing = [i for i in ids if i not in self.row_of]
         if missing:
@@ -150,9 +158,10 @@ class RegionFeatureStore:
                 "pixel_sha256": self.pixel_sha256[row]}
 
     def nearest_id(self, tensor):
-        """Reverse lookup: (ID, squared L2 distance) of the cached tensor closest to a [49, 2048] tensor."""
-        if tuple(tensor.shape) != (NUM_REGIONS, FEATURE_DIM) or not torch.isfinite(tensor).all():
-            raise ValueError("Tensor truy ngược phải có shape [49, 2048] và không có NaN/Inf")
+        """Reverse lookup: (ID, squared L2 distance) of the cached tensor closest to a [regions, feature_dim] tensor."""
+        expected = tuple(self.features.shape[1:])
+        if tuple(tensor.shape) != expected or not torch.isfinite(tensor).all():
+            raise ValueError(f"Tensor truy ngược phải có shape {expected} và không có NaN/Inf")
         query = tensor.detach().cpu().reshape(1, -1).float()
         best_distance, best_row = float("inf"), -1
         for start in range(0, len(self.features), 256):

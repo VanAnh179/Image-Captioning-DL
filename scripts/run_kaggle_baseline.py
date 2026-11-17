@@ -35,7 +35,8 @@ def main(argv=None):
         (features / source.name).symlink_to(source)
     os.chdir(work)
     sys.path.insert(0, str(work))
-    run(["-m", "pip", "install", "--quiet", "pycocoevalcap==1.2", "PyYAML==6.0.3", "Pillow==12.2.0"])
+    run(["-m", "pip", "install", "--quiet", "pycocoevalcap==1.2", "PyYAML==6.0.3", "Pillow==12.2.0",
+         "transformers==5.8.1"])
     import torch
     if not torch.cuda.is_available():
         raise RuntimeError("This run requires a Kaggle GPU")

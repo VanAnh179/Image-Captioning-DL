@@ -21,3 +21,5 @@ python -m scripts.run_scorer_trial --split val
 LSTM có attention đã có đầu ra logits, câu tự sinh và trọng số 49 vùng. [Báo cáo triển khai và lệnh kiểm tra](reports/Báo_cáo_cài_đặt_LSTM_có_attention.md)
 
 [Vòng train, checkpoint và lượt baseline A trên Kaggle](reports/Báo_cáo_huấn_luyện_khôi_phục_và_baseline_A.md)
+
+[Ghép encoder CLIP với Transformer và các log kiểm tra](reports/Báo_cáo_ghép_CLIP_với_Transformer.md)

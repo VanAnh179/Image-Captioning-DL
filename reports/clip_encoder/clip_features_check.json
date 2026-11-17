@@ -1,0 +1,48 @@
+{
+  "reports": [
+    {
+      "split": "train",
+      "images_expected": 3379,
+      "ids_in_split_list": 3379,
+      "tensors_in_cache": 3379,
+      "distinct_tensors": 3375,
+      "distinct_pixel_hashes": 3375,
+      "reencoded_images": 3379,
+      "reencode_max_abs_diff": 0.00390625,
+      "reencode_max_relative_diff": 0.0004361034370958805,
+      "traced_ok": 52,
+      "traced_total": 52
+    },
+    {
+      "split": "val",
+      "images_expected": 375,
+      "ids_in_split_list": 375,
+      "tensors_in_cache": 375,
+      "distinct_tensors": 373,
+      "distinct_pixel_hashes": 373,
+      "reencoded_images": 375,
+      "reencode_max_abs_diff": 0.00390625,
+      "reencode_max_relative_diff": 0.0004189980973023921,
+      "traced_ok": 52,
+      "traced_total": 52
+    },
+    {
+      "split": "test",
+      "images_expected": 558,
+      "ids_in_split_list": 558,
+      "tensors_in_cache": 558,
+      "distinct_tensors": 558,
+      "distinct_pixel_hashes": 558,
+      "reencoded_images": 558,
+      "reencode_max_abs_diff": 0.00390625,
+      "reencode_max_relative_diff": 0.0004254155501257628,
+      "traced_ok": 52,
+      "traced_total": 52
+    }
+  ],
+  "batch_size_independence": {
+    "batch_1_vs_32_max_abs_diff": 3.5762786865234375e-05,
+    "batch_7_vs_32_max_abs_diff": 3.3855438232421875e-05
+  },
+  "errors": []
+}

@@ -1,0 +1,10 @@
+# Model C = model B (Transformer decoder) fed with frozen CLIP ViT-B/32 regions. Only feature_dim differs from model B.
+vocab_size: 1716
+d_model: 512
+num_heads: 8
+num_layers: 3
+d_ff: 2048
+dropout: 0.1
+max_len: 64
+feature_dim: 768   # CLIP ViT-B/32 hidden size (ResNet-50 in model B: 2048)
+num_regions: 49    # 7 x 7 patch grid, same count as the ResNet-50 grid
