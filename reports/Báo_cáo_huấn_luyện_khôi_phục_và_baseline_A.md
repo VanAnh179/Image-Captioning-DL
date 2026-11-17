@@ -1,6 +1,6 @@
 # Báo cáo vòng huấn luyện, khôi phục checkpoint và baseline A
 
-**Phụ trách** Vanh · **Ngày** 13/11/2026 · Codex hỗ trợ viết mã, kiểm thử và gửi job Kaggle.
+**Phụ trách** Vanh · **Ngày** 13/11/2026
 
 ## Vòng train dùng chung A và B
 
@@ -32,8 +32,6 @@ Trên máy phát triển, **40/40 kiểm thử đạt**. A và B đều được
 
 ## Pilot và baseline đã gửi lên Kaggle
 
-[Job riêng tư KTVIC A Baseline 20261113](https://www.kaggle.com/code/wann179/ktvic-a-baseline-20261113), kernel ID **144738063**, phiên bản **1**, đã được Kaggle nhận. Yêu cầu GPU T4, bật Internet để cài bộ chấm, giới hạn phiên 3 giờ. Đầu vào riêng tư chứa cache train/val và mã nguồn, tách khỏi token xác thực.
-
 Job thực hiện tuần tự các bước sau.
 
 1. Chạy bộ kiểm thử đã đóng gói, thử khôi phục A/B trên GPU và kiểm tra PAD.
@@ -52,8 +50,48 @@ Job thực hiện tuần tự các bước sau.
 
 Ngân sách khởi đầu cho A và B là tối đa 20 epoch với cùng batch 32 và lịch đánh giá mỗi epoch. B hiện dùng cấu hình 512 chiều, 3 lớp, 8 đầu, có nhiều tham số hơn A. Pilot sẽ cung cấp số đo thực tế để chốt thời gian GPU cho B. Số giờ cần được tính từ số đo trên Kaggle, gồm cả validation và checkpoint. Thông số dừng sớm 4 epoch lấy từ phương án trong bản thiết kế.
 
-## Vị trí kết quả khi job hoàn tất
+## Kết quả Kaggle đã khôi phục
 
-Trong output Kaggle, thư mục `project/runs/` chứa `training_pilot/report.json`, `lstm_attention_check/report.json` và `a_baseline/`. Gói `a_baseline_results.zip` gom các run để tải về. Trong `a_baseline/`, `metrics.json` có BLEU-1…4 và CIDEr của checkpoint tốt nhất, `runtime.json` có thời gian thực chạy và GPU, `loss_curve.png` có đường loss, `val_predictions.json` có bản ghi dạng `{"image_id": ..., "caption": ...}` cho toàn bộ val, dùng trực tiếp cho bước lập chỉ mục tìm ảnh.
+A train trên Tesla T4, PyTorch 2.11.0+cu130, dừng sớm ở epoch 15 và chọn **epoch 11** theo CIDEr val. Chấm trên đủ **375 ảnh, 1.875 câu tham chiếu**, thang nhân 100.
 
-Theo yêu cầu chạy ngầm, lượt này dừng ở xác nhận gửi job. Điểm baseline, số đo GPU và kết quả pilot Kaggle chờ lần kiểm tra do Vanh yêu cầu. Các số kiểm thử CPU ở trên đã có thực, còn số thực nghiệm Kaggle sẽ bổ sung sau khi lấy output.
+| BLEU-1 | BLEU-2 | BLEU-3 | BLEU-4 | CIDEr |
+|---:|---:|---:|---:|---:|
+| 64,94 | 51,45 | 40,10 | 31,56 | 79,97 |
+
+Tổng train **496,96 giây**, validation loss **24,05 giây**, sinh/chấm caption val **12,12 giây**. Tổng ba phần khoảng **8 phút 53 giây**, chưa gồm khởi tạo, lưu checkpoint và pilot. Loss train giảm **3,6723 → 1,2934**, loss val **2,7886 → 1,8524**.
+
+| Pilot trên T4 | A | B |
+|---|---:|---:|
+| Resume khớp trọng số, optimizer và trạng thái ngẫu nhiên | Đạt | Đạt |
+| Chênh lệch loss khi thêm PAD | 0 | 0 |
+| Thời gian 20 batch thật, batch 32 | 1,33 giây | 0,91 giây |
+| Ước tính riêng phần train một epoch | 35,13 giây | 24,09 giây |
+| VRAM peak allocated / reserved | 202 / 238 MiB | 451 / 538 MiB |
+
+Dự trù riêng phần train 20 epoch là **11,7 phút cho A**, **8,0 phút cho B** trên T4. Đề xuất dành **30 phút mỗi mô hình** cho cả validation, giải mã và checkpoint, rồi cập nhật theo run thực. Ước lượng này lấy từ 20 batch; B có thể tốn thêm thời gian sinh câu do tính lại tiền tố ở từng bước.
+
+A học thử 16 cặp đạt **16/16 câu**, loss **7,44856 → 0,00213**, tổng attention sai lệch tối đa **2,38 × 10⁻⁷**. Một epoch trên đủ 16 cặp có trung vị **0,0457 giây** sau làm nóng, VRAM peak **135 / 160 MiB**. Tổng kiểm tra gồm đánh giá và checkpoint là **14,84 giây**.
+
+Job Kaggle báo ERROR khi xuất kết quả vì trường metric NumPy trong checkpoint chưa được bộ đọc an toàn nhận diện. Train và checkpoint đã hoàn tất. Đã sửa metric mới sang float Python, hỗ trợ đọc an toàn checkpoint cũ và xuất kết quả cục bộ. Chấm lại caption của best checkpoint cho đúng toàn bộ năm metric ở bảng trên. **41/41 kiểm thử** qua sau bản sửa.
+
+Kết quả đã lấy về `runs/kaggle_inspection_v1/project/runs/a_baseline/`, gồm `best.pt`, `last.pt`, `metrics.json`, `history.json`, `loss_curve.png`, `val_predictions.json` và `rescored_metrics.json`. File caption có đủ 375 ID duy nhất và sẵn dùng cho bước tìm ảnh. Log gốc ở `runs/kaggle_inspection_v1/ktvic-a-baseline-20261113.log`.
+
+## Chạy lại A để đối chiếu quy mô với B · 14/11/2026
+
+Theo cấu hình Vanh yêu cầu, lượt A mới dùng `configs/lstm_attention_matched.yaml` với `d_model=512`, `hidden_size=1120`, `attention_size=512`, dropout 0,1. A có **15.477.236 tham số học được**, B hiện có **15.447.220**, chênh **30.016 tham số, khoảng 0,19%**.
+
+Lượt này train từ đầu, dùng cùng cache/split/từ vựng, batch 32, AdamW LR 0,0003, weight decay 0,01 và seed 42. Giới hạn 20 epoch, dừng sau 4 epoch không tăng CIDEr val; greedy tối đa 40 token. Các bước pilot, học thử 16 cặp và train đều nhận cấu hình A mới. Bộ kiểm thử mã nguồn **43/43 đạt**, gồm kiểm tra cấu hình được truyền đúng qua các bước và xuất kết quả vào thư mục riêng.
+
+[Job Kaggle riêng tư KTVIC A Matched 20261114](https://www.kaggle.com/code/wann179/ktvic-a-matched-20261114), ID **144910628**, phiên bản **1**, đã **COMPLETE** trên GPU Tesla T4. Job dùng mã nguồn mới có bản sửa lỗi metric NumPy, cùng cache train/val đã dùng ở lượt trước.
+
+A mới dừng sớm ở **epoch 9**, chọn **epoch 5** theo CIDEr val. Chấm trên đủ **375 ảnh và 1.875 câu tham chiếu**, thang điểm nhân 100.
+
+| BLEU-1 | BLEU-2 | BLEU-3 | BLEU-4 | CIDEr |
+|---:|---:|---:|---:|---:|
+| 63,29 | 49,20 | 38,06 | 30,17 | 76,96 |
+
+Baseline gồm train, validation, lưu checkpoint và xuất kết quả mất **367,46 giây**, khoảng **6 phút 7 giây**. Phần train riêng là **330,78 giây**. Loss train giảm **2,7058 → 0,8611**, loss val **2,0915 → 1,8367**. Điểm **79,97 CIDEr** ở phần trước thuộc A 256 chiều; A mới đạt **76,96**, thấp hơn 3,01 điểm tại seed 42.
+
+Pilot trên GPU đạt resume và PAD cho cả A/B. A mới học đúng **16/16 câu**, loss **7,43632 → 0,000275**, sai số tổng attention **2,38 × 10⁻⁷**. Một epoch trên 16 cặp có trung vị **0,0539 giây**, peak allocated **401 MiB**. Đo 20 batch thật cho A/B lần lượt **1,54 / 0,94 giây**, ước tính riêng phần train một epoch **40,71 / 24,72 giây**. Cả **43/43 kiểm thử** trên Kaggle đều qua.
+
+Kết quả đã tải về `runs/kaggle_matched_inspection/project/runs/a_baseline_matched/`, gồm `best.pt`, `last.pt`, `metrics.json`, `history.json`, `loss_curve.png`, `runtime.json` và `val_predictions.json`. Trên Kaggle có gói `a_baseline_matched_results.zip`. Đã kiểm tra best checkpoint đúng cấu hình 512/1120/512, file caption có đủ 375 ID duy nhất và chấm lại cho điểm trùng hoàn toàn. Cấu hình huấn luyện cùng hash dữ liệu khớp baseline trước. File caption này là đầu vào của phần tìm ảnh cho A mới.

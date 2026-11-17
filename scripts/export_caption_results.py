@@ -8,12 +8,13 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import torch
+from src.training.caption_trainer import load_checkpoint
 
 
 def export_results(run_dir):
     run_dir = Path(run_dir)
-    best = torch.load(run_dir / "best.pt", map_location="cpu", weights_only=True)
-    last = torch.load(run_dir / "last.pt", map_location="cpu", weights_only=True)
+    best = load_checkpoint(run_dir / "best.pt")
+    last = load_checkpoint(run_dir / "last.pt")
     if best["validation_predictions"] is None:
         raise ValueError("Selected checkpoint has no caption evaluation; train with selection-metric cider")
     predictions = best["validation_predictions"]

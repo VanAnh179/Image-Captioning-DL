@@ -82,6 +82,13 @@ def atomic_save(value, path):
         temporary.unlink(missing_ok=True)
 
 
+def load_checkpoint(path, map_location="cpu"):
+    """Read checkpoints, including older metric fields stored as NumPy scalars."""
+    numpy_scalar = type(np.float64(0))
+    with torch.serialization.safe_globals([np._core.multiarray.scalar, np.dtype, type(np.dtype("float64")), numpy_scalar]):
+        return torch.load(path, map_location=map_location, weights_only=True)
+
+
 def make_loader(dataset, batch_size, epoch, seed, shuffle):
     # Epoch-derived ordering permits replay from a completed epoch without
     # depending on the lifetime of a DataLoader or its internal iterator.
@@ -182,7 +189,7 @@ def fit(model_name, config, train_data, val_data, output_dir, settings, epochs, 
     data_signature = {"train": train_data.signature(), "val": val_data.signature()}
     history, best, start_epoch, global_step = [], None, 1, 0
     if resume is not None:
-        checkpoint = torch.load(resume, map_location="cpu", weights_only=True)
+        checkpoint = load_checkpoint(resume)
         expected = {"model_name": model_name, "config": config, "settings": settings, "data_signature": data_signature}
         for key, value in expected.items():
             if checkpoint.get(key) != value:

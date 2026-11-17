@@ -1,13 +1,12 @@
 """Kaggle pilot for shared training recovery, PAD invariance and A/B resource budgets."""
 
-import contextlib
+import argparse
 import itertools
 import json
 import math
 import random
 from pathlib import Path
 
-import numpy as np
 import torch
 import yaml
 from torch.nn import functional as F
@@ -27,7 +26,10 @@ def equal_state(a, b):
     return a == b
 
 
-def main():
+def main(argv=None):
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--a-config", type=Path, default=Path("configs/lstm_attention.yaml"))
+    args = parser.parse_args(argv)
     output = Path("runs/training_pilot")
     output.mkdir(parents=True, exist_ok=True)
     vocabulary = CaptionVocabulary.load("data/processed/ktvic/caption_vocabulary.json")
@@ -35,8 +37,8 @@ def main():
     rows = random.Random(42).sample(data.rows, 16)
     small = CachedCaptionDataset(rows, vocabulary, data.store, first_caption_only=True)
     report = {"gpu": torch.cuda.get_device_name(), "torch": str(torch.__version__), "models": {}}
-    for name, filename in (("A", "lstm_attention.yaml"), ("B", "transformer_decoder.yaml")):
-        config = yaml.safe_load((Path("configs") / filename).read_text(encoding="utf-8"))
+    for name, config_path in (("A", args.a_config), ("B", Path("configs/transformer_decoder.yaml"))):
+        config = yaml.safe_load(config_path.read_text(encoding="utf-8"))
         settings = {"batch_size": 8, "learning_rate": 0.0003, "weight_decay": 0.01,
                     "selection_metric": "val_loss", "max_len": 40, "seed": 42, "purpose": "resume_pilot"}
         fit(name, config, small, small, output / name / "continuous", settings, 3, "cuda")
