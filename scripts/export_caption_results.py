@@ -7,7 +7,6 @@ from pathlib import Path
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-import torch
 from src.training.caption_trainer import load_checkpoint
 
 
