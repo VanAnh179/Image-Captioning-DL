@@ -10,19 +10,19 @@ from pathlib import Path
 
 import torch
 
-from scripts.check_clip_pipeline import greedy_decode
 from src.data.paths import resolve_image_root, resolve_processed_dir
 from src.data.region_features import FrozenResNet50Grid, RegionFeatureStore, extract_split, read_manifest
 from src.data.vietnamese_caption_batch import CaptionVocabulary
 from src.evaluation.caption_scorer import score_captions
 from src.models.transformer_decoder import TransformerCaptionDecoder
+from src.training.caption_trainer import generate_tokens, load_checkpoint
 
 
 @torch.no_grad()
 def caption_val(model, features, ids, vocabulary, device, max_len, batch_size=32):
     predictions = []
     for start in range(0, len(ids), batch_size):
-        tokens = greedy_decode(model, features[start:start + batch_size].float().to(device), max_len)
+        tokens = generate_tokens(model, features[start:start + batch_size].float().to(device), max_len)
         predictions += [vocabulary.decode(row) for row in tokens.tolist()]
     return list(zip(ids, predictions))
 
@@ -33,7 +33,7 @@ def main():
     parser.add_argument("--features", type=Path, default=Path("artifacts/features/ktvic"))
     parser.add_argument("--split", default="val")
     parser.add_argument("--max-len", type=int, default=40)
-    parser.add_argument("--output", type=Path, default=Path("reports/clip_encoder/tf32_effect_on_B.json"))
+    parser.add_argument("--output", type=Path, default=Path("runs/clip_encoder/tf32_effect_on_B.json"))
     parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     args = parser.parse_args()
 
@@ -43,7 +43,7 @@ def main():
     references = {row["image_id"]: row["captions"] for row in rows}
     vocabulary = CaptionVocabulary.load(processed / "caption_vocabulary.json")
 
-    checkpoint = torch.load(args.checkpoint, map_location="cpu", weights_only=False)
+    checkpoint = load_checkpoint(args.checkpoint)
     model = TransformerCaptionDecoder(**checkpoint["config"]).to(args.device)
     model.load_state_dict(checkpoint["model_state"])
 

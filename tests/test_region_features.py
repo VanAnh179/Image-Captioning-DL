@@ -1,3 +1,5 @@
+import hashlib
+import json
 import tempfile
 import unittest
 from pathlib import Path
@@ -5,8 +7,10 @@ from pathlib import Path
 import torch
 from PIL import Image
 
+from scripts.verify_region_features import verify_split
 from src.data.region_features import (
-    FEATURE_DIM, NUM_REGIONS, FrozenResNet50Grid, RegionFeatureStore, load_image, pixel_sha256,
+    FEATURE_DIM, FORMAT_VERSION, NUM_REGIONS, WEIGHTS_NAME,
+    FrozenResNet50Grid, RegionFeatureStore, load_image, pixel_sha256,
 )
 from src.data.vietnamese_caption_batch import CaptionVocabulary, make_caption_batch
 
@@ -20,6 +24,57 @@ def tiny_store():
 
 
 class RegionFeatureTests(unittest.TestCase):
+    def test_verifier_detects_changed_manifest_ids_and_hash(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            rows, features = [], []
+            for image_id in (7, 3):
+                image_path = f"{image_id}.png"
+                Image.new("RGB", (8, 8), (image_id,) * 3).save(root / image_path)
+                tensor, digest = load_image(root / image_path)
+                rows.append({"image_id": image_id, "image_path": image_path, "pixel_sha256": digest})
+                features.append(tensor[0, 0, 0].expand(NUM_REGIONS, FEATURE_DIM).clone())
+            manifest = root / "val_manifest.jsonl"
+            manifest.write_text("\n".join(json.dumps(r) for r in rows), encoding="utf-8")
+            (root / "val_ids.json").write_text("[7, 3]", encoding="utf-8")
+            torch.save({"image_ids": torch.tensor([7, 3]), "features": torch.stack(features).half(),
+                        "image_paths": [r["image_path"] for r in rows],
+                        "pixel_sha256": [r["pixel_sha256"] for r in rows],
+                        "meta": {"format_version": FORMAT_VERSION, "split": "val", "weights": WEIGHTS_NAME,
+                                 "manifest_sha256": hashlib.sha256(manifest.read_bytes()).hexdigest()}},
+                       root / "resnet50_7x7_val.pt")
+
+            def encoder(images):
+                return images[:, 0, 0, 0].reshape(-1, 1, 1).expand(-1, NUM_REGIONS, FEATURE_DIM)
+
+            report, errors, _ = verify_split("val", root, root, root, encoder, "cpu", 2, 42, 2)
+            self.assertEqual(errors, [])
+            self.assertEqual(report["traced_ok"], 2)
+            rows[0]["image_id"] = 99
+            manifest.write_text("\n".join(json.dumps(r) for r in rows), encoding="utf-8")
+            _, errors, _ = verify_split("val", root, root, root, encoder, "cpu", 2, 42, 2)
+            self.assertTrue(any("ID/thứ tự trong manifest" in error for error in errors))
+            self.assertTrue(any("hash manifest" in error for error in errors))
+
+    def test_store_rejects_misaligned_metadata_wrong_shapes_and_duplicate_ids(self):
+        store = tiny_store()
+        payload = {"image_ids": store.image_ids, "features": store.features,
+                   "image_paths": store.image_paths, "pixel_sha256": store.pixel_sha256, "meta": {}}
+        for change in ({"image_paths": ["a.png"]}, {"pixel_sha256": []},
+                       {"features": store.features[:, :1]}, {"image_ids": torch.tensor([7, 7, 9])}):
+            with self.assertRaises(ValueError):
+                RegionFeatureStore({**payload, **change})
+
+    def test_saved_store_round_trip_keeps_ids_and_tensors(self):
+        store = tiny_store()
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "resnet50_7x7_val.pt"
+            torch.save({"image_ids": store.image_ids, "features": store.features,
+                        "image_paths": store.image_paths, "pixel_sha256": store.pixel_sha256, "meta": {}}, path)
+            loaded = RegionFeatureStore.load(directory, "val")
+            self.assertTrue(torch.equal(loaded.get_batch([9, 7]), store.get_batch([9, 7])))
+            self.assertEqual(loaded.trace(3), store.trace(3))
+
     def test_image_tensor_matches_shared_batch_pipeline(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "x.png"

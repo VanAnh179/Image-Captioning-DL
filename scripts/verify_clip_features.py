@@ -10,25 +10,32 @@ from pathlib import Path
 import torch
 
 from src.data.clip_features import (
-    CLIP_CACHE_PREFIX, CLIP_FEATURE_DIM, FrozenCLIPVisionGrid, load_clip_processor, make_clip_image_loader,
+    CLIP_CACHE_PREFIX, CLIP_FEATURE_DIM, CLIP_MODEL, CLIP_REVISION, FORMAT_VERSION,
+    FrozenCLIPVisionGrid, load_clip_processor, make_clip_image_loader,
 )
 from src.data.paths import resolve_image_root, resolve_processed_dir
-from src.data.region_features import NUM_REGIONS, RegionFeatureStore, extract_split, read_manifest
+from src.data.region_features import RegionFeatureStore, extract_split, read_manifest
 
 
 def verify_split(split, processed, image_root, directory, encoder, loader, device, trace_samples, seed, expected_images):
     errors, report = [], {"split": split}
-    store = RegionFeatureStore.load(directory, split, CLIP_CACHE_PREFIX)
+    store = RegionFeatureStore.load(directory, split, CLIP_CACHE_PREFIX, feature_dim=CLIP_FEATURE_DIM)
     ids = json.loads((processed / f"{split}_ids.json").read_text(encoding="utf-8"))
-    rows = read_manifest(processed / f"{split}_manifest.jsonl")
+    manifest = processed / f"{split}_manifest.jsonl"
+    rows = read_manifest(manifest)
 
     report.update(images_expected=expected_images, ids_in_split_list=len(ids), tensors_in_cache=len(store))
     if not (len(ids) == len(store) == expected_images):
         errors.append(f"{split}: số ID danh sách={len(ids)}, số tensor={len(store)}, kỳ vọng={expected_images}")
     if store.image_ids.tolist() != ids:
         errors.append(f"{split}: ID/thứ tự trong cache khác {split}_ids.json")
-    if tuple(store.features.shape[1:]) != (NUM_REGIONS, CLIP_FEATURE_DIM):
-        errors.append(f"{split}: shape {tuple(store.features.shape)} không phải [N, 49, 768]")
+    if [r["image_id"] for r in rows] != ids:
+        errors.append(f"{split}: ID/thứ tự trong manifest khác {split}_ids.json")
+    expected_meta = {"format_version": FORMAT_VERSION, "split": split, "weights": CLIP_MODEL,
+                     "weights_revision": CLIP_REVISION, "manifest_sha256": hashlib.sha256(manifest.read_bytes()).hexdigest()}
+    for key, expected in expected_meta.items():
+        if store.meta.get(key) != expected:
+            errors.append(f"{split}: metadata {key} không khớp")
     if [r["image_path"] for r in rows] != store.image_paths or [r["pixel_sha256"] for r in rows] != store.pixel_sha256:
         errors.append(f"{split}: đường dẫn hoặc hash pixel trong cache khác manifest")
     if not torch.isfinite(store.features.float()).all():
@@ -46,14 +53,14 @@ def verify_split(split, processed, image_root, directory, encoder, loader, devic
     per_image = difference.amax(dim=(1, 2)) / scale
     report.update(reencoded_images=len(fresh), reencode_max_abs_diff=difference.max().item(),
                   reencode_max_relative_diff=per_image.max().item())
-    if per_image.max().item() > 5e-3:  # float16 storage error is about 1e-3
+    if not torch.isfinite(per_image).all() or per_image.max().item() > 5e-3:
         errors.append(f"{split}: sai lệch tương đối lớn nhất {per_image.max().item():.2e} giữa tensor lưu và tensor tính lại")
 
     picks = random.Random(seed).sample(ids, min(trace_samples, len(ids)))
     picks = sorted(set(picks) | {ids[0], ids[-1]})
     traced = 0
     for image_id in picks:
-        found, _ = store.nearest_id(fresh[store.row_of[image_id]].half())
+        found, _ = store.nearest_id(fresh[store.row_of[image_id]].to(store.features.dtype))
         if store.pixel_sha256[store.row_of[found]] == store.pixel_sha256[store.row_of[image_id]]:
             traced += 1
         else:
@@ -80,7 +87,7 @@ def main():
     parser.add_argument("--trace-samples", type=int, default=50, help="Random images per split traced back by nearest ID")
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
-    parser.add_argument("--report", type=Path, default=Path("reports/clip_encoder/clip_features_check.json"))
+    parser.add_argument("--report", type=Path, default=Path("runs/clip_encoder/clip_features_check.json"))
     args = parser.parse_args()
 
     processed = args.processed_dir or resolve_processed_dir()

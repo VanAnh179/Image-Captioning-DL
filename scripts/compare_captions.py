@@ -10,7 +10,7 @@ from pycocoevalcap.cider.cider import Cider
 from src.data.paths import resolve_processed_dir
 from src.data.region_features import read_manifest
 from src.data.vietnamese_caption_batch import normalize_caption
-from src.evaluation.caption_scorer import load_predictions, load_references
+from src.evaluation.caption_scorer import ScorerInputError, load_predictions, load_references, validate
 
 
 def overlap(a, b):
@@ -27,15 +27,19 @@ def main():
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--processed-dir", type=Path)
     args = parser.parse_args()
+    if args.each <= 0:
+        parser.error("each must be positive")
 
     processed = args.processed_dir or resolve_processed_dir()
     manifest = processed / f"{args.split}_manifest.jsonl"
     references = load_references(manifest)
     paths = {row["image_id"]: row["image_path"] for row in read_manifest(manifest)}
-    pred_a, pred_b = dict(load_predictions(args.a)), dict(load_predictions(args.b))
+    try:
+        pred_a = validate(load_predictions(args.a), references)
+        pred_b = validate(load_predictions(args.b), references)
+    except ScorerInputError as error:
+        raise SystemExit(str(error)) from None
     ids = sorted(references)
-    if set(pred_a) != set(ids) or set(pred_b) != set(ids):
-        raise SystemExit("Cả hai file phải có đúng một caption cho mọi ID của tập")
 
     gts = {i: [normalize_caption(r) for r in references[i]] for i in ids}
     per_image = {}
@@ -51,7 +55,8 @@ def main():
                      "word_overlap": round(overlap(a, b), 2), "references": references[i]})
     different = [r for r in rows if r["caption_A"] != r["caption_B"]]
     by_gap = sorted(different, key=lambda r: r["cider_B"] - r["cider_A"])
-    a_better, b_better = by_gap[:args.each], by_gap[::-1][:args.each]
+    a_better = [row for row in by_gap if row["cider_A"] > row["cider_B"]][:args.each]
+    b_better = [row for row in reversed(by_gap) if row["cider_B"] > row["cider_A"]][:args.each]
     summary = {
         "split": args.split, "images": len(ids), "identical_captions": len(rows) - len(different),
         "different_captions": len(different),

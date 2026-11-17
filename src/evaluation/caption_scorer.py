@@ -6,9 +6,9 @@ from pathlib import Path
 
 from src.data.vietnamese_caption_batch import normalize_caption
 
-# Every score is multiplied by 100 (the usual way papers quote them): BLEU lies in [0, 100]; CIDEr-D has no
-# upper bound, and its IDF weights come from the reference set being scored, so only compare CIDEr across runs
-# scored on the same split.
+# All scores are multiplied by 100. This pycocoevalcap implementation uses CIDEr-D
+# (clipping and a length penalty), whose native range is 0..10. Its IDF weights
+# come from the reference set being scored, so comparisons require the same split.
 SCORE_SCALE = 100.0
 METRICS = ("BLEU-1", "BLEU-2", "BLEU-3", "BLEU-4", "CIDEr")
 
@@ -34,10 +34,21 @@ def load_references(manifest_path):
         raise ScorerInputError(f"Không thấy file tham chiếu: {path}")
     references = {}
     with path.open(encoding="utf-8") as stream:
-        for line in stream:
+        for line_number, line in enumerate(stream, 1):
             if line.strip():
-                row = json.loads(line)
-                references[int(row["image_id"])] = list(row["captions"])
+                try:
+                    row = json.loads(line)
+                    image_id = int(row["image_id"])
+                    captions = row["captions"]
+                except (json.JSONDecodeError, KeyError, TypeError, ValueError):
+                    raise ScorerInputError(f"Manifest {path}, dòng {line_number}: image_id/captions không hợp lệ.") from None
+                if image_id in references:
+                    raise ScorerInputError(f"Manifest có ID trùng: {image_id} (dòng {line_number}).")
+                if not isinstance(captions, list) or not captions or any(
+                    not isinstance(c, str) or not normalize_caption(c) for c in captions
+                ):
+                    raise ScorerInputError(f"Ảnh ID {image_id}: captions phải là danh sách câu tham chiếu hợp lệ.")
+                references[image_id] = captions
     return references
 
 
@@ -65,6 +76,8 @@ def load_predictions(path):
             raise ScorerInputError(f"File dự đoán không phải JSON/JSONL hợp lệ: {error}") from None
     try:
         if isinstance(data, dict):
+            if "image_id" in data and "caption" in data:
+                return [(int(data["image_id"]), data["caption"])]
             return [(int(key), value) for key, value in data.items()]
         return [(int(item["image_id"]), item["caption"]) for item in data]
     except (KeyError, TypeError, ValueError):
@@ -78,7 +91,7 @@ def _preview(ids, limit=10):
     return shown + (f", ... (+{len(ids) - limit})" if len(ids) > limit else "")
 
 
-def validate(predictions, references, image_paths=None, image_root=None):
+def validate(predictions, references, image_paths=None, image_root=None, allow_empty=False):
     """Return {image_id: caption} for the IDs to score, or raise ScorerInputError listing every problem."""
     problems, by_id, repeated = [], {}, set()
     for image_id, caption in predictions:
@@ -95,7 +108,8 @@ def validate(predictions, references, image_paths=None, image_root=None):
     if missing:
         problems.append(f"Thiếu dự đoán cho {len(missing)}/{len(references)} ảnh của tập tham chiếu "
                         f"(ID: {_preview(missing)}). Sinh đủ caption cho mọi ảnh của tập.")
-    bad = [i for i, c in by_id.items() if i in references and (not isinstance(c, str) or not normalize_caption(c))]
+    bad = [i for i, c in by_id.items() if i in references
+           and (not isinstance(c, str) or (not allow_empty and not normalize_caption(c)))]
     if bad:
         problems.append(f"{len(bad)} ảnh có caption rỗng hoặc không phải chuỗi (ID: {_preview(bad)}).")
     short = [i for i in by_id if i in references and not references[i]]
@@ -114,11 +128,11 @@ def validate(predictions, references, image_paths=None, image_root=None):
 
 
 def score_captions(predictions, references, **validate_options):
-    """Score {image_id: caption} predictions against all references; tokens follow normalize_caption."""
+    """Score (image_id, caption) pairs against all references; tokens follow normalize_caption."""
+    chosen = validate(predictions, references, **validate_options)
     from pycocoevalcap.bleu.bleu import Bleu
     from pycocoevalcap.cider.cider import Cider
 
-    chosen = validate(predictions, references, **validate_options)
     res = {i: [normalize_caption(c)] for i, c in chosen.items()}
     gts = {i: [normalize_caption(r) for r in references[i]] for i in chosen}
     bleu, _ = Bleu(4).compute_score(gts, res, verbose=0)
@@ -127,7 +141,7 @@ def score_captions(predictions, references, **validate_options):
     return {
         "num_images": len(chosen),
         "num_references": sum(len(v) for v in gts.values()),
-        "scale": f"x{SCORE_SCALE:g}; BLEU 0-100, CIDEr-D không có trần",
-        "scores": {name: round(value * SCORE_SCALE, 2) for name, value in zip(METRICS, values)},
+        "scale": f"x{SCORE_SCALE:g}; BLEU 0-100, CIDEr-D 0-1000",
+        "scores": {name: round(float(value) * SCORE_SCALE, 2) for name, value in zip(METRICS, values)},
         "libraries": library_versions(),
     }

@@ -29,11 +29,12 @@ def main(argv=None):
     try:
         processed = args.processed_dir or resolve_processed_dir()
         manifest = processed / f"{args.split}_manifest.jsonl"
+        references = load_references(manifest)
         options = {}
         if not args.no_image_check:
             options.update(image_paths=load_image_paths(manifest),
                            image_root=args.image_root or resolve_image_root())
-        result = score_captions(load_predictions(args.predictions), load_references(manifest), **options)
+        result = score_captions(load_predictions(args.predictions), references, **options)
     except (ScorerInputError, FileNotFoundError) as error:
         print(f"LỖI CHẤM ĐIỂM ({args.split}):\n{error}", file=sys.stderr)
         return 2
@@ -51,4 +52,6 @@ def main(argv=None):
 
 
 if __name__ == "__main__":
+    sys.stdout.reconfigure(encoding="utf-8")
+    sys.stderr.reconfigure(encoding="utf-8")
     sys.exit(main())

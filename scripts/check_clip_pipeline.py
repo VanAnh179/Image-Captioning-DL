@@ -7,6 +7,7 @@ images shows the CLIP regions really reach the decoder (it can then reproduce a 
 
 import argparse
 import json
+import math
 from pathlib import Path
 
 import torch
@@ -14,28 +15,12 @@ import yaml
 from PIL import Image, ImageOps
 from torch.nn.utils.rnn import pad_sequence
 
-from src.data.clip_features import CLIP_CACHE_PREFIX, FrozenCLIPVisionGrid, load_clip_image, load_clip_processor
+from src.data.clip_features import CLIP_CACHE_PREFIX, CLIP_FEATURE_DIM, FrozenCLIPVisionGrid, load_clip_image, load_clip_processor
 from src.data.paths import resolve_image_root, resolve_processed_dir
 from src.data.region_features import RegionFeatureStore, read_manifest
 from src.data.vietnamese_caption_batch import BOS, EOS, PAD, CaptionVocabulary
 from src.models.transformer_decoder import TransformerCaptionDecoder
-
-
-@torch.no_grad()
-def greedy_decode(model, regions, max_len):
-    """Same rule as the shared trainer's generate_tokens for model B: argmax, PAD and BOS never chosen, stop at EOS."""
-    model.eval()
-    prefix = torch.full((regions.shape[0], 1), BOS, dtype=torch.long, device=regions.device)
-    finished = torch.zeros(regions.shape[0], dtype=torch.bool, device=regions.device)
-    for _ in range(max_len):
-        scores = model(regions, prefix)[:, -1].clone()
-        scores[:, [PAD, BOS]] = float("-inf")
-        token = scores.argmax(-1).masked_fill(finished, PAD)
-        prefix = torch.cat((prefix, token[:, None]), dim=1)
-        finished |= token.eq(EOS)
-        if finished.all():
-            break
-    return prefix[:, 1:]
+from src.training.caption_trainer import generate_tokens
 
 
 def manual_clip_preprocess(path, processor):
@@ -62,14 +47,50 @@ def teacher_forcing_batch(captions, vocabulary, device):
     return inputs.to(device), labels.to(device)
 
 
+def validate_pipeline_report(report):
+    """Return failed checks so a diagnostic cannot silently succeed with broken features or gradients."""
+    checks, count = report["checks"], report["num_images"]
+    errors = []
+    for name in ("pixel_hash_matches_manifest", "regions_finite", "encoder_in_eval_mode_after_train_call",
+                 "nearest_cached_id_equals_input_id", "trace_pixel_hash_equals_manifest", "encoder_gradients_none"):
+        if checks.get(name) is not True:
+            errors.append(f"{name}: expected True, got {checks.get(name)!r}")
+    for name, expected in (("pixel_shape", [count, 3, 224, 224]),
+                           ("regions_shape", [count, 49, CLIP_FEATURE_DIM]),
+                           ("encoder_trainable_parameters", 0)):
+        if checks.get(name) != expected:
+            errors.append(f"{name}: expected {expected}, got {checks.get(name)!r}")
+    for name, tolerance in (("preprocess_max_abs_diff_vs_manual", 0.05),
+                            ("batch_vs_single_image_max_abs_diff", 1e-3),
+                            ("live_vs_cached_max_abs_diff", 0.01),
+                            ("logits_batch_vs_single_max_abs_diff", 1e-4)):
+        value = checks.get(name)
+        if value is None or not math.isfinite(value) or not 0 <= value <= tolerance:
+            errors.append(f"{name}: expected finite value in [0, {tolerance}], got {value!r}")
+    for name in ("initial_loss", "projection_gradient_norm", "untrained_logits_depend_on_image_max_diff"):
+        value = checks.get(name)
+        if value is None or not math.isfinite(value) or value <= 0:
+            errors.append(f"{name}: expected finite positive value, got {value!r}")
+    shape = checks.get("logits_shape", [])
+    if len(shape) != 3 or shape[0] != count or shape[1] <= 0 or shape[2] != report["config"]["vocab_size"]:
+        errors.append(f"logits_shape: incompatible with batch/vocabulary: {shape}")
+    if checks.get("overfit_steps", 0) > 0:
+        value = checks.get("overfit_final_loss")
+        if value is None or not math.isfinite(value) or value > 0.1:
+            errors.append(f"overfit_final_loss: expected <= 0.1, got {value!r}")
+        if checks.get("overfit_exact_matches") != count:
+            errors.append(f"overfit_exact_matches: expected {count}, got {checks.get('overfit_exact_matches')!r}")
+    return errors
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--split", default="val")
     parser.add_argument("--num-images", type=int, default=8)
     parser.add_argument("--features", type=Path, default=Path("artifacts/features/ktvic"))
     parser.add_argument("--config", type=Path, default=Path("configs/clip_transformer.yaml"))
-    parser.add_argument("--output", type=Path, default=Path("reports/clip_encoder/clip_pipeline_check.json"))
-    parser.add_argument("--overfit-steps", type=int, default=300)
+    parser.add_argument("--output", type=Path, default=Path("runs/clip_encoder/clip_pipeline_check.json"))
+    parser.add_argument("--overfit-steps", type=int, default=300, help="Tiny memorisation check; 0 skips training")
     parser.add_argument("--max-len", type=int, default=40)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
@@ -83,6 +104,10 @@ def main():
     config = yaml.safe_load(args.config.read_text(encoding="utf-8"))
     if config["vocab_size"] != len(vocabulary.tokens):
         raise ValueError(f"vocab_size {config['vocab_size']} khác từ vựng {len(vocabulary.tokens)}")
+    if not 2 <= args.num_images <= len(rows):
+        parser.error("num-images must be between 2 and the number of images in the split")
+    if args.overfit_steps < 0 or not 1 <= args.max_len <= config["max_len"]:
+        parser.error("overfit-steps must be >= 0 and max-len must fit the decoder configuration")
     step = len(rows) // args.num_images  # evenly spaced images so sizes and scenes differ
     picked = [rows[i * step] for i in range(args.num_images)]
     ids = [row["image_id"] for row in picked]
@@ -116,10 +141,10 @@ def main():
     flat = regions.flatten(1)
     distance = torch.cdist(flat, flat)
     checks["min_distance_between_different_images"] = distance[~torch.eye(len(ids), dtype=torch.bool)].min().item()
-    store = RegionFeatureStore.load(args.features, args.split, CLIP_CACHE_PREFIX)
+    store = RegionFeatureStore.load(args.features, args.split, CLIP_CACHE_PREFIX, feature_dim=CLIP_FEATURE_DIM)
     cached = store.get_batch(ids)
     checks["live_vs_cached_max_abs_diff"] = (regions - cached).abs().max().item()
-    traced = [store.nearest_id(regions[i].half()) for i in range(len(ids))]
+    traced = [store.nearest_id(region.to(store.features.dtype)) for region in regions]
     checks["nearest_cached_id_equals_input_id"] = [t[0] for t in traced] == ids
     checks["trace_pixel_hash_equals_manifest"] = all(
         store.trace(i)["pixel_sha256"] == row["pixel_sha256"] for i, row in zip(ids, picked))
@@ -138,7 +163,7 @@ def main():
     checks["logits_batch_vs_single_max_abs_diff"] = (logits - singles).abs().amax(-1)[real].max().item()
     first_step = logits[:, 0]  # same BOS prefix for every image, so any difference comes from the regions
     checks["untrained_logits_depend_on_image_max_diff"] = (first_step - first_step[0]).abs().max().item()
-    untrained = greedy_decode(decoder, regions.to(device), args.max_len).cpu()
+    untrained = generate_tokens(decoder, regions.to(device), args.max_len).cpu()
     untrained_captions = [vocabulary.decode(row) for row in untrained.tolist()]
 
     # 4. gradients: the loss flows into the new projection and none reaches CLIP.
@@ -151,21 +176,25 @@ def main():
     checks["encoder_gradients_none"] = all(p.grad is None for p in encoder.parameters())
 
     # 5. tiny overfit on these images only, to show the regions carry information (not a training result).
-    torch.manual_seed(args.seed)
-    tiny = TransformerCaptionDecoder(**{**config, "dropout": 0.0}).to(device)
-    optimizer = torch.optim.AdamW(tiny.parameters(), lr=1e-3, weight_decay=0.0)
-    gpu_regions = regions.to(device)
-    for _ in range(args.overfit_steps):
-        tiny.train()
-        optimizer.zero_grad()
-        value = torch.nn.functional.cross_entropy(tiny(gpu_regions, inputs).flatten(0, 1), labels.flatten(), ignore_index=PAD)
-        value.backward()
-        optimizer.step()
-    overfit = [vocabulary.decode(row) for row in greedy_decode(tiny, gpu_regions, args.max_len).cpu().tolist()]
     references = [row["captions"][0] for row in picked]
-    checks["overfit_steps"], checks["overfit_final_loss"] = args.overfit_steps, value.item()
-    checks["overfit_exact_matches"] = sum(a == b for a, b in zip(overfit, references))
-    checks["overfit_distinct_captions"] = len(set(overfit))
+    overfit = [None] * len(ids)
+    checks.update(overfit_steps=args.overfit_steps, overfit_final_loss=None,
+                  overfit_exact_matches=None, overfit_distinct_captions=None)
+    if args.overfit_steps:
+        torch.manual_seed(args.seed)
+        tiny = TransformerCaptionDecoder(**{**config, "dropout": 0.0}).to(device)
+        optimizer = torch.optim.AdamW(tiny.parameters(), lr=1e-3, weight_decay=0.0)
+        gpu_regions = regions.to(device)
+        for _ in range(args.overfit_steps):
+            tiny.train()
+            optimizer.zero_grad()
+            value = torch.nn.functional.cross_entropy(tiny(gpu_regions, inputs).flatten(0, 1), labels.flatten(), ignore_index=PAD)
+            value.backward()
+            optimizer.step()
+        overfit = [vocabulary.decode(row) for row in generate_tokens(tiny, gpu_regions, args.max_len).cpu().tolist()]
+        checks["overfit_final_loss"] = value.item()
+        checks["overfit_exact_matches"] = sum(a == b for a, b in zip(overfit, references))
+        checks["overfit_distinct_captions"] = len(set(overfit))
 
     report = {
         "split": args.split, "num_images": len(ids), "decoder_parameters": parameters, "config": config,
@@ -176,6 +205,7 @@ def main():
             "reference_caption_used": references[i],
         } for i, (row, size) in enumerate(zip(picked, sizes))],
     }
+    report["errors"] = validate_pipeline_report(report)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
     print(json.dumps(checks, ensure_ascii=False, indent=2))
@@ -184,6 +214,8 @@ def main():
         print(f"[{item['image_id']}] {item['original_size_wh']} chưa train: {item['caption_untrained_decoder']!r}\n"
               f"      sau overfit: {item['caption_after_tiny_overfit']!r}\n      tham chiếu : {item['reference_caption_used']!r}")
     print(f"\nĐã ghi {args.output}")
+    if report["errors"]:
+        raise SystemExit("CLIP pipeline check failed:\n  " + "\n  ".join(report["errors"]))
 
 
 if __name__ == "__main__":

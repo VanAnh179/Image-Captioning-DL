@@ -111,23 +111,31 @@ def extract_split(rows, image_root, encoder, device, batch_size=32, workers=0, d
 class RegionFeatureStore:
     """Read-only lookup of cached region features by image ID. Used identically by both decoders."""
 
-    def __init__(self, payload):
+    def __init__(self, payload, feature_dim=FEATURE_DIM, num_regions=NUM_REGIONS):
         self.image_ids = payload["image_ids"]
         self.features = payload["features"]
         self.image_paths = payload["image_paths"]
         self.pixel_sha256 = payload["pixel_sha256"]
         self.meta = payload["meta"]
+        if self.image_ids.ndim != 1 or self.image_ids.dtype != torch.long or not len(self.image_ids):
+            raise ValueError("File đặc trưng phải có danh sách ID int64 một chiều, không rỗng")
+        expected_shape = (len(self.image_ids), num_regions, feature_dim)
+        if tuple(self.features.shape) != expected_shape or self.features.dtype not in (torch.float16, torch.float32):
+            raise ValueError(f"Tensor đặc trưng phải có shape {expected_shape}, dtype float16 hoặc float32")
+        if len(self.image_paths) != len(self.image_ids) or len(self.pixel_sha256) != len(self.image_ids):
+            raise ValueError("Số đường dẫn/hash pixel khác số ID trong file đặc trưng")
         self.row_of = {int(i): n for n, i in enumerate(self.image_ids.tolist())}
         if len(self.row_of) != len(self.image_ids) or len(self.features) != len(self.image_ids):
             raise ValueError("File đặc trưng có ID trùng hoặc số tensor khác số ID")
 
     @classmethod
-    def load(cls, directory, split, prefix=CACHE_PREFIX):
+    def load(cls, directory, split, prefix=CACHE_PREFIX, feature_dim=FEATURE_DIM, num_regions=NUM_REGIONS):
         path = feature_path(directory, split, prefix)
         if not path.is_file():
             raise FileNotFoundError(
-                f"Chưa có đặc trưng {split}: {path}. Chạy script trích đặc trưng tương ứng (scripts/extract_region_features.py hoặc scripts/extract_clip_features.py) trước.")
-        return cls(torch.load(path, map_location="cpu", weights_only=True))
+                f"Chưa có đặc trưng {split}: {path}. Chạy python -m scripts.extract_region_features "
+                "hoặc python -m scripts.extract_clip_features cho đúng loại cache trước.")
+        return cls(torch.load(path, map_location="cpu", weights_only=True), feature_dim, num_regions)
 
     def __len__(self):
         return len(self.row_of)
@@ -151,7 +159,10 @@ class RegionFeatureStore:
 
     def nearest_id(self, tensor):
         """Reverse lookup: (ID, squared L2 distance) of the cached tensor closest to a [regions, feature_dim] tensor."""
-        query = tensor.reshape(1, -1).float()
+        expected = tuple(self.features.shape[1:])
+        if tuple(tensor.shape) != expected or not torch.isfinite(tensor).all():
+            raise ValueError(f"Tensor truy ngược phải có shape {expected} và không có NaN/Inf")
+        query = tensor.detach().cpu().reshape(1, -1).float()
         best_distance, best_row = float("inf"), -1
         for start in range(0, len(self.features), 256):
             block = self.features[start:start + 256].reshape(-1, query.shape[1]).float()

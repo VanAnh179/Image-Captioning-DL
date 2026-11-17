@@ -3,6 +3,9 @@
 import argparse
 import hashlib
 import json
+import os
+import sys
+import tempfile
 import time
 from pathlib import Path
 
@@ -26,7 +29,7 @@ def main():
     parser.add_argument("--processed-dir", type=Path, help="Folder with *_manifest.jsonl (auto-detected)")
     parser.add_argument("--image-root", type=Path, help="Folder with train-images/ (auto-detected)")
     parser.add_argument("--output", type=Path, default=Path("artifacts/features/ktvic"))
-    parser.add_argument("--splits", nargs="+", default=["train", "val", "test"])
+    parser.add_argument("--splits", nargs="+", choices=["train", "val", "test"], default=["train", "val", "test"])
     parser.add_argument("--batch-size", type=int, default=32)
     parser.add_argument("--workers", type=int, default=0)
     parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
@@ -45,6 +48,8 @@ def main():
         ids = json.loads((processed / f"{split}_ids.json").read_text(encoding="utf-8"))
         if [row["image_id"] for row in rows] != ids:
             raise ValueError(f"{split}: thứ tự ID trong manifest khác {split}_ids.json")
+        if not ids or len(set(ids)) != len(ids):
+            raise ValueError(f"{split}: danh sách ID rỗng hoặc có ID trùng")
         started = time.time()
         features = extract_split(rows, image_root, encoder, args.device, args.batch_size, args.workers, dtype)
         assert features.shape == (len(rows), NUM_REGIONS, FEATURE_DIM), features.shape
@@ -67,10 +72,20 @@ def main():
             },
         }
         target = feature_path(args.output, split)
-        torch.save(payload, target)
+        # Replace only after serialization completes, so an interrupted retry
+        # leaves the previous cache available to both decoders.
+        with tempfile.NamedTemporaryFile(dir=args.output, suffix=".tmp", delete=False) as stream:
+            temporary = Path(stream.name)
+        try:
+            torch.save(payload, temporary)
+            os.replace(temporary, target)
+        finally:
+            temporary.unlink(missing_ok=True)
         print(f"{split}: {len(rows)} ảnh -> {target} "
               f"({target.stat().st_size / 2**20:.0f} MiB, {time.time() - started:.0f}s)")
 
 
 if __name__ == "__main__":
+    sys.stdout.reconfigure(encoding="utf-8")
+    sys.stderr.reconfigure(encoding="utf-8")
     main()

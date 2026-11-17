@@ -6,11 +6,12 @@ import torch
 from PIL import Image
 from transformers import CLIPImageProcessor, CLIPVisionConfig, CLIPVisionModel
 
-from scripts.check_clip_pipeline import greedy_decode, manual_clip_preprocess
+from scripts.check_clip_pipeline import manual_clip_preprocess
 from src.data.clip_features import CLIP_CACHE_PREFIX, FrozenCLIPVisionGrid, load_clip_image
 from src.data.region_features import FEATURE_DIM, NUM_REGIONS, RegionFeatureStore, feature_path, pixel_sha256
 from src.data.vietnamese_caption_batch import EOS, PAD
 from src.models.transformer_decoder import TransformerCaptionDecoder
+from src.training.caption_trainer import generate_tokens
 
 VOCAB = 50
 MEAN, STD = (0.48145466, 0.4578275, 0.40821073), (0.26862954, 0.26130258, 0.27577711)
@@ -96,10 +97,10 @@ class DecoderFeatureDimTests(unittest.TestCase):
         model = TransformerCaptionDecoder(VOCAB, d_model=32, num_heads=4, num_layers=2, d_ff=64, feature_dim=32)
         regions = torch.randn(3, NUM_REGIONS, 32)
         self.assertEqual(model(regions, torch.tensor([[1, 5, 6]] * 3)).shape, (3, 3, VOCAB))
-        tokens = greedy_decode(model, regions, 6)
+        tokens = generate_tokens(model, regions, 6)
         self.assertEqual(tokens.shape[0], 3)
         self.assertLessEqual(tokens.shape[1], 6)
-        with self.assertRaises(RuntimeError):
+        with self.assertRaises(ValueError):
             model(torch.randn(3, NUM_REGIONS, 2048), torch.tensor([[1, 5, 6]] * 3))
 
     def test_invalid_feature_dim_or_region_count(self):
@@ -117,7 +118,7 @@ class DecoderFeatureDimTests(unittest.TestCase):
                 logits[1, :, 9] = 5.0
                 return logits
 
-        tokens = greedy_decode(Fixed(), torch.zeros(2, 1, 1), 5)
+        tokens = generate_tokens(Fixed(), torch.zeros(2, 1, 1), 5)
         self.assertEqual(tokens[0].tolist(), [7, 7, EOS, PAD, PAD])
         self.assertEqual(tokens[1].tolist(), [9] * 5)
 
@@ -130,8 +131,11 @@ class CachePrefixTests(unittest.TestCase):
             payload = {"image_ids": torch.tensor([4, 2]), "features": torch.zeros(2, NUM_REGIONS, 768, dtype=torch.float16),
                        "image_paths": ["a", "b"], "pixel_sha256": ["x", "y"], "meta": {}}
             torch.save(payload, feature_path(directory, "val", CLIP_CACHE_PREFIX))
-            store = RegionFeatureStore.load(directory, "val", CLIP_CACHE_PREFIX)
+            store = RegionFeatureStore.load(directory, "val", CLIP_CACHE_PREFIX, feature_dim=768)
             self.assertEqual(store.get_batch([2, 4]).shape, (2, NUM_REGIONS, 768))
+            self.assertEqual(store.nearest_id(store.get_batch([4])[0]), (4, 0.0))
+            with self.assertRaises(ValueError):
+                store.nearest_id(torch.zeros(NUM_REGIONS, FEATURE_DIM))
             with self.assertRaises(FileNotFoundError):
                 RegionFeatureStore.load(directory, "val")  # the ResNet cache is a different file
 
