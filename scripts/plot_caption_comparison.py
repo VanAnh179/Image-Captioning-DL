@@ -24,10 +24,10 @@ def main():
         print("A and A0 produced identical captions; there are no changed examples to plot.")
         return
     rows = math.ceil(len(examples) / 2)
-    fig = plt.figure(figsize=(16, rows * 6.5), layout="constrained")
+    fig = plt.figure(figsize=(15, rows * 4.6), layout="constrained")
     grid = fig.add_gridspec(rows, 2)
     for position, example in enumerate(examples):
-        cell = grid[position // 2, position % 2].subgridspec(2, 1, height_ratios=[3, 2.3])
+        cell = grid[position // 2, position % 2].subgridspec(2, 1, height_ratios=[3, 1.2])
         image_ax = fig.add_subplot(cell[0])
         text_ax = fig.add_subplot(cell[1])
         with Image.open(args.image_root / example["image_path"]) as source:
