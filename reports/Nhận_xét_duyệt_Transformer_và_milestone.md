@@ -38,4 +38,4 @@ Sáu caption và điểm CIDEr từng ảnh của A trong bảng minh họa đ�
 
 Bản Markdown được sửa tại thư mục export người dùng cung cấp, giữ liên kết hai ảnh. Bản gốc được lưu trước khi sửa tại `runs/transformer_review/source_comparison_original.md`. Kết quả kiểm tra chi tiết lưu tại `runs/transformer_review/audit.json` và `scores_downloaded_predictions.json`.
 
-`main` đã pull và hiện không có commit mới chứa các thư mục `runs/train30`, `runs/seeds_B` hay PDF. Nhánh rà soát chỉ chứa các sửa chữa phục vụ duyệt, chờ Vanh quyết định merge.
+`main` đã pull và đang ở `dfb6b52`. Log, checkpoint và PDF được bàn giao qua đường dẫn hoặc link riêng theo quy ước repo. Nhánh rà soát chứa bản sửa code và nhận xét để Vanh duyệt trước khi quyết định merge.
