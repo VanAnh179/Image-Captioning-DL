@@ -23,3 +23,5 @@ LSTM có attention đã có đầu ra logits, câu tự sinh và trọng số 49
 [Vòng train, checkpoint và lượt baseline A trên Kaggle](reports/Báo_cáo_huấn_luyện_khôi_phục_và_baseline_A.md)
 
 [Đối chứng A0 và hàm tìm ảnh TF-IDF trên CPU](reports/Báo_cáo_A0_và_tìm_ảnh_TF_IDF.md)
+
+[Đề xuất phiếu chấm lỗi caption để hai thành viên chốt](reports/Đề_xuất_phiếu_chấm_lỗi_caption.md)

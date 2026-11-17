@@ -10,6 +10,9 @@
 !/reports/Báo_cáo_huấn_luyện_khôi_phục_và_baseline_A.md
 !/reports/Nhận_xét_duyệt_Transformer_và_milestone.md
 !/reports/Báo_cáo_A0_và_tìm_ảnh_TF_IDF.md
+!/reports/Đề_xuất_phiếu_chấm_lỗi_caption.md
+!/reports/assets/
+!/reports/assets/caption_error_val_examples.jpg
 !/requirements.txt
 !/environment.yml
 !/pyproject.toml
