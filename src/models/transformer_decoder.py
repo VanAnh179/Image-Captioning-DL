@@ -1,4 +1,4 @@
-"""Model B: Transformer decoder that reads the 49 ResNet-50 regions through cross-attention.
+"""Model B: Transformer decoder that reads the image regions (default 49 x 2048 ResNet-50) through cross-attention.
 
 Attention, masks, positional encoding and the decoder layer are written here; only nn.Linear, nn.Embedding,
 nn.LayerNorm, nn.Dropout and softmax come from PyTorch. Boolean masks use True = "may attend".
@@ -83,12 +83,12 @@ class DecoderLayer(nn.Module):
     def forward(self, x, memory, self_mask):
         h = self.norm1(x)
         x = x + self.dropout(self.self_attn(h, h, self_mask))
-        x = x + self.dropout(self.cross_attn(self.norm2(x), memory))  # all 49 regions are valid: no mask
+        x = x + self.dropout(self.cross_attn(self.norm2(x), memory))  # every region is valid: no mask
         return x + self.dropout(self.ffn(self.norm3(x)))
 
 
 class RegionProjection(nn.Module):
-    """[B, 49, 2048] ResNet regions -> M [B, 49, d]: Linear + LayerNorm + learned embedding of the region's grid position."""
+    """[B, R, feature_dim] image regions -> M [B, R, d]: Linear + LayerNorm + learned embedding of the region's grid position."""
 
     def __init__(self, d_model, dropout, feature_dim=FEATURE_DIM, num_regions=NUM_REGIONS):
         super().__init__()
@@ -103,14 +103,18 @@ class RegionProjection(nn.Module):
 
 
 class TransformerCaptionDecoder(nn.Module):
-    """forward(regions [B,49,2048], decoder_input [B,T]) -> logits [B,T,vocab]; position t predicts word t+1."""
+    """forward(regions [B,R,feature_dim], decoder_input [B,T]) -> logits [B,T,vocab]; position t predicts word t+1.
 
-    def __init__(self, vocab_size, d_model=512, num_heads=8, num_layers=3, d_ff=2048, dropout=0.1, max_len=64):
+    Defaults (feature_dim=2048, num_regions=49) are the ResNet-50 model B; a CLIP encoder changes only these two.
+    """
+
+    def __init__(self, vocab_size, d_model=512, num_heads=8, num_layers=3, d_ff=2048, dropout=0.1, max_len=64,
+                 feature_dim=FEATURE_DIM, num_regions=NUM_REGIONS):
         super().__init__()
-        if min(vocab_size, d_model, num_heads, num_layers, d_ff, max_len) <= 0:
-            raise ValueError("Decoder dimensions, layer count and max_len must be positive")
+        if min(vocab_size, d_model, num_heads, num_layers, d_ff, max_len, feature_dim, num_regions) <= 0:
+            raise ValueError("Decoder dimensions, layer count, max_len, feature_dim and num_regions must be positive")
         self.d_model = d_model
-        self.regions = RegionProjection(d_model, dropout)
+        self.regions = RegionProjection(d_model, dropout, feature_dim, num_regions)
         self.embedding = nn.Embedding(vocab_size, d_model, padding_idx=PAD)
         self.register_buffer("positions", sinusoidal_positions(max_len, d_model), persistent=False)
         self.dropout = nn.Dropout(dropout)
