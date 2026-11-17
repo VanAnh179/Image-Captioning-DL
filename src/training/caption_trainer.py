@@ -19,7 +19,9 @@ from src.models.transformer_decoder import TransformerCaptionDecoder
 
 
 def build_model(model_name, config):
-    models = {"A": LSTMAttentionCaptionDecoder, "B": TransformerCaptionDecoder}
+    if model_name == "A0" and config.get("attention_mode") != "uniform":
+        raise ValueError("A0 requires attention_mode=uniform")
+    models = {"A": LSTMAttentionCaptionDecoder, "A0": LSTMAttentionCaptionDecoder, "B": TransformerCaptionDecoder}
     return models[model_name](**config)
 
 

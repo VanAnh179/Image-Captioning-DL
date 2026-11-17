@@ -16,7 +16,7 @@ from src.training.caption_trainer import fit
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--model", choices=["A", "B"], required=True)
+    parser.add_argument("--model", choices=["A", "A0", "B"], required=True)
     parser.add_argument("--config", type=Path)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--resume", type=Path)
@@ -36,7 +36,7 @@ def main():
     args = parser.parse_args()
     processed = args.processed_dir or resolve_processed_dir()
     vocabulary = CaptionVocabulary.load(processed / "caption_vocabulary.json")
-    default_config = "lstm_attention.yaml" if args.model == "A" else "transformer_decoder.yaml"
+    default_config = {"A": "lstm_attention.yaml", "A0": "lstm_attention_uniform.yaml", "B": "transformer_decoder.yaml"}[args.model]
     config_path = args.config or Path("configs") / default_config
     config = yaml.safe_load(config_path.read_text(encoding="utf-8"))
     if args.dropout is not None:

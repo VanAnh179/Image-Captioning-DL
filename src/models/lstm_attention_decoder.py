@@ -16,7 +16,10 @@ class AdditiveAttention(nn.Module):
         self.hidden_key = nn.Linear(hidden_size, attention_size)
         self.score = nn.Linear(attention_size, 1, bias=False)
 
-    def forward(self, memory, projected_memory, hidden):
+    def forward(self, memory, projected_memory, hidden, uniform=False):
+        if uniform:
+            weights = memory.new_full(memory.shape[:2], 1 / memory.shape[1])
+            return torch.bmm(weights.unsqueeze(1), memory).squeeze(1), weights
         energy = self.score(torch.tanh(projected_memory + self.hidden_key(hidden).unsqueeze(1))).squeeze(-1)
         weights = torch.softmax(energy, dim=-1)
         context = torch.bmm(weights.unsqueeze(1), memory).squeeze(1)
@@ -31,10 +34,14 @@ class LSTMAttentionCaptionDecoder(nn.Module):
     logits[:,t] and attention[:,t] all describe the same newly generated token.
     """
 
-    def __init__(self, vocab_size, d_model=256, hidden_size=256, attention_size=256, dropout=0.1):
+    def __init__(self, vocab_size, d_model=256, hidden_size=256, attention_size=256, dropout=0.1,
+                 attention_mode="learned"):
         super().__init__()
         if vocab_size <= UNK or min(d_model, hidden_size, attention_size) <= 0:
             raise ValueError("Vocabulary must include PAD/BOS/EOS/UNK and dimensions must be positive")
+        if attention_mode not in ("learned", "uniform"):
+            raise ValueError("attention_mode must be learned or uniform")
+        self.attention_mode = attention_mode
         self.regions = RegionProjection(d_model, dropout)
         self.embedding = nn.Embedding(vocab_size, d_model, padding_idx=PAD)
         self.attention = AdditiveAttention(d_model, hidden_size, attention_size)
@@ -51,7 +58,7 @@ class LSTMAttentionCaptionDecoder(nn.Module):
         return memory, self.attention.region_key(memory), state
 
     def _step(self, token, memory, keys, state):
-        context, weights = self.attention(memory, keys, state[0])
+        context, weights = self.attention(memory, keys, state[0], uniform=self.attention_mode == "uniform")
         inputs = torch.cat((self.dropout(self.embedding(token)), context), dim=-1)
         state = self.cell(inputs, state)
         logits = self.output(self.dropout(state[0]))
