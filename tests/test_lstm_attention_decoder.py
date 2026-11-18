@@ -12,6 +12,31 @@ from src.models.transformer_decoder import RegionProjection as TransformerRegion
 
 
 class LSTMAttentionTests(unittest.TestCase):
+    def test_uniform_ablation_keeps_initialization_and_uses_mean_context(self):
+        torch.manual_seed(7)
+        learned = LSTMAttentionCaptionDecoder(20, 16, 24, 12, 0)
+        torch.manual_seed(7)
+        uniform = LSTMAttentionCaptionDecoder(20, 16, 24, 12, 0, attention_mode="uniform")
+        for key, value in learned.state_dict().items():
+            torch.testing.assert_close(value, uniform.state_dict()[key], rtol=0, atol=0)
+        memory, keys, state = uniform._prepare(self.regions)
+        context, weights = uniform.attention(memory, keys, state[0], uniform=True)
+        torch.testing.assert_close(context, memory.mean(1))
+        self.assertTrue(torch.equal(weights, torch.full_like(weights, 1 / 49)))
+        output = uniform(self.regions, self.inputs)
+        self.assertTrue(torch.equal(output["attention"], torch.full_like(output["attention"], 1 / 49)))
+        F.cross_entropy(output["logits"].flatten(0, 1), self.labels.flatten(), ignore_index=PAD).backward()
+        self.assertIsNone(uniform.attention.score.weight.grad)
+        self.assertGreater(uniform.regions.linear.weight.grad.abs().sum().item(), 0)
+        self.assertGreater(uniform.cell.weight_ih.grad.abs().sum().item(), 0)
+
+    def test_uniform_generation_uses_fixed_weights_until_eos(self):
+        model = LSTMAttentionCaptionDecoder(20, 16, 24, 12, 0, attention_mode="uniform")
+        generated = model.generate(self.regions, 4)
+        for row, length in enumerate(generated["lengths"].tolist()):
+            weights = generated["attention"][row, :length]
+            self.assertTrue(torch.equal(weights, torch.full_like(weights, 1 / 49)))
+
     def setUp(self):
         torch.manual_seed(42)
         self.model = LSTMAttentionCaptionDecoder(20, d_model=16, hidden_size=24, attention_size=12, dropout=0).eval()

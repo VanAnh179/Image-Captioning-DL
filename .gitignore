@@ -14,6 +14,12 @@
 !/reports/clip_encoder/clip_pipeline_check.json
 !/reports/clip_encoder/clip_features_check.json
 !/reports/clip_encoder/tf32_effect_on_B.json
+!/reports/Báo_cáo_đối_chứng_A0.md
+!/reports/Báo_cáo_tìm_ảnh_TF_IDF.md
+!/reports/Đề_xuất_phiếu_chấm_lỗi_caption.md
+!/reports/assets/
+!/reports/assets/caption_error_val_examples.jpg
+!/reports/assets/a_vs_a0_val.jpg
 !/requirements.txt
 !/environment.yml
 !/pyproject.toml

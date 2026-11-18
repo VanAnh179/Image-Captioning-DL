@@ -18,6 +18,7 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config", type=Path, default=Path("configs/lstm_attention.yaml"))
     parser.add_argument("--run-name", default="a_baseline")
+    parser.add_argument("--model", choices=["A", "A0"], default="A")
     args = parser.parse_args(argv)
     if args.config.parent != Path("configs") or args.config.suffix != ".yaml":
         parser.error("config must be a YAML file directly inside configs/")
@@ -47,14 +48,16 @@ def main(argv=None):
     run(["-u", "-m", "scripts.check_lstm_attention", "--config", str(args.config), "--device", "cuda"])
     run_dir = Path("runs") / args.run_name
     baseline_started = time.perf_counter()
-    run(["-u", "-m", "scripts.train_caption_model", "--model", "A", "--config", str(args.config), "--output", str(run_dir),
+    run(["-u", "-m", "scripts.train_caption_model", "--model", args.model, "--config", str(args.config), "--output", str(run_dir),
          "--epochs", "20", "--batch-size", "32", "--learning-rate", "0.0003", "--weight-decay", "0.01",
          "--selection-metric", "cider", "--patience", "4", "--seed", "42", "--max-len", "40", "--device", "cuda"])
     run(["-m", "scripts.export_caption_results", "--run-dir", str(run_dir)])
+    if args.model == "A0":
+        run(["-m", "scripts.compare_caption_models", "--reference-dir", "reference_a", "--ablation-dir", str(run_dir)])
     summary = {"wall_seconds": time.perf_counter() - started, "gpu": torch.cuda.get_device_name(0),
                "baseline_wall_seconds": time.perf_counter() - baseline_started,
                "torch": str(torch.__version__), "config_path": str(args.config),
-               "purpose": "A baseline selected by validation CIDEr"}
+               "purpose": f"{args.model} selected by validation CIDEr"}
     (run_dir / "runtime.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
     shutil.make_archive(f"/kaggle/working/{args.run_name}_results", "zip", "runs")
 
