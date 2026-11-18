@@ -1,6 +1,6 @@
 # Đề xuất phiếu chấm lỗi caption
 
-**Vanh và Linh Khánh · Cập nhật 18/11/2026 · Đã chuẩn bị hai phiếu test và điền nháp phần Vanh.**
+**Vanh và Linh Khánh · Cập nhật 18/11/2026 · Đã khóa phiếu test phần Vanh do Codex chấm.**
 
 Mục tiêu là so sánh lỗi của A, B và A0 trên cùng ảnh. Sáu ảnh val dùng để thử tiêu chí. Kết quả ở mục 3 chỉ thuộc đợt thử val. Đợt chấm 40 ảnh test bắt đầu sau khi có gói caption đã khóa và ẩn tên mô hình.
 
@@ -165,7 +165,7 @@ out.write_text(json.dumps(record, ensure_ascii=False, indent=2), encoding="utf-8
 ## 6. Cách tổng hợp và bàn giao
 
 - **Theo mô hình:** báo từng loại lỗi dưới dạng `số caption lỗi / số caption đã chốt` và %. Báo thêm tỷ lệ caption có ít nhất một lỗi. Nhiều loại có thể cùng xuất hiện nên tổng tỷ lệ không cần bằng 100%. Một mô hình có tối đa 40 caption riêng biệt; phần chấm trùng chỉ tính một lần sau thống nhất.
-- **Mức thống nhất ban đầu:** trên 10 ảnh trùng × 3 mô hình × 6 loại = **180 ô**; báo số ô hai người điền giống nhau trên số ô cả hai đã điền `0/1`, kèm số ô có `?` và các loại hay bất đồng. Tính từ hai phiếu gốc, trước khi thảo luận.
+- **Mức thống nhất ban đầu:** trên 10 ảnh trùng × 3 mô hình × 6 loại = **180 ô**. Tính từ hai phiếu gốc trước thảo luận. Báo số ô Codex và Linh Khánh điền giống nhau trên số ô cả hai đã điền `0/1`, kèm số ô có `?` và các loại hay bất đồng. Ghi rõ đây là mức thống nhất giữa một lượt Codex chấm và một lượt Linh Khánh chấm.
 - Nếu sau thảo luận vẫn còn `?`, giữ nguyên và báo riêng số chưa rõ; không đổi thành `0`. Mỗi tỷ lệ ghi rõ mẫu số đã chốt của loại đó. Tỷ lệ “ít nhất một lỗi” dùng caption có ít nhất một `1` hoặc cả sáu ô đều `0`.
 - **Bốn ví dụ cuối:** sau khi chấm xong, lấy ID nhỏ nhất chưa dùng trong từng nhóm: A có lỗi/B không; B có lỗi/A không; A0 có lỗi/A không; cả A và B có lỗi. Chỉ dùng nhãn đã rõ. Nếu nhóm không còn ID phù hợp, ghi rõ rồi bổ sung ID nhỏ nhất có lỗi chưa dùng; nếu vẫn thiếu thì dùng ID nhỏ nhất còn lại. Mỗi ví dụ có ảnh, ID, caption, cả năm tham chiếu và lời giải thích. Đây là ví dụ trong mẫu 40, không đại diện toàn tập test.
 - **Gói bàn giao sau duyệt:** phiên bản phiếu đã chốt, `selection.json`, hai phiếu gốc, phiếu sau thống nhất, bảng tổng hợp và bốn ví dụ; giữ khóa ẩn danh riêng cho đến lúc khóa nhãn. Đây là phân tích mô tả trên 40 ảnh, không đủ để kết luận mô hình vượt trội trên mọi ảnh.
@@ -173,6 +173,6 @@ out.write_text(json.dumps(record, ensure_ascii=False, indent=2), encoding="utf-8
 ## 7. Bàn giao đợt chấm test
 
 - Checkpoint B gửi kèm đã được kiểm tra và lưu tại `artifacts/checkpoints/ktvic/B_kaggle_seed42/best.pt`. Chấm lại 375 caption trích từ checkpoint cho CIDEr **72,42**, lưu ở `runs/transformer_b_kaggle_seed42/val_predictions.json`. JSON gốc gửi kèm chấm ra **70,47**, khác 362/375 caption và được lưu riêng tại `runs/transformer_b_rtx2050_seed42/val_predictions.json`.
-- Đã kiểm tra hash pixel ảnh gốc khớp manifest và cache cho đủ 40 ID. Hai ZIP dưới `artifacts/manual_caption_review/` có ảnh gốc, phiếu Markdown và danh sách chia ảnh. Mỗi phiếu có 75 dòng. Trên 10 ảnh chung, cả 30 mục dùng cùng item ID, caption và thứ tự.
-- `phieu_test_vanh.zip` có đủ 75 dòng nhãn nháp do Codex chấm từ ảnh và caption ẩn danh cho phần Vanh. Có 35 dòng ghi nhận ít nhất một lỗi, 15 dòng chỉ có nhãn chưa rõ và 25 dòng có toàn số 0. Vanh rà lại và khóa phiếu trước khi đối chiếu. Các số này chỉ mô tả phần nháp của Vanh.
-- `phieu_test_linh_khanh.zip` có 75 dòng để Linh Khánh chấm riêng. Bảng khóa và các prediction có tên mô hình ở thư mục riêng ngoài hai ZIP và ngoài Git. Giữ nguyên mã mục khi gửi lại phiếu. Sau khi cả hai nộp bản gốc, đối chiếu nhãn của 10 ảnh chung, khóa nhãn rồi mới mở bảng khóa để tính tỷ lệ theo mô hình và chọn bốn ví dụ.
+- Đã kiểm tra hash pixel ảnh gốc khớp manifest và cache cho đủ 40 ID. Mỗi phiếu có 75 dòng. Trên 10 ảnh chung, cả 30 mục dùng cùng item ID, caption và thứ tự.
+- Vanh chốt dùng Codex làm người chấm phần mình. Đã khóa 75 dòng từ ảnh và caption ẩn danh trong `artifacts/manual_caption_review/vanh/Phiếu_chấm_test_Vanh.md` và lưu bản đối chiếu `labels_vanh_locked.json` cùng thư mục. Phiếu có 35 dòng ghi nhận ít nhất một lỗi, 15 dòng chỉ có nhãn chưa rõ và 25 dòng có toàn số 0. Đây là số của phần Codex chấm, trước khi gộp với Linh Khánh.
+- Linh Khánh điền riêng `artifacts/manual_caption_review/linh_khanh/Phiếu_chấm_test_Linh_Khánh.md` và gửi lại Markdown với mã mục giữ nguyên. Bảng khóa ngoài Git vẫn đóng. Khi có phiếu Linh Khánh, đối chiếu 30 caption trên 10 ảnh chung, thống nhất nhãn rồi mới mở bảng khóa để tổng hợp theo mô hình và chọn bốn ví dụ.
