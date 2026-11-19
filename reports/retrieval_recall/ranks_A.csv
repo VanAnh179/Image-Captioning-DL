@@ -1,0 +1,1876 @@
+query_number,image_id,reference_number,query,rank,rank_best,rank_worst,tied_with_answer,correct_score,top1_image_id,zero_query
+1,2,1,ba chiếc thuyền đang di chuyển ở trên con sông,47,47,47,0,0.369237,2069,0
+2,2,2,có ba con thuyền đang di chuyển trên con sông,58,58,58,0,0.269817,2069,0
+3,2,3,trên dòng sông có ba con thuyền đang di chuyển,57,57,57,0,0.273655,2069,0
+4,2,4,ba con thuyền đang di chuyển bên một cánh đồng lúa,59,59,59,0,0.202887,2069,0
+5,2,5,ba chiếc thuyền đang chuyển động trên một con sông,43,43,43,0,0.240002,2069,0
+6,17,1,có một cái tủ kính nằm ở phía sau tấm bia,180,180,180,0,0.034828,7449,0
+7,17,2,ở phía sau tấm bia là một chiếc tủ kính,184,184,184,0,0.028051,7449,0
+8,17,3,có một tấm bia ở phía trước cái tủ kính,187,187,187,0,0.039747,7449,0
+9,17,4,trước mặt cái tủ kính là sự xuất hiện của một tấm bia,120,120,120,0,0.062997,10527,0
+10,17,5,một tấm bia đang ở vị trí phía trước so với tủ kính,294,294,294,0,0.021876,7449,0
+11,47,1,có hai người phụ nữ đang đứng bên trái quầy hàng,125,125,125,0,0.147960,7335,0
+12,47,2,có bốn người đang đứng xung quanh của quầy hàng,75,75,75,0,0.128385,10452,0
+13,47,3,ở bên trái quầy hàng là sự xuất hiện của hai người phụ nữ,145,145,145,0,0.121099,7335,0
+14,47,4,hai người phụ nữ đang đứng cạnh nhau ở bên trái quầy hàng,159,159,159,0,0.113753,7335,0
+15,47,5,bên trái quầy hàng có hai người đang đứng cạnh nhau,111,111,111,0,0.133154,10452,0
+16,48,1,không có người nào ở bên trong cửa hàng tạp hoá,1,1,3,2,0.406592,48,0
+17,48,2,bên trong cửa hàng tạp hoá đang không có người nào,1,1,3,2,0.390904,48,0
+18,48,3,có một cái thang xuất hiện bên trong tiệm tạp hoá,20,20,22,2,0.222317,7290,0
+19,48,4,ở giữa lối đi của tiệm tạp hoá có một cái thang,18,18,20,2,0.170382,7290,0
+20,48,5,có một cái thang xuất hiện trên lối đi bên trong tiệm tạp hoá,25,25,27,2,0.195680,7290,0
+21,51,1,có nhiều du khách xuất hiện ở trong khu di tích,151,151,151,0,0.128484,5604,0
+22,51,2,bên trong khu di tích đang có sự xuất hiện của những du khách,150,150,150,0,0.104914,5604,0
+23,51,3,có những du khách đang tham quan ở trong khu di tích,171,171,171,0,0.059071,5604,0
+24,51,4,có nhiều du khách đang tham quan khu di tích này,350,350,350,0,0.009167,5604,0
+25,51,5,có sự xuất hiện của những du khách bên trong khu di tích này,136,136,136,0,0.101073,5604,0
+26,69,1,có nhiều sản phẩm xuất hiện ở trên quầy hàng,11,11,18,7,0.369841,7316,0
+27,69,2,bên trên quầy hàng có sự xuất hiện của nhiều sản phẩm,18,18,25,7,0.311029,7316,0
+28,69,3,có nhiều loại sản phẩm đang xuất hiện ở bên trên quầy hàng này,7,7,13,6,0.470747,7316,0
+29,69,4,trên những kệ hàng có nhiều loại sản phẩm đang được trưng bày,10,10,17,7,0.487315,11601,0
+30,69,5,có nhiều loại sản phẩm đang được trưng bày trên quầy hàng,21,21,28,7,0.369803,2225,0
+31,91,1,có một chiếc xe xích lô đang được dựng ở bên lề đường,53,53,53,0,0.163855,3670,0
+32,91,2,ở trên lề đường có một chiếc xe xích lô,39,39,39,0,0.209272,3670,0
+33,91,3,có một chiếc xích lô được dựng ở trên lề đường,28,28,28,0,0.191213,3670,0
+34,91,4,chiếc xe xích lô được dựng ở trước dãy nhà cổ,170,170,170,0,0.018158,3670,0
+35,91,5,ở phía trước dãy nhà bên đường có sự xuất hiện của một chiếc xích lô,78,78,78,0,0.139275,10692,0
+36,100,1,có hai người đang đứng xung quanh chiếc xe đẩy chưa em bé,5,5,6,1,0.296691,3541,0
+37,100,2,có một đứa trẻ ở bên trên của chiếc xe đẩy,3,3,4,1,0.387028,3541,0
+38,100,3,bên trên chiếc xe đẩy siêu thị đang có một đứa trẻ,2,2,3,1,0.578401,3541,0
+39,100,4,người đàn ông mặc áo trắng đang đẩy chiếc xe đẩy siêu thị,5,5,6,1,0.672061,3541,0
+40,100,5,chiếc xe đẩy siêu thị đang được đẩy bởi người đàn ông mặc áo trắng,5,5,6,1,0.598675,3541,0
+41,110,1,người phụ nữ đang cầm trên tay một chiếc giỏ xách,29,29,29,0,0.236549,924,0
+42,110,2,có một chiếc giỏ xách ở trên tay của người phụ nữ,25,25,25,0,0.237764,924,0
+43,110,3,người phụ nữ đang hướng tầm mắt vào một quầy hàng,2,2,2,0,0.329932,7335,0
+44,110,4,người phụ nữ đang nhìn vào bên trong một quầy hàng,3,3,3,0,0.529942,7335,0
+45,110,5,người phụ nữ đang cầm trên tay một mặt hàng,21,21,21,0,0.376102,10578,0
+46,167,1,có bốn người đang nhìn vào những bức ảnh trên bản,216,216,216,0,0.058292,2645,0
+47,167,2,có nhiều bức ảnh đang được xếp ở trên bàn,6,6,6,0,0.382223,5904,0
+48,167,3,những bức ảnh đang được trưng bày ở trên bàn,1,1,1,0,0.577666,167,0
+49,167,4,bốn người đàn ông đang nhìn vào những bức ảnh ở trên bàn,43,43,43,0,0.191361,9632,0
+50,167,5,bốn người đàn ông đang quan sát những bức ảnh trên bàn,43,43,43,0,0.162113,9632,0
+51,182,1,đây là hình ảnh nhìn từ trên cao của một khu phố,121,121,126,5,0.065592,1820,0
+52,182,2,những ngôi nhà xếp sát nhau ở trên khu phố,89,89,94,5,0.067572,10748,0
+53,182,3,những ngôi nhà xếp san sát nhau trên khu phố,92,92,97,5,0.039053,10748,0
+54,182,4,những ngôi nhà trên dãy phố có tường màu vàng,69,69,74,5,0.065105,3432,0
+55,182,5,màu vàng là màu sắc chủ đạo của tường những ngôi nhà trên phố,88,88,93,5,0.035422,3432,0
+56,205,1,bức tranh vẽ về sự tấp nập của một khu phố,290,286,375,89,0.000000,8615,0
+57,205,2,bức tranh vẽ về các phương tiện di chuyển trong khu phố,26,26,32,6,0.243779,1397,0
+58,205,3,bức tranh vẽ về một khu phố và sự tấp nập của nó,290,286,375,89,0.000000,8615,0
+59,205,4,bức tranh vẽ về một khu phố đang trong trạng thái tấp nập,297,297,303,6,0.023501,8615,0
+60,205,5,những phương tiện giao thông đang di chuyển trong bức tranh,14,14,20,6,0.294403,3865,0
+61,223,1,có một nhân viên áo vàng đang đứng gần bàn ăn ở phía trước tảng đá,18,18,18,0,0.168245,1223,0
+62,223,2,có một người đang ngồi trên chiếc ghế nhựa màu xanh,26,26,26,0,0.243932,7419,0
+63,223,3,có mười một người đang ngồi ở bàn gần nhất trong khung hình,5,5,5,0,0.230730,4180,0
+64,223,4,quán ăn này đang có sự xuất hiện của các thực khách,4,4,4,0,0.359404,1011,0
+65,223,5,chỉ có chiếc ghế của người đàn ông mặc áo đen là có màu xanh lam,220,220,220,0,0.046723,4651,0
+66,270,1,cô gái mặc áo trắng đang ngồi ở bên ngoài một hiệu sách,3,3,3,0,0.471194,3266,0
+67,270,2,bên trong hiệu sách có sự xuất hiện của hai người,9,9,9,0,0.324686,1409,0
+68,270,3,cô gái đang ngồi bên ngoài hiệu sách không đi chung với ai,1,1,1,0,0.315178,270,0
+69,270,4,bên ngoài hiệu sách được sơn màu nâu và màu xanh,1,1,1,0,0.206328,270,0
+70,270,5,cô gái mặc áo trắng và váy màu nâu nhạt đang ngồi trên một tấm phản bên ngoài hiệu sách,3,3,3,0,0.292693,3266,0
+71,273,1,những gian hàng ngay sát trụ bên phải bày bán những đồ trang trí ngày tết,123,123,124,1,0.031714,10881,0
+72,273,2,hai bên cổng chào thì có nền màu vàng và chữ màu đỏ,55,55,56,1,0.051835,10527,0
+73,273,3,những chiếc xe máy được dựng ngang ở giữa lòng đường,176,176,177,1,0.017303,3670,0
+74,273,4,có một người đàn ông đội mũ đen và mặc áo trắng đang đi ra khỏi khu chợ,34,34,35,1,0.224872,4651,0
+75,273,5,người phụ nữ mặc đồ màu hồng và người phụ nữ mặc áo khoác màu xanh đang nhìn vào gian hàng bên phải ở phía ngoài cùng của khu chợ,66,66,67,1,0.221931,5102,0
+76,295,1,người phụ nữ đội nón lá mặc áo màu xanh lá cây,122,122,125,3,0.030473,350,0
+77,295,2,có một người đang đội nón lá đang đi trên đường,149,149,151,2,0.119318,1047,0
+78,295,3,người phụ nữ mặc áo khoác màu vàng và đội mũ màu trắng thì đang ngồi trên một cái ghế nhựa,235,235,237,2,0.040921,5102,0
+79,295,4,có nhiều xe máy đang di chuyển ở trên đường,105,105,108,3,0.173873,340,0
+80,295,5,có một người đội mũ cối ở bên người phụ nữ mặc áo khoác màu vàng và đội mũ màu trắng,78,78,81,3,0.101550,5102,0
+81,340,1,có ba chiếc xe máy đang đậu trước các cửa hàng,4,4,5,1,0.338450,9569,0
+82,340,2,không có người nào đang đi vào các cửa hàng này,243,243,244,1,0.035968,3002,0
+83,340,3,những cửa hàng này đang trong tình trạng đóng cửa,217,217,218,1,0.018324,9548,0
+84,340,4,cả ba chiếc xe máy đang được đỗ trên vỉa hè,9,9,10,1,0.316860,10923,0
+85,340,5,"ba chiếc xe máy có màu trắng, màu đen và màu xanh nước biển",5,5,6,1,0.237983,4138,0
+86,350,1,"cậu bé có chiều cao thấp hơn mặc trang phục gồm áo khoác xanh lam, áo phông đỏ, quần jean xám và giày nâu",31,31,31,0,0.104794,2611,0
+87,350,2,cửa hàng này bán quà lưu niệm theo chủ đề giáng sinh,117,105,375,270,0.000000,966,0
+88,350,3,có hai người đang đứng xem trong cửa hàng quà lưu niệm,268,268,268,0,0.034573,6148,0
+89,350,4,cậu bé cao hơn đứng ở phía bên trái so với cậu bé thấp hơn,335,334,375,41,0.000000,10407,0
+90,350,5,cậu bé cao hơn đứng ở phía tay phải của cậu bé thấp hơn,62,62,62,0,0.038403,2345,0
+91,351,1,có một tô phở đang được đặt ở trên một cái đĩa,2,2,2,0,0.341017,5878,0
+92,351,2,có một tô phở được trưng bày ở trên bàn,5,5,5,0,0.359348,167,0
+93,351,3,ở trên bàn có sự xuất hiện của một tô phở,1,1,1,0,0.454609,351,0
+94,351,4,có một cái muỗng xuất hiện ở trên bát phở,1,1,1,0,0.608608,351,0
+95,351,5,bên cạnh bát phở có một khay đựng hành lá và một đĩa đựng giá đỗ,1,1,1,0,0.320431,351,0
+96,362,1,có nhiều ngôi nhà cao tầng xuất hiện ở bên đường,143,143,143,0,0.118883,1820,0
+97,362,2,có một người đang chạy xe ga ở trên đường,32,32,32,0,0.268783,7537,0
+98,362,3,có một chiếc ô tô xuất hiện ở bên lề đường,29,29,29,0,0.206934,9564,0
+99,362,4,những ngôi nhà ở bên kia đường đang trong trạng thái đóng cửa,135,135,135,0,0.094901,5884,0
+100,362,5,có những ngôi nhà đang đóng cửa xuất hiện bên kia đường,111,111,111,0,0.106546,5884,0
+101,387,1,có một vài người đang di chuyển ở khu vực lối đi lên,320,320,321,1,0.034475,2607,0
+102,387,2,có hai người đang đi bộ ở trên những bậc thang,302,302,303,1,0.036919,3503,0
+103,387,3,hai người đàn ông đi phía sau người còn lại mặc áo màu đỏ,249,238,375,137,0.000000,924,0
+104,387,4,có một lá cờ hội xuất hiện ở trong bức ảnh,3,3,4,1,0.424106,2645,0
+105,387,5,có một cái cột đèn xuất hiện ở một bên lối đi lên,114,114,115,1,0.106044,3855,0
+106,402,1,có hai chén nước mắm được bày ra trên bàn,332,332,333,1,0.007972,5257,0
+107,402,2,có hai món ăn được bày ra ở trên bàn,295,295,296,1,0.025645,5257,0
+108,402,3,ở trên bàn có hai chén nước mắm có ớt,282,282,283,1,0.026375,1223,0
+109,402,4,trong mỗi bát thức ăn có hai cái thìa,8,8,9,1,0.211010,3970,0
+110,402,5,có ba bát nước mắm ở hai bên của hai bát thức ăn,2,2,3,1,0.301733,351,0
+111,411,1,cô gái đi tham quan một mình,17,17,17,0,0.164455,5871,0
+112,411,2,cô gái đứng tạo dáng chụp ảnh một mình,2,2,2,0,0.663620,9736,0
+113,411,3,dòng chữ ở trên đầu cô gái có màu xanh lá cây,30,30,30,0,0.143784,4671,0
+114,411,4,cô gái đang đeo một chiếc ba lô màu đen và đội mũ màu nâu,29,29,29,0,0.136824,4138,0
+115,411,5,cô gái đang đi một mình trong con hẻm nhỏ,19,19,19,0,0.160917,3579,0
+116,418,1,cô gái đang ngồi ở trong một căn phòng trên một tòa nhà cao tầng,160,160,160,0,0.091738,1820,0
+117,418,2,cô gái đang ngồi lướt điện thoại,2,2,2,0,0.430736,10521,0
+118,418,3,tường và sàn nhà xung quanh cô gái đều được làm từ kính,119,102,375,273,0.000000,3938,0
+119,418,4,bây giờ là ban đêm ở khung cảnh này,293,289,375,86,0.000000,7275,0
+120,418,5,cô gái đang mặc áo đen và chân váy trắng,255,255,255,0,0.016612,5569,0
+121,475,1,quang cảnh này được ghi nhận ở trong một siêu thị,5,5,8,3,0.284326,9999,0
+122,475,2,người phụ nữ mặc áo khoác màu hồng đang đứng trước những cái thùng các tông,223,223,226,3,0.038060,5102,0
+123,475,3,cậu bé mặc áo cam đang đứng ở giữa đường,213,213,216,3,0.039871,10715,0
+124,475,4,người đàn ông mặc áo cộc màu đen đang tì tay lên chiếc xe đẩy,226,226,229,3,0.040827,4651,0
+125,475,5,có rất nhiều người đang đi mua sắm trong siêu thị này,5,5,8,3,0.577508,2215,0
+126,479,1,cô gái mặc đầm vàng đang chụp hình với một người đàn ông mặc áo màu trắng và quần dài màu đen,1,1,1,0,0.501457,479,0
+127,479,2,cô gái mặc đầm vàng chụp hình với một người,8,8,8,0,0.378741,5871,0
+128,479,3,chàng trai mặc áo trắng và quần dài màu đen đang chụp hình với một người,6,6,6,0,0.414417,2209,0
+129,479,4,có hai người đang đi qua đường phía sau chàng trai mặc áo trắng quần dài đen,3,3,3,0,0.295345,10715,0
+130,479,5,cô gái mặc đầm vàng và chàng trai mặc áo trắng đang nhìn nhau,2,2,2,0,0.316978,5569,0
+131,508,1,không có chiếc xe ô tô nào đang đi qua khu chợ đêm,201,201,201,0,0.024318,7275,0
+132,508,2,người ta đang di chuyển trong chợ bằng xe máy,292,292,292,0,0.018239,273,0
+133,508,3,những người khách ghé chợ bằng cách đi bộ hoặc đi bằng xe máy,254,241,375,134,0.000000,3785,0
+134,508,4,dãy ghế nhựa ở quầy bên trái có màu đỏ và màu xanh,249,249,249,0,0.023662,10377,0
+135,508,5,có một chiếc giỏ màu đỏ ở phía sau những chiếc ghế nhựa màu đỏ,299,299,299,0,0.021182,10377,0
+136,531,1,các kệ hàng này có tất cả sáu tầng,6,5,12,7,0.190003,4639,0
+137,531,2,không có ai đang đứng lựa bánh cả,304,303,310,7,0.010717,10452,0
+138,531,3,trên các kệ hàng này có trưng bày các loại mặt hàng bánh ngọt,7,6,13,7,0.374331,3172,0
+139,531,4,các kệ hàng này có sáu tầng,6,5,12,7,0.244382,4639,0
+140,531,5,đây là khung cảnh bên trong một cửa hàng,101,100,107,7,0.121673,4126,0
+141,681,1,chủ quán ăn đang lướt điện thoại,7,7,7,0,0.288958,10521,0
+142,681,2,có hai người đang đến quán ăn,5,5,5,0,0.455367,1011,0
+143,681,3,bạn nam đối diện bạn nữ đang ăn,8,8,8,0,0.123249,7564,0
+144,681,4,bạn nữ đối diện bạn nam đang ăn,8,8,8,0,0.123249,7564,0
+145,681,5,ở trên mỗi chiếc bàn đều có một tấm kính chắn trong suốt,70,70,70,0,0.082570,4180,0
+146,815,1,khu vực này trưng bày những mô hình máy bay,7,7,7,0,0.270256,6411,0
+147,815,2,gian phòng này bày trí những những mô hình máy bay,2,2,2,0,0.242425,17,0
+148,815,3,có những mô hình máy bay được trưng bày trong căn phòng này,8,8,8,0,0.293989,17,0
+149,815,4,chiếc máy bay màu xanh lá cây đậm có biểu tượng hình con cá mập,69,69,69,0,0.074565,5223,0
+150,815,5,có một mô hình máy bay màu xanh vàng đang được treo trên trần nhà,1,1,1,0,0.257851,815,0
+151,823,1,hai người này đang đứng ở ven một con sông,260,260,260,0,0.042607,9935,0
+152,823,2,có một cây cổ thụ ở gần nơi hai người này đang đứng,37,37,37,0,0.140912,51,0
+153,823,3,phía sau lưng hai người này là một bãi cỏ xanh,234,234,234,0,0.018355,10993,0
+154,823,4,người ở phía bên trái đang cầm trên tay một chiếc túi màu xanh,233,233,233,0,0.083420,4671,0
+155,823,5,có một bãi cỏ xanh ở phía sau hai người ở trong khung hình này,236,236,236,0,0.063315,10993,0
+156,845,1,cô gái đang ngồi ở quán nước,11,11,11,0,0.338342,223,0
+157,845,2,vị trí cô gái ngồi được trang trí bởi hai cái đèn lồng,24,24,24,0,0.151835,5231,0
+158,845,3,phía dưới đang có một đoàn tàu chuẩn bị chạy qua,100,100,100,0,0.041060,6255,0
+159,845,4,có hai ly nước đang được đặt trên bàn số 09,134,134,134,0,0.050919,1223,0
+160,845,5,có một chiếc đèn lồng màu vàng và một chiếc đèn lồng màu cam được trang trí ở vị trí cô gái đang ngồi,33,33,33,0,0.166215,5573,0
+161,924,1,hai thanh niên này đang đeo tạp dề trên ngực,115,115,116,1,0.031377,5557,0
+162,924,2,hai người này đang cầm thứ máy quét mã trên tay trái,12,12,13,1,0.180806,10578,0
+163,924,3,hai nhân viên này đang làm việc quét mã sản phẩm trong siêu thị,319,319,320,1,0.009283,9999,0
+164,924,4,nam thanh niên ở bên trái đang nhìn vào những cái hộp màu nâu ở bên trái,60,60,61,1,0.094250,10407,0
+165,924,5,không có nam thanh niên nào đang quay mặt về phía kệ hàng ở phía sau,371,371,372,1,0.010120,2345,0
+166,945,1,những người đàn bà này đang bán chuối,3,3,3,0,0.175938,5557,0
+167,945,2,những người phụ nữ này xếp những nải chuối trên tấm bạt ngay trước họ,242,242,242,0,0.016844,10867,0
+168,945,3,đa số phụ nữ ở chợ này đều đội nón lá,30,30,30,0,0.117891,4671,0
+169,945,4,người phụ nữ mặc áo màu xanh lá cây đang quay lưng lại với người phụ nữ mặc áo caro đỏ,171,171,171,0,0.047848,110,0
+170,945,5,người đàn bà bán chuối thì đeo khẩu trang màu hồng,10,10,10,0,0.115995,5231,0
+171,961,1,nam thanh niên cột tóc mặc áo đen đang cầm ly nước đá trên tay,316,316,316,0,0.010235,5710,0
+172,961,2,người phụ nữ mặc áo màu xanh da trời thì đeo khẩu trang màu hồng,232,232,232,0,0.014402,4932,0
+173,961,3,có hai cái quạt trần trong quán hủ tiếu,134,134,134,0,0.048177,223,0
+174,961,4,có ba chiếc quạt treo tường ở trên bức tường bên trái,268,268,268,0,0.038366,3432,0
+175,961,5,người đàn ông cột tóc mặc áo đen đang nhìn về hướng bên trong quán hủ tiếu,37,37,37,0,0.183058,4651,0
+176,966,1,người đàn bà mặc áo trắng đang làm gì thắp hương cho bác trước mặt mọi người,236,236,236,0,0.032100,10648,0
+177,966,2,các em nhỏ đang đứng xếp hàng tại trước bàn thờ chủ tịch hồ chí minh,60,60,60,0,0.065202,2345,0
+178,966,3,người phụ nữ cầm micro đang thuyết giảng cho các em học sinh,24,24,24,0,0.142533,10608,0
+179,966,4,các em học sinh chủ yếu mặc áo đỏ với bản đồ việt nam ở sau lưng,5,5,5,0,0.156808,10377,0
+180,966,5,các cô giáo thì mặc đồng phục màu hồng,120,94,375,281,0.000000,6115,0
+181,971,1,người đàn bà bên trái bên trái mặc áo vàng và quần jean xanh,39,39,39,0,0.141853,10407,0
+182,971,2,người đàn bà bên phải mặc áo đỏ và quần đen,22,22,22,0,0.251992,4651,0
+183,971,3,hai người phụ nữ đang đứng trước một tiệm tạp hoá,34,34,34,0,0.216739,3838,0
+184,971,4,phía trước tiệm tạp hoá đang có một tấm poster giới thiệu màu vàng,239,239,239,0,0.027749,7449,0
+185,971,5,phía trước hai người phụ nữ có một cái loa với mặt trước màu cam,67,67,67,0,0.121688,5346,0
+186,999,1,những người này đang đứng xếp hàng để chụp ảnh tập thể,1,1,1,0,0.510997,999,0
+187,999,2,có một người mặc áo xanh da trời,146,146,146,0,0.062739,110,0
+188,999,3,không có người nào khác mặc cùng màu áo với cô gái áo xanh da trời,249,249,249,0,0.020238,2611,0
+189,999,4,những người đứng chụp ảnh chủ yếu mặc áo màu trắng với tay áo màu cam,70,70,70,0,0.135247,10648,0
+190,999,5,chỉ có một người đàn ông đang chụp hình trong nhóm người đứng chụp ảnh,4,4,4,0,0.391212,9632,0
+191,1011,1,người phụ nữ mặc áo khoác màu đen đang đứng gần người đàn ông mặc áo màu đen thì đang phục vụ đồ ăn,60,60,60,0,0.183443,5102,0
+192,1011,2,đây là khung cảnh bên trong một quán lẩu nướng đêm,7,7,7,0,0.175664,7275,0
+193,1011,3,có năm bàn đang có khách đến ăn,5,5,5,0,0.277184,1223,0
+194,1011,4,có năm chai bia ở trên bàn ở góc dưới cùng bên phải của khung hình,148,148,148,0,0.058712,1223,0
+195,1011,5,cô gái mặc áo màu nâu ở bàn ngoài cùng bên trái đang lấy tay che miệng,153,153,153,0,0.049320,5569,0
+196,1015,1,có hai nhân viên đang đứng ở quầy thu ngân,340,340,340,0,0.021684,971,0
+197,1015,2,có bốn người đang đứng ở quầy thu ngân,352,352,352,0,0.024198,971,0
+198,1015,3,người đàn ông mặc áo mặc áo màu trắng đang đứng bên cạnh chiếc xe đẩy thì đang trả tiền,312,303,375,72,0.000000,10648,0
+199,1015,4,người đàn ông mặc áo trắng đang ở bên cạnh chiếc xe đẩy thì đang ở trong siêu thị,316,316,316,0,0.056729,4027,0
+200,1015,5,đây là khung cảnh xuất hiện trong một siêu thị,191,191,191,0,0.046216,5840,0
+201,1033,1,những du khách này đang đến thăm một khu di tích lịch sử,261,261,262,1,0.017843,5604,0
+202,1033,2,nhóm người này đang xếp hàng để xuống một cái hầm,195,195,196,1,0.044063,9869,0
+203,1033,3,phía trên căn hầm có một cái mái tranh,115,115,116,1,0.056613,9671,0
+204,1033,4,người phụ nữ mặc áo đen và quần xanh đang nhìn vào những người đang xuống hầm,140,140,141,1,0.078750,3768,0
+205,1033,5,đây là khung cảnh trong một khu di tích lịch sử,339,335,375,40,0.000000,2406,0
+206,1047,1,có hai người phụ nữ đang xuất hiện ở trên lối đi,79,79,80,1,0.200397,2607,0
+207,1047,2,hai người đang đi trên một con đường trong làng,4,4,5,1,0.286696,2839,0
+208,1047,3,có hai người phụ nữ đang đi bộ ở trên con đường làng,8,8,9,1,0.268470,2839,0
+209,1047,4,ở trên lối đi có sự xuất hiện của hai người phụ nữ,107,107,108,1,0.154731,2607,0
+210,1047,5,có những ngôi nhà gỗ xuất hiện ở hai bên của lối đi,205,205,206,1,0.041894,3855,0
+211,1064,1,người đàn ông và người phụ nữ đang đi trong một bảo tàng,251,251,251,0,0.042421,3785,0
+212,1064,2,người đàn ông và người phụ nữ đang ở trong một viện bảo tàng,248,248,248,0,0.051535,6148,0
+213,1064,3,người đàn ông và người phụ nữ đang tham quan một viện bảo tàng,331,325,375,50,0.000000,6148,0
+214,1064,4,hai người này đang tham quan khu trưng bày của một viện bảo tàng,352,349,375,26,0.000000,10994,0
+215,1064,5,những hiện vật trong khu trưng bày này đều được đặt trong lồng kính,99,99,99,0,0.092332,6411,0
+216,1085,1,ba người đàn ông đang đứng ở quầy rau củ quả,1,1,2,1,0.661352,1085,0
+217,1085,2,có ba người đang đứng và nhìn vào quầy rau củ quả,1,1,2,1,0.601879,1085,0
+218,1085,3,hai người đàn ông mặc áo đen đang chọn trái cây,221,221,222,1,0.041224,10407,0
+219,1085,4,những quả ớt được trưng bày ở tầng trên ở phía bên phải của khung hình,49,49,50,1,0.134273,10994,0
+220,1085,5,không có người phụ nữ nào đang đứng ở quầy rau củ quả này,5,5,6,1,0.573340,5733,0
+221,1108,1,người đàn ông mặc áo màu xanh không đội mũ bảo hiểm,257,237,375,138,0.000000,2098,0
+222,1108,2,có một chiếc xe máy màu đỏ đang dựng ở lề đường bên phải,6,6,12,6,0.405791,3670,0
+223,1108,3,có nhiều phương tiện di chuyển ở lề đường bên trái hơn so với lề đường bên phải,37,37,43,6,0.250998,1397,0
+224,1108,4,có một cái cây cổ thụ lớn ở lề đường bên trái,55,55,63,8,0.120259,51,0
+225,1108,5,con đường này được chia thành hai làn đường nhỏ,32,32,40,8,0.123365,4788,0
+226,1223,1,có năm suất ăn được mang ra bàn,5,5,5,0,0.350730,5257,0
+227,1223,2,mỗi chiếc bát có một chiếc thìa,278,278,278,0,0.012788,351,0
+228,1223,3,nguyên liệu trong mỗi suất ăn chủ yếu là các loại trái cây,29,29,29,0,0.111475,4759,0
+229,1223,4,có năm suất ăn đang được bày ra trên bàn,5,5,5,0,0.445815,5257,0
+230,1223,5,có một tờ thực đơn ở bên phải của năm suất ăn này,8,8,8,0,0.151129,7564,0
+231,1225,1,bạn nữ đang ngồi ở trên cầu thang,243,243,243,0,0.046409,7290,0
+232,1225,2,có một người đang ngồi trên cầu thang,169,169,169,0,0.100760,7290,0
+233,1225,3,không có người nào giới tính nam trong khung hình này,267,267,267,0,0.010609,961,0
+234,1225,4,bạn nữ đang ngồi trên những bậc thang màu đen,251,251,251,0,0.021052,3503,0
+235,1225,5,bạn nữ mặc váy trắng đang ngồi trên những bậc thang,274,274,274,0,0.019408,3503,0
+236,1301,1,người phụ nữ cầm dao đang chặt thịt heo bán cho khác,2,2,2,0,0.388326,11672,0
+237,1301,2,người phụ nữ đối diện người cầm dao đang đứng đó để mua thịt heo,2,2,2,0,0.306833,11672,0
+238,1301,3,người phụ nữ mặc áo khoác nâu đang đứng chờ mua thịt lợn,2,2,2,0,0.490801,11672,0
+239,1301,4,trên quầy bán có bày ra thịt lợn để bán,2,2,2,0,0.475113,11672,0
+240,1301,5,người phụ nữ bán thịt heo mặc một chiếc tạp dề màu xanh lá cây,1,1,1,0,0.506666,1301,0
+241,1397,1,có nhiều xe cộ đang lưu thông ở trên đường,44,44,44,0,0.212353,7587,0
+242,1397,2,có nhiều phương tiện giao thông đang di chuyển ở trên đường,6,6,6,0,0.835730,3865,0
+243,1397,3,ở trên đường có sự xuất hiện của nhiều phương tiện giao thông,7,7,7,0,0.624736,3865,0
+244,1397,4,có những hàng cây xanh xuất hiện ở hai bên đường,157,157,157,0,0.143247,387,0
+245,1397,5,ở trên đường có nhiều phương tiện giao thông đang di chuyển,6,6,6,0,0.835730,3865,0
+246,1407,1,"poster minh họa hình ảnh của một người phụ nữ, một đứa trẻ và một nhân viên y tế",232,232,233,1,0.032443,3838,0
+247,1407,2,cậu bé trong tấm poster đang rửa tay,335,332,375,43,0.000000,9518,0
+248,1407,3,người phụ nữ trong poster đang đeo khẩu trang y tế,335,332,375,43,0.000000,4932,0
+249,1407,4,nhân viên y tế trong áp phích đang cầm một chiếc bình khử khuẩn,324,324,325,1,0.010078,418,0
+250,1407,5,đây là áp phích tuyên truyền về việc phòng chống dịch bệnh covid-19,60,13,375,362,0.000000,9923,0
+251,1409,1,có một người đang đi vào siêu thị,126,126,132,6,0.102886,9999,0
+252,1409,2,có một nhân viên bảo vệ đang đứng bên ngoài siêu thị,92,92,98,6,0.084358,9999,0
+253,1409,3,bên ngoài siêu thị có màu chủ đạo là màu đỏ,52,52,58,6,0.064777,5840,0
+254,1409,4,có nhiều lãng hoa chúc mừng ở trước cửa của siêu thị,42,42,48,6,0.101270,9999,0
+255,1409,5,đây là ảnh chụp mặt trước của một siêu thị,113,113,119,6,0.064153,9999,0
+256,1440,1,cô gái mặc áo trắng đang đứng ở trong một khu bảo tàng,170,170,170,0,0.098024,5569,0
+257,1440,2,cậu thanh niên mặc đồ đen đang đứng ở trong một khu bảo tàng,128,128,128,0,0.080571,4651,0
+258,1440,3,có bốn người đang đến tham quan trong khu bảo tàng,75,75,75,0,0.083330,4544,0
+259,1440,4,có hai bức tượng được đặt ở giữa khu trưng bày các bức tượng,19,19,19,0,0.193267,11008,0
+260,1440,5,có tổng cộng mười một bức tượng trong khung cảnh này,89,89,89,0,0.049115,11008,0
+261,1451,1,nhóm người này đang đi du lịch ở trên biển,60,60,60,0,0.098093,10958,0
+262,1451,2,có ba người đang sử dụng điện thoại ở trên thuyền,44,44,44,0,0.099619,10521,0
+263,1451,3,có một người đang sử dụng điện thoại để chụp hình ở trên thuyền,57,57,57,0,0.116596,418,0
+264,1451,4,có ba người ngồi ở trên thuyền đang đội mũ,17,17,17,0,0.233856,2473,0
+265,1451,5,mọi người đang ở trên một con thuyền có phần thành được sơn màu xanh da trời,59,59,59,0,0.096837,2069,0
+266,1456,1,người phụ nữ đứng ở phía lối ra vào quán đang nấu nước lèo,160,160,160,0,0.055803,2607,0
+267,1456,2,trên trần nhà bên phải có năm chiếc quạt treo tường,113,113,113,0,0.055154,2779,0
+268,1456,3,quán ăn ở bên phải là một quán bún ốc,30,30,30,0,0.079498,223,0
+269,1456,4,người phụ nữ đang nấu nước lèo thì mặc áo màu đen sọc trắng,162,162,162,0,0.039439,3768,0
+270,1456,5,có một dãy ghế nhựa không có người ngồi ở bên phải của lề đường,4,4,4,0,0.276326,3670,0
+271,1458,1,người phụ nữ mặc áo đen đang chọn mua nước mắm,223,223,223,0,0.030458,3768,0
+272,1458,2,người phụ nữ mặc áo đen đang đứng ở quầy bán nước mắm,61,61,61,0,0.179508,11672,0
+273,1458,3,có một người đang đứng mua ở quầy bán nước nắm,37,37,37,0,0.240851,945,0
+274,1458,4,có hai người đang đứng ở quầy bán nước mắm,24,24,24,0,0.215540,7441,0
+275,1458,5,người phụ nữ mặc áo đen và đeo khẩu trang màu xanh đang cầm trên tay một chai nước mắm,79,79,79,0,0.110820,7233,0
+276,1460,1,có ba chiếc xích lô đang chạy ở vòng xoay,115,115,117,2,0.044122,7537,0
+277,1460,2,trên đỉnh căn nhà cắm một lá cờ,129,129,131,2,0.036241,3116,0
+278,1460,3,những người chạy xích lô mặc áo màu xanh dương,142,142,144,2,0.026916,1518,0
+279,1460,4,đây là khung cảnh ở phía trước nhà hát lớn hà nội,96,96,98,2,0.013482,9857,0
+280,1460,5,trước nhà hát lớn hà nội có một vòng xuyến lớn,278,278,280,2,0.007928,9857,0
+281,1518,1,người đàn ông tóc bạc đang mặc áo màu xanh dương,1,1,1,0,0.444134,1518,0
+282,1518,2,người đàn ông tóc bạc đang ngồi bó các lá dừa,176,176,176,0,0.028690,2905,0
+283,1518,3,người đàn ông tóc bạc đang ngồi bó lá dừa mặc áo xanh dương và quần màu đen,2,2,2,0,0.325381,2905,0
+284,1518,4,phía sau người đàn ông mặc áo xanh dương là một hàng cây xanh,1,1,1,0,0.492899,1518,0
+285,1518,5,người đàn ông tóc bạc mặc áo màu xanh dương đang bó lại các lá dừa,2,2,2,0,0.332173,2905,0
+286,1524,1,có hai người phụ nữ đang ngồi trên thuyền,114,114,114,0,0.137684,2473,0
+287,1524,2,người duy nhất đang đứng mặc áo sơ mi trắng và quần dài đen,202,202,202,0,0.031689,10766,0
+288,1524,3,người đàn ông mặc áo sơ mi trắng đang đứng ở bên bờ và cạnh đám người đang ngồi ghế,229,229,229,0,0.078189,10766,0
+289,1524,4,mực nước ở đây đang cao ngang so với sàn nhà,138,138,138,0,0.029482,1820,0
+290,1524,5,người phụ nữ mặc áo màu hồng và đội một chiếc mũ rộng vành thì ngồi ở phía đuôi thuyền,264,264,264,0,0.027930,2473,0
+291,1566,1,người phụ nữ áo đen đang ngồi trên cái ghế nhựa,17,17,17,0,0.319178,3768,0
+292,1566,2,quầy hàng này bán trái cây các loại,159,123,375,252,0.000000,10407,0
+293,1566,3,người phụ nữ áo cam đang lựa mua trái cây tại quầy trái cây,65,65,65,0,0.126116,10407,0
+294,1566,4,người phụ nữ mặc áo đen đang cầm một trái cam trên tay,5,5,5,0,0.554783,5710,0
+295,1566,5,người đàn ông mặc áo đen đang nói chuyện với người đàn ông mặc áo trắng,36,36,36,0,0.244774,4651,0
+296,1602,1,quang cảnh này được ghi nhận ở trên một bãi biển,2,2,2,0,0.395777,10993,0
+297,1602,2,có một đợt sóng biển đang chuẩn bị đánh vào đất liền,2,2,2,0,0.128428,10993,0
+298,1602,3,thời tiết ở trong khung cảnh này thì nắng,172,172,172,0,0.014750,5557,0
+299,1602,4,có một hàng cây xanh ở phía xa xa của khung hình này,205,205,205,0,0.040616,387,0
+300,1602,5,đây là khung cảnh của một bãi biển,2,2,2,0,0.507544,10993,0
+301,1660,1,cô gái đang hướng tầm mắt về phía toà nhà cao tầng,199,199,199,0,0.014050,1820,0
+302,1660,2,cô gái đang hướng tầm mắt về phía những ngôi nhà phía trước mặt,216,216,216,0,0.014086,2345,0
+303,1660,3,cô gái đang ngồi tựa vào lan can của một cái ban công,44,44,44,0,0.122330,845,0
+304,1660,4,cô gái đang ngồi một mình bên cạnh cái lan can,30,30,30,0,0.181996,4727,0
+305,1660,5,cô gái đang ngồi tựa tay vào lan can và ngắm cảnh,64,64,64,0,0.094852,4727,0
+306,1687,1,bốn cô gái đang tạo đứng cùng nhau trên bãi biển,7,7,10,3,0.294117,10993,0
+307,1687,2,bốn cô gái đang đứng cùng nhau trên bãi cát,28,28,31,3,0.133149,10993,0
+308,1687,3,bốn cô gái đang cùng nhau tạo dáng trên bãi cát,5,5,8,3,0.394449,3579,0
+309,1687,4,bốn cô gái đang tạo dáng cạnh nhau trên bãi cát,6,6,9,3,0.395843,5871,0
+310,1687,5,bốn cô gái đang cùng nhau tạo dáng trên bãi biển,6,6,9,3,0.432012,3579,0
+311,1743,1,có nhiều chiếc đồng hồ đang được trưng bày trong cửa hàng,141,141,142,1,0.105817,9579,0
+312,1743,2,nhiều chiếc đồng hồ được trưng bày phía trước của quầy hàng,133,133,134,1,0.066745,9579,0
+313,1743,3,có một người đàn ông đang đứng trong quầy hàng,23,23,24,1,0.435273,6148,0
+314,1743,4,hai người đàn ông đang đứng phía trước quầy bán đồng hồ,30,30,31,1,0.235179,4651,0
+315,1743,5,hai người đàn ông đang đứng quanh cửa hàng đồng hồ,22,22,23,1,0.239057,6148,0
+316,1820,1,có một người đàn ông đang đứng trên chiếc mái tôn,334,334,334,0,0.027054,5738,0
+317,1820,2,ngôi nhà màu trắng đang trong quá trình xây dựng,23,23,23,0,0.091392,3110,0
+318,1820,3,ngôi nhà màu trắng đang trong quá trình hoàn thiện,21,21,21,0,0.076494,3110,0
+319,1820,4,ngôi nhà màu trắng đang trong trạng thái xây dựng,20,20,20,0,0.104540,7345,0
+320,1820,5,ngôi nhà màu trắng thì chưa được xây dựng xong,31,31,31,0,0.052107,3670,0
+321,1846,1,người phụ nữ trong quầy hàng ăn uống đang cầm kéo,59,59,59,0,0.154722,7335,0
+322,1846,2,người phụ nữ đang chế biến đồ ăn bên một cái bàn xanh,33,33,33,0,0.200512,7564,0
+323,1846,3,có một người phụ nữ đang ngồi chế biến thức ăn,16,16,16,0,0.270814,7564,0
+324,1846,4,một người phụ nữ đang ngồi chế biến đồ ăn một mình,14,14,14,0,0.266286,7564,0
+325,1846,5,một người phụ nữ đang chuẩn bị đồ ăn bên chiếc bàn gồm các loại nguyên liệu,14,14,14,0,0.186543,7564,0
+326,1871,1,nam thanh niên đang mỉm cười với người phụ nữ,38,37,38,1,0.133741,7335,0
+327,1871,2,người phụ nữ đang mỉm cười và hướng về phía nam thanh niên,40,39,40,1,0.115641,7335,0
+328,1871,3,nam thanh niên và người phụ nữ đang đứng giữa những kệ hàng,40,39,40,1,0.199235,3838,0
+329,1871,4,nam thanh niên và người phụ nữ đang cùng cầm một chiếc rổ,22,21,22,1,0.202540,10521,0
+330,1871,5,có một chiếc rổ trắng đang được cầm bởi nam thanh niên và người phụ nữ,22,21,22,1,0.189759,10521,0
+331,1890,1,có một vũng nước xuất hiện ở dưới lòng đường,90,89,90,1,0.106819,823,0
+332,1890,2,bề mặt vũng nước chứa hình ảnh phản chiếu của con đường,22,21,22,1,0.070241,823,0
+333,1890,3,có thể thấy hình ảnh phản chiếu của con đường trên bề mặt vũng nước,62,61,62,1,0.075301,823,0
+334,1890,4,những chiếc xe xích lô đang di chuyển phía bên phải con đường,313,299,375,76,0.000000,7537,0
+335,1890,5,có một vài chiếc xích lô đang di chuyển nối tiếp nhau ở trên đường,339,338,339,1,0.024583,7537,0
+336,1901,1,có nhiều chiếc đèn lồng được treo ở trên đầu mọi người,7,6,12,6,0.168152,5573,0
+337,1901,2,ở trên đầu của người đi đường là những chiếc đèn lồng,12,11,17,6,0.214259,5573,0
+338,1901,3,những chiếc đèn lồng xuất hiện ở phía trên đầu của mọi người,102,101,107,6,0.099305,5573,0
+339,1901,4,mọi người đang di chuyển ở dưới những dãy đèn lồng,7,6,12,6,0.336253,5573,0
+340,1901,5,mọi người đang di chuyển ở phía dưới của những chiếc đèn lồng,9,8,14,6,0.343933,5573,0
+341,2069,1,có nhiều chiếc thuyền xuất hiện trên con sông này,1,1,1,0,0.677870,2069,0
+342,2069,2,có nhiều con thuyền xuất hiện trên chợ nổi này,2,2,2,0,0.395040,2839,0
+343,2069,3,nhiều con thuyền đang đậu gần nhau ở trên con sông,1,1,1,0,0.612143,2069,0
+344,2069,4,nhiều con thuyền đang xuất hiện dày đặc trên con sông,1,1,1,0,0.596747,2069,0
+345,2069,5,có nhiều con thuyền đang xuất hiện dày đặc ở chợ nổi này,6,6,6,0,0.319108,4544,0
+346,2083,1,một người phụ nữ đội nón lá đang chèo thuyền bằng hai tay,14,14,14,0,0.215763,2473,0
+347,2083,2,người phụ nữ mặc áo hồng đang ngồi và chèo thuyền,8,8,8,0,0.324090,2473,0
+348,2083,3,có một người phụ nữ mặc áo màu hồng đang chèo thuyền,37,37,37,0,0.266801,2473,0
+349,2083,4,có một số người đang chèo thuyền ở trong bức ảnh,11,11,11,0,0.290552,2645,0
+350,2083,5,có một vài người phụ nữ đang chèo thuyền trong ảnh,13,13,13,0,0.291883,2473,0
+351,2089,1,có nhiều người đang tham gia giao thông ở trên đường,76,75,81,6,0.156864,3865,0
+352,2089,2,có nhiều người đang xuất hiện trên con đường ở trong bức ảnh,46,45,51,6,0.404135,2839,0
+353,2089,3,nhiều người đang tham gia di chuyển ở trên đường,93,92,98,6,0.154037,205,0
+354,2089,4,ở trên đường có sự xuất hiện của nhiều người tham gia giao thông,21,20,25,5,0.254294,3865,0
+355,2089,5,nhiều người tham gia giao thông đang xuất hiện ở trên đường,41,40,46,6,0.220062,3865,0
+356,2094,1,có nhiều chiếc xe đẩy siêu thị xuất hiện trong bức ảnh,19,18,21,3,0.445390,8689,0
+357,2094,2,có một người phụ nữ đang xếp đồ vào trong một chiếc xe đẩy,179,178,181,3,0.117626,3541,0
+358,2094,3,nhiều chiếc xe đẩy đang được xếp ở gần nhau trong bức ảnh,124,123,126,3,0.139134,8689,0
+359,2094,4,có một cô gái đang xếp đồ vào bên trong một chiếc xe đẩy,159,158,161,3,0.139094,3541,0
+360,2094,5,có nhiều chiếc xe đẩy siêu thị đang xuất hiện trong khung hình,16,15,18,3,0.454033,3541,0
+361,2098,1,có một số người đang xuất hiện ở giữa của hai dãy hàng hoá,228,228,228,0,0.085295,69,0
+362,2098,2,có một số người đang mua sắm ở giữa hai dãy hàng hoá,169,169,169,0,0.073712,5280,0
+363,2098,3,có một số người đang di chuyển trên lối đi giữa hai dãy hàng hoá,206,206,206,0,0.072834,2607,0
+364,2098,4,người đàn ông mặc áo xanh dương đang đẩy một chiếc xe đẩy siêu thị,7,7,7,0,0.566112,3541,0
+365,2098,5,có một số người đang mua sắm ở khu vực giữa hai dãy hàng hoá,184,184,184,0,0.069158,5280,0
+366,2131,1,có một người đang ngồi ở phía trước ngôi nhà phía bên trái,158,158,158,0,0.111637,2345,0
+367,2131,2,một người đàn ông đang xuất hiện phía trước ngôi nhà ở bên trái,190,190,190,0,0.107089,5886,0
+368,2131,3,có một người đàn ông đang ngồi ở phần sân phía trước một ngôi nhà,234,234,234,0,0.071827,6396,0
+369,2131,4,người đàn ông đang ngồi ở phần sân phía trước ngôi nhà phía bên trái,172,172,172,0,0.062823,1456,0
+370,2131,5,có một cây cổ thụ ở phần sân trước ngôi nhà phía bên trái,113,113,113,0,0.070149,51,0
+371,2175,1,có một nam thanh niên mặc áo sơ mi trắng ngồi cạnh một cô gái mặc áo dài,104,104,105,1,0.119218,10766,0
+372,2175,2,nam thanh niên mặc áo sơ mi trắng đang nhìn cô gái mặc áo dài,190,190,191,1,0.014743,10766,0
+373,2175,3,có một người phụ nữ đang dắt theo một chiếc xe đạp,147,147,148,1,0.103209,5944,0
+374,2175,4,cô gái mặc áo dài và chàng trai đang trong trạng thái mỉm cười,252,252,253,1,0.015696,479,0
+375,2175,5,có một người đàn ông ngồi gần cùng với một cặp đôi đang mỉm cười,36,36,37,1,0.176490,6396,0
+376,2199,1,có một chiếc xe máy đang chuẩn bị di chuyển qua căn nhà,34,33,38,5,0.294932,340,0
+377,2199,2,có nhiều dải đèn trang trí được treo ở phía trên của căn nhà,174,173,178,5,0.070045,2779,0
+378,2199,3,có nhiều dải đèn trang trí được treo ở phía trên của ngôi nhà,164,163,168,5,0.070589,2779,0
+379,2199,4,trên đỉnh của ngôi nhà có nhiều dải đèn trang trí với màu chủ đạo là xanh dương,167,166,171,5,0.038756,4813,0
+380,2199,5,có nhiều dải đèn trang trí màu xanh dương ở phía trên của ngôi nhà,161,160,165,5,0.067466,4813,0
+381,2202,1,có nhiều người đang xuất hiện phía trước một cái cổng thành,262,262,262,0,0.080400,4788,0
+382,2202,2,có nhiều người đang đứng ở phía trước cổng thành,369,369,369,0,0.025971,4788,0
+383,2202,3,đây là khung cảnh phía trước của một toà thành cổ,255,255,255,0,0.012760,11064,0
+384,2202,4,có một toà thành cổ xuất hiện trong khung hình này,90,90,90,0,0.106226,11064,0
+385,2202,5,nhiều người đang đứng tham quan phía trước toà thành cổ,348,343,375,32,0.000000,11064,0
+386,2209,1,hai cô gái đang nhìn vào cùng một chiếc điện thoại,33,33,36,3,0.156760,10521,0
+387,2209,2,có một chàng trai đang lái xe máy đến gần hai cô gái,52,52,56,4,0.145405,1225,0
+388,2209,3,có hai cô gái đang đứng xem điện thoại cùng nhau,26,26,30,4,0.144830,10521,0
+389,2209,4,có một người đàn ông đang lái xe máy đến gần hai cô gái,77,77,81,4,0.154488,5738,0
+390,2209,5,hai cô gái đang cùng nhau xem một chiếc điện thoại,33,33,37,4,0.150170,10521,0
+391,2212,1,có một chiếc xe máy đang di chuyển ở trên đường,4,3,9,6,0.930571,340,0
+392,2212,2,có hai người đang ngồi trên chiếc xe máy di chuyển trên đường,4,3,11,8,0.774797,340,0
+393,2212,3,có một chiếc xe máy màu đỏ đang đi trên đường,4,3,11,8,0.557280,340,0
+394,2212,4,một chiếc xe máy màu đỏ đang trong trạng thái di chuyển trên đường,4,3,11,8,0.624042,340,0
+395,2212,5,trên đường chỉ có một chiếc xe máy đang trong trạng thái di chuyển,4,3,9,6,0.602290,340,0
+396,2215,1,một người phụ nữ áo tím và một người phụ nữ áo vàng đang đẩy xe đẩy siêu thị,49,49,50,1,0.248793,3541,0
+397,2215,2,trên những chiếc xe đẩy siêu thị có nhiều hàng hoá,8,8,9,1,0.449706,3541,0
+398,2215,3,có nhiều hàng hoá xuất hiện trên những chiếc xe đẩy siêu thị,19,19,20,1,0.435424,11646,0
+399,2215,4,có nhiều loại hàng hoá đang nằm trong những chiếc xe đẩy siêu thị,20,20,21,1,0.440084,11646,0
+400,2215,5,có một số người đang xuất hiện ở trong siêu thị,3,3,4,1,0.536071,5840,0
+401,2225,1,có ba người phụ nữ đang đứng ở trước quầy hàng,98,98,98,0,0.171115,7335,0
+402,2225,2,có ba người phụ nữ xuất hiện ở trước quầy hàng,281,281,281,0,0.063810,7335,0
+403,2225,3,có những người phụ nữ đang xuất hiện ở trước của quầy hàng,286,286,286,0,0.089476,7335,0
+404,2225,4,ở phía trước quầy hàng đang có sự xuất hiện của nhiều người phụ nữ,209,209,209,0,0.131113,7335,0
+405,2225,5,có môt người phụ nữ mặc áo đỏ đang chạm vào các sản phẩm trên bàn,6,6,6,0,0.320585,7233,0
+406,2278,1,có nhiều người đang xuất hiện trong quán ăn,11,11,11,0,0.441605,1011,0
+407,2278,2,có nhiều người đang ngồi ăn ở bên trong quán ăn,7,7,7,0,0.658461,1011,0
+408,2278,3,có nhiều người đang xuất hiện ở bên trong của quán ăn,26,26,26,0,0.430107,223,0
+409,2278,4,bên trong quán ăn đang có nhiều người đến để ăn,7,7,7,0,0.417032,1011,0
+410,2278,5,bên trong quán ăn có sự xuất hiện của nhiều người,25,25,25,0,0.357153,1011,0
+411,2302,1,người phụ nữ đang coi hộp sữa,195,195,195,0,0.044547,4273,0
+412,2302,2,người phụ nữ mặc áo trắng đang cầm và coi hộp sữa,230,230,230,0,0.033650,3930,0
+413,2302,3,cô gái đang có ý định mua một hộp sữa tươi,316,316,316,0,0.017675,4273,0
+414,2302,4,cô gái đang đứng trước những hộp sữa,119,119,119,0,0.083061,4273,0
+415,2302,5,cô gái đang cầm một giỏ hàng với ý định mua một hộp sữa tươi,360,360,360,0,0.009566,10578,0
+416,2345,1,hai người đàn ông đang lắp đặt bảng hiệu cho quán,62,62,62,0,0.046671,681,0
+417,2345,2,có một người đứng đằng sau và một người ngồi bên phải tấm bảng hiệu,43,43,43,0,0.181028,10527,0
+418,2345,3,có hai cái thang đã được sử dụng để giúp những người đàn ông leo lên lắp đặt bảng hiệu,104,104,104,0,0.024254,10527,0
+419,2345,4,biển hiệu có màu nâu nhạt với chữ màu đen,56,56,56,0,0.012668,4138,0
+420,2345,5,tên của quán trên biển hiệu là hà nội,20,20,20,0,0.043165,10993,0
+421,2370,1,khu vực này bán bánh mì các loại,88,88,88,0,0.084620,5557,0
+422,2370,2,có thể tìm các loại bánh mì tại các quầy hàng này,49,49,49,0,0.083783,4639,0
+423,2370,3,người đàn ông mặc áo đen chở đứa trẻ áo hồng đi bằng xe đẩy siêu thị,19,19,19,0,0.222821,4027,0
+424,2370,4,người đàn bà mặc đầm đen chấm bi đang định mua bánh mì,16,16,16,0,0.138907,4651,0
+425,2370,5,có 4 người đang đứng quanh quầy bánh mì,11,11,11,0,0.162217,10452,0
+426,2406,1,có hai người đang đứng ở một bên của cây cầu,19,19,19,0,0.313836,9536,0
+427,2406,2,có hai người đang xuất hiện ở một bên của cây cầu,72,72,72,0,0.213460,9536,0
+428,2406,3,có hai người đang đứng ở phía bờ của con sông,48,48,48,0,0.171073,5633,0
+429,2406,4,ở bên bờ của con sông đang có sự xuất hiện của hai người,93,93,93,0,0.126261,5633,0
+430,2406,5,có hai người đang đứng ở khu vực cổng của một nhà hàng,21,21,21,0,0.315080,9548,0
+431,2473,1,một người đàn ông đang cầm thìa đút cho một người phụ nữ,24,24,24,0,0.245924,10578,0
+432,2473,2,một người phụ nữ đang được một người đàn ông đút cho ăn,18,18,18,0,0.282393,7564,0
+433,2473,3,có một cặp đôi đang ngồi cạnh nhau trên một chiếc thuyền,1,1,1,0,0.557716,2473,0
+434,2473,4,có một cặp đôi đang ngồi ăn với nhau trên một chiếc thuyền,1,1,1,0,0.525666,2473,0
+435,2473,5,một cặp đôi đang ngồi trên một chiếc thuyền di chuyển ở trên sông,4,4,4,0,0.539094,2069,0
+436,2485,1,có một người đàn ông đang cầm mái chèo để chèo thuyền,199,199,199,0,0.039117,6396,0
+437,2485,2,có nhiều bông hoa mai được trưng bày ở trên thuyền,213,213,213,0,0.049532,167,0
+438,2485,3,trên con thuyền đang có sự xuất hiện của nhiều bông hoa mai,238,238,238,0,0.051838,2839,0
+439,2485,4,hoa mai đang được trưng bày ở trên con thuyền,130,130,130,0,0.059514,2069,0
+440,2485,5,một người phụ nữ đội nón lá đang đứng ở phía đuôi của con thuyền,113,113,113,0,0.105809,2473,0
+441,2550,1,có một bà cụ đang mỉm cười với những người đàn ông mặc áo sơ mi trắng,41,41,41,0,0.130787,10766,0
+442,2550,2,có một bà lão đang mỉm cười với những người đàn ông mặc áo sơ mi trắng,41,41,41,0,0.128219,10766,0
+443,2550,3,người đàn ông mặc áo sơ mi trắng mà ở phía bên trái thì đang cầm tay của bà lão,33,33,33,0,0.175429,10766,0
+444,2550,4,trên tay của bà lão có sự xuất hiện của một cái phong bì,319,319,319,0,0.016443,10436,0
+445,2550,5,có một bà lão đang cầm một cái phong bì trên tay và mỉm cười,27,27,27,0,0.099939,10578,0
+446,2607,1,có một chiếc xích lô đang chuẩn bị đi qua cổng thành,17,17,17,0,0.097781,4788,0
+447,2607,2,một chiếc xích lô đang di chuyển theo hướng đi qua cổng thành,8,8,8,0,0.267968,4788,0
+448,2607,3,có một chiếc xích lô đang di chuyển ở phía trước của cổng thành,58,58,58,0,0.260692,10692,0
+449,2607,4,có một người đang đạp xe xích lô đi qua cổng thành,21,21,21,0,0.124387,3474,0
+450,2607,5,có một người đang đạp xe xích lô ở phía trước của cổng thành,225,225,225,0,0.060982,3474,0
+451,2611,1,có nhiều người đang xuất hiện ở lối đi giữa hai kệ hàng,269,269,269,0,0.064888,3855,0
+452,2611,2,có nhiều người đang xuất hiện ở phía giữa của hai kệ hàng,272,272,272,0,0.073293,69,0
+453,2611,3,có một cô gái mặc váy màu đen đang cầm trên tay một chiếc túi,32,32,32,0,0.285219,4671,0
+454,2611,4,cô gái mặc áo hồng đang cầm một món hàng từ kệ hàng phía bên phải,6,6,6,0,0.301452,5569,0
+455,2611,5,cô gái mặc váy màu trắng đang cầm một sản phẩm từ kệ hàng phía bên trái,11,11,11,0,0.268624,5569,0
+456,2645,1,một chiếc mô hình xe tăng đang được trưng bày ở ngoài trời,128,128,128,0,0.059761,815,0
+457,2645,2,một chiếc xe tăng mô hình đang được trưng bày trong khu tham quan,133,133,133,0,0.089971,815,0
+458,2645,3,có một cái mô hình xe tăng và một tấm biển ở trong khung hình,66,66,66,0,0.117282,815,0
+459,2645,4,có một chiếc xe tăng và một tấm biển thông báo ở trong khung hình,75,75,75,0,0.121703,815,0
+460,2645,5,hình ảnh một chiếc xe tăng đang được trưng bày ở ngoài trời,44,44,44,0,0.166767,815,0
+461,2734,1,một cô gái và một chàng trai đâng cùng cầm tay nắm của một chiếc xe đẩy siêu thị,259,259,259,0,0.028591,3541,0
+462,2734,2,có một chiếc xe đẩy siêu thị ở cạnh chàng trai mặc áo sơ mi trắng,103,103,103,0,0.106588,10766,0
+463,2734,3,có một cô gái và một chàng trai đang nhìn về hướng mà người phụ nữ đeo khẩu trang chấm bi đang chỉ,79,79,79,0,0.115464,10881,0
+464,2734,4,cô gái đeo đồng hồ đang chạm tay vào một quả táo,57,57,57,0,0.109466,1566,0
+465,2734,5,có một vài người đang đứng ở quanh một quầy hàng hoa quả,8,8,8,0,0.411435,1085,0
+466,2767,1,không có người nào đang trong trạng thái di chuyển ở trong hình,205,204,205,1,0.080049,273,0
+467,2767,2,có những chiếc ghế đá được đặt trên những bãi cỏ,110,109,110,1,0.051329,10993,0
+468,2767,3,có nhiều cây xanh ở trên bãi cỏ hai bên lối đi,54,53,54,1,0.131071,3855,0
+469,2767,4,có nhiều cây xanh xuất hiện ở bãi cỏ hai bên lối đi,42,41,42,1,0.161292,3855,0
+470,2767,5,ở hai bên lối đi là những bãi cỏ với nhiều cây xanh,88,87,88,1,0.067334,3855,0
+471,2779,1,có một vài chiếc đèn lồng và một vài chậu cây được treo ở phía trước cửa tiệm,1,1,2,1,0.547821,2779,0
+472,2779,2,ở phía trước cửa tiệm có sự xuất hiện của một vài chậu cây và một vài chiếc đèn lồng,1,1,2,1,0.422810,2779,0
+473,2779,3,có một vài chậu cây và một vài chiếc đèn lồng được xuất hiện ở bên ngoài của cửa hàng,2,2,3,1,0.440169,4126,0
+474,2779,4,có hai người đang ngồi ở bên cạnh cửa sổ của cửa tiệm,43,43,44,1,0.185458,1456,0
+475,2779,5,ở bên cạnh cửa sổ của cửa tiệm là sự xuất hiện của hai người,26,26,27,1,0.195287,9548,0
+476,2789,1,một người đàn ông đang đứng ở giữa khu chợ,72,72,72,0,0.243766,6148,0
+477,2789,2,có nhiều mặt hàng đang xếp ngổn ngang trong khu chợ,19,19,19,0,0.419800,4544,0
+478,2789,3,có một vài người đang xuất hiện ở trong khu chợ,46,46,46,0,0.364138,10312,0
+479,2789,4,có một vài người đang ở trong khu chợ này,43,43,43,0,0.343809,7286,0
+480,2789,5,có nhiều thùng hàng hoá ở xung quanh người đàn ông trong tư thế đứng,124,124,124,0,0.110870,6148,0
+481,2832,1,một người phụ nữ đội nón lá đang đứng trên một chiêc thuyền,101,101,102,1,0.113294,2473,0
+482,2832,2,người phụ nữ mặc áo cam đang đứng trên một chiếc xuồng nhỏ,85,85,86,1,0.149443,110,0
+483,2832,3,có nhiều chiếc xuồng xuất hiện ở bên những chiếc thuyền lớn,67,67,68,1,0.158341,2,0
+484,2832,4,người phụ nữ ở trên chiếc xuồng nhỏ thì đang cầm một cây gậy,51,51,52,1,0.136698,2,0
+485,2832,5,có một cây gậy ở trên tay của người phụ nữ mặc áo cam,158,158,159,1,0.095482,350,0
+486,2839,1,có nhiều người đang đội nón lá ở trong khung hình,39,39,39,0,0.204068,10452,0
+487,2839,2,có nhiều người đội nón lá xuất hiện ở trong khung hình,21,21,21,0,0.273305,4544,0
+488,2839,3,nhiều người đang đội nón lá ở bên trong một khu chợ,74,74,74,0,0.181112,10339,0
+489,2839,4,có nhiều người đội nón lá xuất hiện trong khu chợ,35,35,35,0,0.251142,4544,0
+490,2839,5,bên trong khu chợ có nhiều người đang đội nón lá,62,62,62,0,0.174896,295,0
+491,2855,1,hai người đàn ông xuất hiện trong hình đang mặc tạp dề màu đỏ,3,2,3,1,0.286531,10648,0
+492,2855,2,có hai người đàn ông đang cầm những thiết bị ở trên tay,31,30,31,1,0.226028,418,0
+493,2855,3,hai người đàn ông đang đứng cạnh nhau bên một kệ hàng,260,259,260,1,0.053613,5886,0
+494,2855,4,hai người đàn ông đang tiến hành kiểm tra hàng hoá,235,234,235,1,0.025409,6148,0
+495,2855,5,có hai người nhân viên đang kiểm tra hàng hoá,246,245,246,1,0.029554,69,0
+496,2884,1,người phụ nữ đang chụp ảnh ở một khu rừng ngập mặn,322,322,322,0,0.023176,999,0
+497,2884,2,cảnh vật xung quanh cô gái là cảnh vật của một khu rừng ngập mặn,55,55,55,0,0.077796,8615,0
+498,2884,3,có một cô gái đang đội nón lá và đeo kính râm,39,39,39,0,0.139413,2083,0
+499,2884,4,có một cô gái đội nón lá và đeo kính râm ở trong hình,45,45,45,0,0.120329,5871,0
+500,2884,5,cô gái đội nón lá và đeo kính râm đang chụp ảnh ở một khu rừng ngập mặn,60,60,60,0,0.091015,411,0
+501,2905,1,có ba người phụ nữ đang cầm một cái phong bì ở trên tay,16,16,16,0,0.228990,10578,0
+502,2905,2,có bốn người phụ nữ đang đứng cùng với nhau,207,207,207,0,0.042010,7335,0
+503,2905,3,có một người phụ nữ không cầm phong bì ở trên tay,15,15,15,0,0.221222,10578,0
+504,2905,4,có ba người phụ nữ đang cầm phong bì và một người phụ nữ không cầm phong bì,44,44,44,0,0.133045,10578,0
+505,2905,5,trên tay của ba người phụ nữ phía bên trái đang có những cái phong bì,68,68,68,0,0.119425,10578,0
+506,3002,1,có nhiều người đang xuất hiện ở phía trước siêu thị,12,12,12,0,0.515801,5840,0
+507,3002,2,có nhiều người đang đứng ở trước cửa một siêu thị,5,5,5,0,0.584276,9999,0
+508,3002,3,ở trước cửa siêu thị có sự xuất hiện của rất nhiều người,2,2,2,0,0.505950,5840,0
+509,3002,4,có nhiều người đang đứng xung quanh cổng vào một siêu thị,34,34,34,0,0.180756,9999,0
+510,3002,5,nhiều người đang xuất hiện ở trước cửa của một siêu thị,2,2,2,0,0.678621,5840,0
+511,3025,1,có một người đang cầm máy ảnh để chụp hình,5,4,8,4,0.282447,7355,0
+512,3025,2,có một người đang cầm trên tay một chiếc máy ảnh,300,299,303,4,0.076305,418,0
+513,3025,3,có một chiếc máy ảnh xuất hiện ở trên tay của một người mặc áo sọc đen,164,163,167,4,0.158405,3768,0
+514,3025,4,người đàn ông đội mỹ màu xám đang chụp hình khung cảnh cây hoa trước mắt,20,19,23,4,0.155092,11026,0
+515,3025,5,người đàn ông mặc áo sọc đen đang chụp hình khung cảnh các cây hoa,8,7,11,4,0.283201,4651,0
+516,3076,1,kệ hàng ở phía sau thì không có sản phẩm nào,12,10,17,7,0.231690,7316,0
+517,3076,2,có một vài sản phẩm đồ ăn vặt xuất hiện ở kệ hàng phía trước,12,10,17,7,0.278072,47,0
+518,3076,3,có một kệ hàng trống ở phía sau kệ hàng đồ ăn vặt,6,4,11,7,0.361767,47,0
+519,3076,4,có nhiều sản phẩm đồ ăn vặt đang được trưng bày ở trên một kệ hàng,23,21,28,7,0.284586,47,0
+520,3076,5,có nhiều sản phẩm đồ ăn vặt xuất hiện ở trên một kệ hàng,10,8,15,7,0.370513,47,0
+521,3086,1,có một người phụ nữ và một đứa bé ở trong bức ảnh,283,282,284,2,0.068945,2645,0
+522,3086,2,có một người phụ nữ và một đứa bé xuất hiện trên những bậc thang,229,228,230,2,0.078818,3503,0
+523,3086,3,một người phụ nữ và một đứa bé đang ở trên những bậc thang,134,133,135,2,0.106095,3503,0
+524,3086,4,có một người phụ nữ đang dìu một đứa bé đi xuống cầu thang,213,212,214,2,0.056247,7290,0
+525,3086,5,có một cậu bé đang được một người phụ nữ dìu xuống những bậc thang,239,238,240,2,0.053998,3503,0
+526,3110,1,có nhiều người đang đứng và chứng kiến một vụ cháy,268,268,268,0,0.037312,10452,0
+527,3110,2,có nhiều người đang đứng ở gần một vụ hoả hoạn,304,304,304,0,0.049564,10452,0
+528,3110,3,có một đám cháy xuất hiện ở gần mọi người,298,298,298,0,0.034767,5909,0
+529,3110,4,có một đám đông đang tụ tập để xem một vụ cháy,205,205,205,0,0.030800,5909,0
+530,3110,5,có một đám đông đang tụ tập để xem một vụ hoả hoạn,205,205,205,0,0.032189,5909,0
+531,3116,1,có những chiếc áo vest đang xuất hiện ở trong cửa tiệm,31,31,32,1,0.198619,3002,0
+532,3116,2,có một chiếc áo vest xuất hiện ở bên trong của tủ kính,26,26,27,1,0.187999,1409,0
+533,3116,3,bên trong tủ kính có sự xuất hiện của một bộ vest và nhiều loại vải,76,76,77,1,0.135588,4851,0
+534,3116,4,trong tủ kính đang trưng bày một bộ vest tối màu,46,46,47,1,0.085730,6411,0
+535,3116,5,chiếc tủ kính được đặt ở sát với bậc thềm của cửa tiệm,150,150,151,1,0.015373,3503,0
+536,3140,1,có hai chiếc thuyền đang di chuyển trên mặt nước,1,1,1,0,0.702168,3140,0
+537,3140,2,có hai chiếc thuyền xuất hiện trên mặt nước,3,3,3,0,0.440431,823,0
+538,3140,3,có hai người đang ở trên con thuyền đi phía sau,45,45,45,0,0.145779,2069,0
+539,3140,4,có hai con thuyền đang di chuyển ở trên sông,34,34,34,0,0.400963,2069,0
+540,3140,5,ở trên mặt nước có sự xuất hiện của hai con thuyền,2,2,2,0,0.414055,823,0
+541,3172,1,có nhiều người đang mua hàng ở bên trong siêu thị,127,127,128,1,0.185551,475,0
+542,3172,2,có nhiều người đang xuất hiện ở bên trong của siêu thị,281,281,282,1,0.091421,5840,0
+543,3172,3,có một số người đang đứng quanh dãy hàng nước uống,138,138,139,1,0.083547,3838,0
+544,3172,4,có một số người đang xuất hiện quanh các quầy hàng đồ uống,19,19,20,1,0.190412,10881,0
+545,3172,5,có một người phụ nữ mặc đồ màu nâu đang đẩy một chiếc xe đẩy siêu thị,372,372,373,1,0.007874,3541,0
+546,3266,1,có một cô gái đang cầm trên tay một cuốn sách,1,1,1,0,0.602090,3266,0
+547,3266,2,có một cô gái đang xuất hiện bên cạnh khu vực bán những tấm thiệp,112,112,112,0,0.131506,4356,0
+548,3266,3,có một cô gái đang xuất hiện bên cạnh kệ hàng trưng bày những tấm thiệp,126,126,126,0,0.127979,5569,0
+549,3266,4,có nhiều tấm thiệp xuất hiện ở trước mắt của cô gái,109,109,109,0,0.111600,3002,0
+550,3266,5,có nhiều tấm thiệp được trưng bày ở trước mặt của cô gái,102,102,102,0,0.109614,9579,0
+551,3292,1,có nhiều người đang mua hàng trong một siêu thị,155,154,155,1,0.151595,2215,0
+552,3292,2,có nhiều người đang đứng bên một kệ hàng trong siêu thị,77,76,77,1,0.288903,9999,0
+553,3292,3,có nhiều không gian trống ở trên kệ hàng trong siêu thị,274,273,274,1,0.050836,9999,0
+554,3292,4,có nhiều người đang đứng gần một kệ hàng có nhiều không gian trống,97,96,97,1,0.173203,3838,0
+555,3292,5,có nhiều người xuất hiện ở gần một kệ hàng trong siêu thị,219,218,219,1,0.111893,5840,0
+556,3369,1,có ba mô hình con bò xuất hiện ở trong khu vực trang trí,1,1,1,0,0.565305,3369,0
+557,3369,2,có một hộp sữa lớn xuất hiện ở bên cạnh một con bò,98,98,98,0,0.112281,4273,0
+558,3369,3,đây là khung cảnh phía trước của một khu trưng bày,56,56,56,0,0.107692,5249,0
+559,3369,4,có những mô hình con bò sữa ở trong mô hình khu vườn,52,52,52,0,0.104472,815,0
+560,3369,5,có ba mô hình con bò xuất hiện ở trong mô hình khu vườn,27,27,27,0,0.150575,815,0
+561,3391,1,có một chiếc xe điện du lịch màu vàng đang di chuyển trên đường,15,15,15,0,0.441143,7537,0
+562,3391,2,có một chiếc xe điện du lịch màu vàng đang chở khách trên đường,16,16,16,0,0.235748,4364,0
+563,3391,3,có một vài người đang ngồi trên chiếc xe điện du lịch màu vàng,60,60,60,0,0.192297,1743,0
+564,3391,4,có một vài chiếc xe điện du lịch đang lưu thông trên đường,24,24,24,0,0.243824,7587,0
+565,3391,5,người đàn ông mặc áo màu xanh dương đang lái chiếc xe điện màu vàng,83,83,83,0,0.122638,1518,0
+566,3432,1,có một hiện vật đang được trưng bày bên trong tủ kính,187,187,187,0,0.077137,10994,0
+567,3432,2,có một mẫu vật đang được trưng bày bên trong tủ kính,310,310,310,0,0.037958,10994,0
+568,3432,3,có một mẫu vật đang được bảo quan trong một hộp kính,248,248,248,0,0.056187,10578,0
+569,3432,4,có một hiện vật đang được bảo quản trong lồng kính,147,147,147,0,0.081779,2779,0
+570,3432,5,một hiện vật đang xuất hiện ở bên trong lồng kính,66,66,66,0,0.182678,10339,0
+571,3449,1,có một cái cổng chào dẫn vào bên trong một con hẻm,218,216,221,5,0.051934,5575,0
+572,3449,2,có một vài chiếc xe máy xuất hiện ở trên vỉa hè,46,44,49,5,0.276199,10923,0
+573,3449,3,có hai cái cột cờ được đặt ở cổng dẫn vào con hẻm,104,102,107,5,0.028038,4788,0
+574,3449,4,có hai cái cột cờ xuất hiện ở khu vực cổng dẫn vào con hẻm,168,166,171,5,0.027787,4788,0
+575,3449,5,phía trước khu vực cổng dẫn vào con hẻm có sự xuất hiện của hai cái cột cờ,191,189,194,5,0.010810,4788,0
+576,3474,1,có nhiều người đang đứng ở gần một ngôi chùa cổ,212,212,212,0,0.084727,7345,0
+577,3474,2,có nhiều người xuất hiện ở gần một ngôi chùa cổ,260,260,260,0,0.068010,7345,0
+578,3474,3,có nhiều người đang đứng ở gần một ngôi chùa cổ,212,212,212,0,0.084727,7345,0
+579,3474,4,có nhiều người đang đứng xung quanh một ngôi chùa cổ,216,216,216,0,0.063883,7345,0
+580,3474,5,đây là khung cảnh bên ngoài của một ngôi chùa cổ,254,254,254,0,0.014317,7345,0
+581,3503,1,có nhiều người mặc đồng phục đang di chuyển trên những bậc thang,1,1,1,0,0.786075,3503,0
+582,3503,2,có nhiều người mặc đồng phục đang xuất hiện trên những bậc thang,1,1,1,0,0.635864,3503,0
+583,3503,3,có nhiều người đang di chuyển ở một khu di tích lịch sử,44,44,44,0,0.374173,5604,0
+584,3503,4,có nhiều người đang mang theo những lá cờ xuất hiện trên những bậc thang,1,1,1,0,0.581235,3503,0
+585,3503,5,có một đám người đang di chuyển ở một khu di tích lịch sử,59,59,59,0,0.310446,2607,0
+586,3509,1,có một nhóm bạn trẻ đang chụp ảnh trước một cây thông noel,7,7,7,0,0.281230,4492,0
+587,3509,2,có một nhóm người đang chụp hình cùng nhau trước cây thông noel,26,26,26,0,0.194980,4492,0
+588,3509,3,có hai bạn nam và ba bạn nữ đang chụp hình cùng nhau trước cây thông noel,17,17,17,0,0.119601,4492,0
+589,3509,4,có năm người đang cùng nhau chụp ảnh trước một cây thông noel,5,5,5,0,0.250378,4492,0
+590,3509,5,phía trước cây thông noel có sự xuất hiện của một nhóm bạn trẻ,99,99,99,0,0.083054,4492,0
+591,3541,1,có một vài người đang mua hàng ở trong siêu thị,23,23,23,0,0.346014,2215,0
+592,3541,2,có một vài người đang xuất hiện bên trong siêu thị,40,40,40,0,0.383742,5840,0
+593,3541,3,có một người phụ nữ đeo túi đang đẩy một chiếc xe đẩy siêu thị,1,1,1,0,0.893253,3541,0
+594,3541,4,một người phụ nữ đeo túi và một người đàn ông đang nhìn vào quầy hàng bán áo,91,91,91,0,0.189167,7441,0
+595,3541,5,có nhiều loại áo xuất hiện ở phía trước của người đàn ông,357,357,357,0,0.037234,5811,0
+596,3564,1,có một vài chiếc đèn lồng màu đỏ xuất hiện ở trước hiên nhà,2,1,2,1,0.481749,2779,0
+597,3564,2,có một vài chiếc đèn lồng màu đỏ được trang trí ở bên ngoài cửa tiệm,3,2,3,1,0.436838,5573,0
+598,3564,3,có hai cô gái đang ngồi bên cửa sổ của ngôi nhà,48,47,48,1,0.192949,1456,0
+599,3564,4,có hai cô gái xuất hiện phía sau cửa sổ của ngôi nhà,19,18,19,1,0.182991,7345,0
+600,3564,5,có những chùm cây và những chiếc đèn lồng được treo ở phía trước của căn nhà,2,1,2,1,0.774971,2779,0
+601,3579,1,có nhiều cái đèn được treo ở trên những sợi dây căng giữa hai dãy nhà,224,224,224,0,0.048951,5573,0
+602,3579,2,có những sợi dây treo đèn và những sợi dây điện xuất hiện trong bức ảnh,284,284,284,0,0.006335,5573,0
+603,3579,3,có nhiều sợi dây treo đèn và sợi dây điện ở giữa của hai dãy nhà,248,248,248,0,0.015083,2779,0
+604,3579,4,có nhiều sợi dây được giăng ra ở giữa hai dãy nhà,243,243,243,0,0.021392,5257,0
+605,3579,5,có một cái cột đèn đường xuất hiện ở dãy nhà bên trái,255,255,255,0,0.059515,10436,0
+606,3613,1,một người đàn ông đang đứng trước khu vực bán rau củ quả,358,352,375,23,0.000000,1085,0
+607,3613,2,có nhiều mặt hàng rau củ quả xuất hiện ở trước mặt của người đàn ông,47,44,51,7,0.218150,6227,0
+608,3613,3,một người đàn ông đang xuất hiện trước khu vực rau củ quả,205,202,209,7,0.068771,6227,0
+609,3613,4,có nhiều sản phẩm rau củ quả ở trước mặt của nam thanh niên,129,126,133,7,0.064544,6227,0
+610,3613,5,có nhiều mặt hàng rau củ quả ở trước mặt của nam thanh niên,36,33,40,7,0.142282,6227,0
+611,3638,1,có một vài chiếc ô tô xuất hiện ở trước toà nhà cao tầng,22,20,28,8,0.204618,1820,0
+612,3638,2,có một vài chiếc ô tô đang đỗ ở phía trước toà nhà cao tầng,19,17,25,8,0.203995,1820,0
+613,3638,3,có một vài chiếc xe hơi đang đậu ở bên đường,7,5,11,6,0.425655,362,0
+614,3638,4,có một vài chiếc xe hơi xuất hiện ở trước toà nhà cao tầng,16,14,22,8,0.273918,1820,0
+615,3638,5,đây là khung cảnh phía trước của một toà nhà cao tầng,158,156,164,8,0.018258,1820,0
+616,3670,1,có những chiếc ghế nhựa được đặt ở phía trước của căn nhà,28,28,28,0,0.148237,2779,0
+617,3670,2,có một vài chiếc ghế nhựa được đặt ở phía trước của căn nhà,51,51,51,0,0.161233,5687,0
+618,3670,3,phía trước của căn nhà có sự xuất hiện của một vài chiếc ghế nhựa,162,162,162,0,0.081187,5687,0
+619,3670,4,có một vài đồ vật được đặt ở khu vực cửa sổ của căn nhà,136,136,136,0,0.094171,9548,0
+620,3670,5,có một vài đồ vật được bày ra ở khu vực cửa sổ của căn nhà,147,147,147,0,0.090759,9548,0
+621,3727,1,có một vài người đang đứng quanh quầy hàng trái cây,19,19,19,0,0.305635,10407,0
+622,3727,2,có một vài người đang xem xét các mặt hàng trái cây,95,95,95,0,0.106111,10407,0
+623,3727,3,có nhiều mặt hàng trái cây xuất hiện ở trên kệ hàng,202,202,202,0,0.101189,69,0
+624,3727,4,có một người đàn ông đeo bao tay đang chạm vào một quả mít,30,30,30,0,0.163071,6148,0
+625,3727,5,có một vài người xuất hiện ở gần khu vực bày bán trái cây,280,280,280,0,0.062604,10994,0
+626,3768,1,một người phụ nữ đang ngồi ở phía trước những tấm vải,4,4,4,0,0.377204,5346,0
+627,3768,2,có nhiều tấm vải xuất hiện ở sau lưng của người phụ nữ,39,39,39,0,0.189940,1409,0
+628,3768,3,có nhiều tấm vải được bày ra ở sau lưng của người phụ nữ,34,34,34,0,0.168313,5257,0
+629,3768,4,có một người phụ nữ đang ngồi khoanh tay ở trong bức ảnh,3,3,3,0,0.402685,5346,0
+630,3768,5,có một người phụ nữ đang xuất hiện ở trong bức ảnh,25,25,25,0,0.437208,2645,0
+631,3785,1,có một vài người đang tham quan ở trong căn phòng,86,86,86,0,0.148293,9923,0
+632,3785,2,có một vài người đang xuất hiện trong căn phòng,115,115,115,0,0.170191,9923,0
+633,3785,3,có nhiều bức tranh được treo ở trên tường trong căn phòng,16,16,16,0,0.340485,9671,0
+634,3785,4,có nhiều bức tranh xuất hiện ở trên tường bên trong căn phòng,20,20,20,0,0.364873,9671,0
+635,3785,5,có nhiều người đang đứng ở bên trong phòng trưng bày,177,177,177,0,0.155540,5542,0
+636,3800,1,một người đàn ông mặc áo đỏ đang cầm điện thoại để chụp ảnh,346,334,375,41,0.000000,418,0
+637,3800,2,có nhiều đồ trang trí được trưng bày trong khu vực mà người đàn ông mặc áo đỏ đang đứng,6,6,6,0,0.477556,4932,0
+638,3800,3,có nhiều đồ trang trí lễ giáng sinh được bày bán ở trong các gian hàng,2,2,2,0,0.663239,966,0
+639,3800,4,có nhiều đồ trang trí giáng sinh được bày bán ở trong các quầy hàng,2,2,2,0,0.751364,966,0
+640,3800,5,có một vài người xuất hiện ở các quầy hàng bán đồ trang trí giáng sinh,3,3,3,0,0.593030,966,0
+641,3809,1,có nhiều người đang tham gia giao thông ở trên đường,77,75,81,6,0.156864,3865,0
+642,3809,2,có nhiều chiếc xe máy đang di chuyển trên đường,141,139,145,6,0.132003,340,0
+643,3809,3,có nhiều chiếc xe máy xuất hiện ở trên đường,78,76,82,6,0.271877,340,0
+644,3809,4,ở trên đường có sự xuất hiện của nhiều chiếc xe máy,45,43,48,5,0.320532,340,0
+645,3809,5,đây là khung cảnh chụp những phương tiện đang di chuyển trên đường,201,199,205,6,0.022213,1397,0
+646,3838,1,một vài người đang đứng ở bên trong một siêu thị,32,32,33,1,0.394984,9999,0
+647,3838,2,có một vài người đang đứng bên một kệ hàng,1,1,2,1,0.785151,3838,0
+648,3838,3,có nhiều loại sản phẩm được bày bán bên trong siêu thị,164,164,165,1,0.072700,11646,0
+649,3838,4,có một vài người đang chú ý vào các sản phẩm ở kệ hàng ngoài cùng,11,11,12,1,0.249298,1458,0
+650,3838,5,có một người phụ nữ đang với tay lên các sản phẩm ở kệ hàng ngoài cùng,2,2,3,1,0.410927,7233,0
+651,3855,1,có một vài giỏ cây hoa mai xuất hiện trong bức ảnh,109,109,109,0,0.115801,2645,0
+652,3855,2,có một vài người đang xuất hiện ở gần cổng chợ,371,371,371,0,0.029624,10312,0
+653,3855,3,có nhiều giỏ hoa mai xuất hiện gần cổng chợ,36,36,36,0,0.146913,4544,0
+654,3855,4,có một vài giỏ hoa mai được trang trí xung quanh cổng chợ,23,23,23,0,0.140575,1458,0
+655,3855,5,xung quanh cổng chợ có sự xuất hiện của những giỏ hoa mai,30,30,30,0,0.130908,1409,0
+656,3865,1,đây là khung cảnh chụp ở phía trước của một cửa hàng đồ ăn,361,361,365,4,0.013815,2345,0
+657,3865,2,có nhiều xe máy đang di chuyển ở trên đường,55,55,59,4,0.483197,340,0
+658,3865,3,có nhiều chiếc xe máy đang lưu thông trên đường,20,20,24,4,0.333394,7587,0
+659,3865,4,có nhiều phương tiện giao thông đang di chuyển trên đường,1,1,5,4,0.993359,3865,0
+660,3865,5,có nhiều chiếc xe đang chạy ở con đường phía trước cửa hàng đồ ăn,143,143,147,4,0.137439,2278,0
+661,3907,1,người phụ nữ đang đứng có đeo cái khẩu trang màu trắng,303,303,303,0,0.013815,4932,0
+662,3907,2,có một người phụ nữ đang cười ở trước quầy hàng,361,361,361,0,0.041485,7335,0
+663,3907,3,có một dòng chữ màu đỏ xuất hiện ở trên bức ảnh,9,9,9,0,0.329722,8689,0
+664,3907,4,có nhiều món ăn được trưng bày trên kệ hàng bên phải người phụ nữ,249,249,249,0,0.061665,5904,0
+665,3907,5,có một cái cân màu xanh lá cây ở bên góc của bức ảnh,17,17,17,0,0.199686,387,0
+666,3924,1,không có người khách nào đang ngồi trong quán cơm,191,191,191,0,0.045228,223,0
+667,3924,2,có nhiều bộ bàn ghế được bày ra ở trong nhà hàng,1,1,1,0,0.923357,3924,0
+668,3924,3,có nhiều bức tranh được trang trí ở tường bên phải,80,80,80,0,0.134936,3432,0
+669,3924,4,có nhiều tấm bảng đen được treo ở tường bên trái,79,79,79,0,0.130270,10527,0
+670,3924,5,có nhiều bức ảnh món ăn được treo ở trên bức tường phía bên phải,122,122,122,0,0.110286,1407,0
+671,3930,1,phía sau người phụ nữ đeo khẩu trang trắng là kệ hàng treo những cái chảo,10,10,10,0,0.165479,3838,0
+672,3930,2,người đàn bà đeo khẩu trang xanh lam đứng bên trái người phụ nữ đeo khẩu trang trắng,73,73,73,0,0.095834,10881,0
+673,3930,3,người phụ nữ đứng cạnh người đàn bà đeo khẩu trang xanh lam đang đeo khẩu trang y tế và kính chắn giọt bắn,58,58,58,0,0.082277,10881,0
+674,3930,4,người phụ nữ đeo khẩu trang màu xanh tím đang cầm một cái hộp,2,2,2,0,0.497063,10578,0
+675,3930,5,có hai người phụ nữ đang trao đổi với nhau,28,28,28,0,0.153779,7335,0
+676,3938,1,nam thanh niên mặc áo len màu nâu,186,77,375,298,0.000000,10608,0
+677,3938,2,cô gái áo màu đen đứng cạnh nam thanh niên mặc áo len màu nâu,82,82,82,0,0.091688,4138,0
+678,3938,3,đây là ảnh minh hoạ chụp ảnh cưới ở phố cổ hà nội,47,47,47,0,0.062694,7345,0
+679,3938,4,bức ảnh có có một chàng trai đang khoác vai một cô gái,14,14,14,0,0.253180,9736,0
+680,3938,5,cô gái đang nắm tay và ôm eo chàng trai,18,18,18,0,0.140330,10748,0
+681,3970,1,có những món ăn đang được bày ra ở trên bàn,43,43,43,0,0.158948,5257,0
+682,3970,2,có những món ăn đang xuất hiện ở trên bàn,14,14,14,0,0.266669,5904,0
+683,3970,3,ở trên bàn có nhiều món ăn được bày ra,51,51,51,0,0.161790,5257,0
+684,3970,4,ở trên bàn có sự xuất hiện của một đĩa nộm,2,2,2,0,0.328872,5878,0
+685,3970,5,đĩa nộm được đặt ở cạnh hai đĩa bánh đa và một cái chén,2,2,2,0,0.297829,5878,0
+686,3987,1,người đàn bà mặc áo đen đeo khẩu trang trắng đang lựa táo,187,185,188,3,0.038060,1566,0
+687,3987,2,người đàn bà mặc áo màu xanh lá cây đậm và người đàn bà mặc áo đen đang nhìn vào quầy hàng táo New Zealand,121,119,122,3,0.069944,4651,0
+688,3987,3,có bốn người đang đứng trước quầy hàng trái cây ở bên trái,54,52,55,3,0.172926,10407,0
+689,3987,4,một người phụ nữ mặc áo xám đang nhìn vào quầy táo,223,221,224,3,0.045330,1566,0
+690,3987,5,một người đàn ông mặc áo màu xanh dương đậm đang tiến vào hàng trái cây bên trái,103,101,104,3,0.102281,10407,0
+691,4008,1,có nhiều người đang ngồi ăn ở các quán ăn phía bên trái,269,269,269,0,0.050600,1011,0
+692,4008,2,có nhiều người đang xuất hiện ở các quán ăn phía bên trái,298,298,298,0,0.062168,1011,0
+693,4008,3,các quán ăn phía bên trái đang có nhiều người ngồi ăn,242,242,242,0,0.050922,1011,0
+694,4008,4,có nhiều người đang ngồi ăn trong con hẻm này,142,142,142,0,0.110605,1011,0
+695,4008,5,có nhiều người đang xuất hiện ở bên trong con ngõ,198,198,198,0,0.122004,2839,0
+696,4015,1,có một cô gái đang đeo khẩu trang và cầm một chiếc micro,55,54,55,1,0.165239,2550,0
+697,4015,2,có nhiều tài xế xe ôm công nghệ đang xuất hiện trước cửa hàng,114,113,114,1,0.085321,3002,0
+698,4015,3,có một vài người đang điều khiển xe máy ở trước cửa hàng,23,22,23,1,0.293739,10867,0
+699,4015,4,có một cô gái đang cầm micro xuất hiện ở trước cửa hàng,267,266,267,1,0.083590,3002,0
+700,4015,5,có nhiều chiếc xe máy xuất hiện ở trước của cửa hàng,21,20,21,1,0.392081,3002,0
+701,4027,1,một người phụ nữ mặc áo đỏ đang đứng bên kệ hàng đông lạnh,25,25,25,0,0.360373,3838,0
+702,4027,2,một người phụ nữ mặc áo đỏ đang nhìn vào những cái thùng hàng,31,31,31,0,0.285092,9505,0
+703,4027,3,có nhiều cái thùng hàng xuất hiện bên cạnh người phụ nữ mặc áo đỏ,30,30,30,0,0.303273,9505,0
+704,4027,4,có nhiều người đang xuất hiện xung quanh quầy hàng đông lạnh,296,296,296,0,0.036245,10452,0
+705,4027,5,có nhiều người đang đứng bên môt quầy hàng đồ đông lạnh,107,107,107,0,0.123081,10452,0
+706,4035,1,có nhiều người đang ngồi uống nước trên vỉa hè,105,105,105,0,0.124985,2175,0
+707,4035,2,có nhiều người đang ngồi thành các nhóm trên vỉa hè,123,123,123,0,0.122708,2175,0
+708,4035,3,có nhiều nhóm người đang ngồi trên vỉa hè,113,113,113,0,0.147162,2175,0
+709,4035,4,có một vài đứa trẻ đang ngồi ở bên lề đường,141,141,141,0,0.112520,2131,0
+710,4035,5,có một vài đứa trẻ đang ngồi gần nhau bên đường,156,156,156,0,0.089123,4126,0
+711,4057,1,có một người đang đi bộ ở trước toà nhà,2,2,2,0,0.468860,3785,0
+712,4057,2,có một người đang di chuyển phía trước toà nhà,21,21,21,0,0.446354,10692,0
+713,4057,3,phía trước toà nhà có một người đang di chuyển,21,21,21,0,0.446354,10692,0
+714,4057,4,ở phía trước của toà nhà có sự xuất hiện của một người,6,6,6,0,0.414990,10692,0
+715,4057,5,có một người xuất hiện ở phía trước của toà nhà,5,5,5,0,0.487601,10692,0
+716,4120,1,những người này đang ngồi ở trong một quán ăn,6,6,6,0,0.497388,223,0
+717,4120,2,quán ăn này đang có rất đông khách,9,9,9,0,0.179550,1011,0
+718,4120,3,ở trên mỗi chiếc cột đều có một màn hình tivi,320,320,320,0,0.027431,5223,0
+719,4120,4,"ở phía xa, có một vài chiếc ô tô được đỗ đối diện quán ăn",37,37,37,0,0.129756,7405,0
+720,4120,5,những nhân viên của quán ăn thì mặc đồng phục màu đỏ,14,14,14,0,0.157065,1011,0
+721,4126,1,gian phòng này trưng bày những mô hình máy bay,202,90,375,285,0.000000,17,0
+722,4126,2,những mô hình máy bay này được trưng bày ở trong một căn phòng,83,83,83,0,0.100234,17,0
+723,4126,3,có sáu mô hình máy bay trong gian phòng này,82,82,82,0,0.057406,815,0
+724,4126,4,có hai người đang đứng phía dưới và tham quan gian phòng,129,129,129,0,0.061854,5542,0
+725,4126,5,những mô hình máy bay thì ở các độ cao khác nhau,116,116,116,0,0.014715,2789,0
+726,4138,1,bạn nữ mặc áo sơ mi trắng đang cầm điện thoại,213,213,213,0,0.016405,10766,0
+727,4138,2,bạn nữ mặc áo đen đang chụp hình với bạn nữ đứng cạnh bên,41,41,41,0,0.218178,10857,0
+728,4138,3,hai bạn nữ này đang tạo dáng chụp hình,203,203,203,0,0.020451,3938,0
+729,4138,4,bạn nữ đang cầm điện thoại chụp hình với bạn nữ mặc áo đen đứng kế bên,47,47,47,0,0.185113,10521,0
+730,4138,5,có nhiều chiếc xe máy và một chiếc ô tô ở phía sau hai bạn nữ,17,17,17,0,0.305447,9564,0
+731,4180,1,người đàn ông này đang ngồi trong một căn phòng họp,3,3,3,0,0.409161,9923,0
+732,4180,2,người đàn ông này đang tham gia một cuộc họp,11,11,11,0,0.204368,6148,0
+733,4180,3,có một người đàn ông đang ngồi trong phòng,2,2,2,0,0.631519,1456,0
+734,4180,4,người đàn ông đang đeo một chiếc khẩu trang màu trắng,19,19,19,0,0.282031,10648,0
+735,4180,5,có một chậu cây cảnh ở bên cạnh chiếc ghế,55,55,55,0,0.131082,5291,0
+736,4193,1,chiếc tivi này được đặt ở trong một siêu thị,320,316,323,7,0.020990,9999,0
+737,4193,2,các quầy hàng này bán các loại trái cây,23,19,26,7,0.240308,3172,0
+738,4193,3,khu vực này bày bán các loại trái cây,47,43,50,7,0.164541,5557,0
+739,4193,4,trên trần nhà có một chiếc màn hình tivi,177,173,180,7,0.052051,5223,0
+740,4193,5,có một chiếc thang ở cạnh quầy rau củ quả,303,299,306,7,0.030505,1085,0
+741,4195,1,người phụ nữ chạy xe đạp đang chạy ra từ trong một con hẻm,113,110,118,8,0.082625,3474,0
+742,4195,2,người phụ nữ chạy xe đạp đang về phía bên tay phải của con hẻm,133,130,138,8,0.082002,3474,0
+743,4195,3,lề đường phía bên trái có một chiếc ô tô đang đậu,12,9,15,6,0.186477,9564,0
+744,4195,4,người phụ nữ đang đi xe đạp thì đội một chiếc nón lá,44,41,49,8,0.173476,3474,0
+745,4195,5,lề đường phía bên phải có một chiếc xe tải đang đậu,13,10,16,6,0.256824,3670,0
+746,4250,1,có một vài chiếc xe xích lô đang di chuyển ở trên đường,25,23,29,6,0.520313,7537,0
+747,4250,2,có một vài chiếc xe xích lô đang xuất hiện trên đường,58,56,62,6,0.214151,7537,0
+748,4250,3,có nhiều phương tiện đang di chuyển ở trên đường,9,7,13,6,0.673735,1397,0
+749,4250,4,ở trên đường có sự xuất hiện của nhiều phương tiện giao thông,13,11,17,6,0.254315,3865,0
+750,4250,5,những người tham gia giao thông trên đường thì đi xe đạp hoặc xe máy hoặc xe xích lô,58,56,62,6,0.092047,3474,0
+751,4258,1,có một cô gái đang ngồi ở trên những bậc thang,72,72,72,0,0.174157,3503,0
+752,4258,2,có một cô gái đang tạo dáng bên những bậc thang,21,21,21,0,0.484817,3579,0
+753,4258,3,có một cô gái đang tạo dáng ở trên những bậc thang,23,23,23,0,0.448324,3579,0
+754,4258,4,có một cô gái đang tạo dáng trước sảnh một toà nhà lớn,25,25,25,0,0.406328,7394,0
+755,4258,5,ở trước sảnh của toà nhà lớn có sự xuất hiện của một cô gái,84,84,84,0,0.127330,9857,0
+756,4273,1,một người đàn ông đang đeo một cái kính thực tế ảo,53,53,53,0,0.106583,11072,0
+757,4273,2,có một cái kính thực tế ảo đang xuất hiện trên mắt của người đàn ông,185,185,185,0,0.078139,11072,0
+758,4273,3,một người đàn ông đang đứng ở trong một cái siêu thị,68,68,68,0,0.241325,2098,0
+759,4273,4,có nhiều kệ hàng xuất hiện ở xung quanh người đàn ông,50,50,50,0,0.251670,11022,0
+760,4273,5,một người đàn ông đang đeo kính thực tế ảo trong siêu thị,114,114,114,0,0.070188,2098,0
+761,4314,1,đây là bức ảnh chụp khung cảnh vắng người của một con đường,104,100,108,8,0.093767,8615,0
+762,4314,2,có một con đường vắng người xuất hiện ở trong hình,118,114,122,8,0.155860,2839,0
+763,4314,3,có hai chiếc xe máy đang đỗ ở trong con hẻm,9,5,13,8,0.334844,5715,0
+764,4314,4,không có người nào đang xuất hiện ở trên đường,57,53,61,8,0.224458,2839,0
+765,4314,5,không có phương tiện giao thông nào đang di chuyển trên đường,36,32,38,6,0.327652,3865,0
+766,4356,1,có hai người phụ nữ đang ngồi nói chuyện cùng nhau,64,64,64,0,0.138732,5346,0
+767,4356,2,có nhiều loại trái cây xuất hiện xung quanh hai người phụ nữ,125,125,125,0,0.120375,10407,0
+768,4356,3,hai người phụ nữ đang ngồi bên nhiều loại trái cây,7,7,7,0,0.338878,10407,0
+769,4356,4,có một người phụ nữ đang ngồi gọt vỏ trái cây,8,8,8,0,0.419701,5346,0
+770,4356,5,có một người phụ nữ đang thực hiện gọt trái cây,36,36,36,0,0.216424,10407,0
+771,4364,1,có một người phụ nữ đang đứng bên một chiếc xe chở rác,13,13,13,0,0.391668,3838,0
+772,4364,2,có một chiếc xe rác xuất hiện cạnh bên người phụ nữ,108,108,108,0,0.162497,5669,0
+773,4364,3,có một chiếc xe rác xuất hiện bên cạnh người phụ nữ,108,108,108,0,0.162497,5669,0
+774,4364,4,người phụ nữ đang đứng gần một chiếc xe rác,90,90,90,0,0.170232,100,0
+775,4364,5,có một người phụ nữ đứng gần một chiếc xe rác trên đường,50,50,50,0,0.270605,2473,0
+776,4489,1,các gian hàng này bày bán các loại quần áo,6,6,7,1,0.437741,3172,0
+777,4489,2,bức ảnh này có bốn bức hình nhỏ của các gian hàng,75,75,76,1,0.080776,1407,0
+778,4489,3,ngoài quần áo thì các gian hàng cũng có bán túi xách,3,3,4,1,0.302983,7441,0
+779,4489,4,các gian hàng đều đang có khách mua hàng,29,29,30,1,0.177816,5280,0
+780,4489,5,các gian hàng này ở chợ bà chiểu,50,50,51,1,0.116424,9899,0
+781,4492,1,cậu bé này đang đứng bán bong bóng,294,294,294,0,0.010782,7441,0
+782,4492,2,cậu bé đứng bán bong bóng ở dưới chân một cây cầu,106,106,106,0,0.056441,9536,0
+783,4492,3,cậu bé này đứng ven đường bán bong bóng,241,146,375,229,0.000000,7441,0
+784,4492,4,ở trên đường có những vũng nước do trời đã đổ mưa,368,368,368,0,0.005167,823,0
+785,4492,5,đường sá có ít xe cộ đang đi lại,270,270,270,0,0.015170,7537,0
+786,4510,1,có một bức tượng xuất hiện ở trong bức hình,3,3,3,0,0.690092,5223,0
+787,4510,2,bức tượng có sự xuất hiện của hai hình người,3,3,3,0,0.626929,5223,0
+788,4510,3,có sự xuất hiện của hai hình người ở trên bức tượng,2,2,2,0,0.667916,5223,0
+789,4510,4,có một bức tượng được trưng bày ở trong bảo tàng,7,7,7,0,0.327440,17,0
+790,4510,5,có một bức tượng hai hình người xuất hiện trong bức ảnh,3,3,3,0,0.635682,5223,0
+791,4544,1,có nhiều người đang di chuyển ở trong một khu chợ,7,7,9,2,0.718482,273,0
+792,4544,2,có nhiều người đang chạy xe máy bên trong khu chợ,14,14,16,2,0.570149,295,0
+793,4544,3,đây là khung cảnh xuất hiện ở bên trong một khu chợ,15,15,17,2,0.546898,10339,0
+794,4544,4,bên trong khu chợ có những chiếc xe máy đang di chuyển,33,33,35,2,0.457383,273,0
+795,4544,5,có nhiều người đang trong trạng thái di chuyển ở bên trong khu chợ,19,19,21,2,0.567855,273,0
+796,4555,1,có một người phụ nữ xuất hiện ở trước cổng chào,264,264,265,1,0.070228,5346,0
+797,4555,2,một người phụ nữ đang dắt xe đạp phía trước cổng,235,235,236,1,0.051059,5944,0
+798,4555,3,một người phụ nữ đang dắt xe đạp theo hướng đi ra ngoài cổng,229,229,230,1,0.037598,5944,0
+799,4555,4,có một người phụ nữ đang xuất hiện ở trước cổng,256,256,257,1,0.118932,5346,0
+800,4555,5,ở trước cổng có một người phụ nữ đang dắt xe đạp,218,218,219,1,0.085698,5944,0
+801,4556,1,có nhiều người đang xuất hiện bên một toà thành cổ,308,308,308,0,0.069241,11064,0
+802,4556,2,có một toà thành cổ toạ lạc bên mặt nước,271,271,271,0,0.012910,11064,0
+803,4556,3,có một toà thành cổ xuất hiện ở trong bức hình,195,195,195,0,0.075669,11064,0
+804,4556,4,có một toà thành cổ xuất hiện ở bên mặt nước,197,197,197,0,0.073365,11064,0
+805,4556,5,có một đoàn người đang di chuyển ở trước toà thành cổ,343,343,343,0,0.026239,11064,0
+806,4604,1,một người phụ nữ đang sắp xếp các giỏ hàng ở trên kệ,119,119,119,0,0.109046,3838,0
+807,4604,2,một người phụ nữ đang chạm tay vào một cái giỏ hàng,87,87,87,0,0.118958,924,0
+808,4604,3,có nhiều giỏ hàng xuất hiện trước mặt người phụ nữ,131,131,131,0,0.157411,3002,0
+809,4604,4,có nhiều giỏ hàng xuất hiện ở trước mặt cô gái,136,136,136,0,0.145802,3002,0
+810,4604,5,có một cô gái đang đứng gần những giỏ hàng,57,57,57,0,0.197269,5569,0
+811,4639,1,có nhiều sản phẩm xuất hiện ở trên hai kệ hàng,15,15,16,1,0.471494,7316,0
+812,4639,2,có nhiều loại sản phẩm được bày bán ở trên những kệ hàng,28,28,29,1,0.478553,11601,0
+813,4639,3,không có người nào xuất hiện ở lối đi giữa hai kệ hàng,12,12,13,1,0.279935,3855,0
+814,4639,4,có nhiều mặt hàng được bày bán ở trên những kệ hàng,25,25,26,1,0.465915,8624,0
+815,4639,5,có nhiều loại sản phẩm xuất hiện ở trên những kệ hàng,13,13,14,1,0.602769,7316,0
+816,4651,1,có một nhóm người đang nói chuyện với nhau,53,53,53,0,0.092487,9869,0
+817,4651,2,một nhóm người đang trò chuyện với nhau bên một gian hàng,20,20,20,0,0.183634,9869,0
+818,4651,3,có một nhóm người đang trò chuyện với nhau,53,53,53,0,0.090820,9869,0
+819,4651,4,có nhiều người xuất hiện ở trong bức ảnh,276,276,276,0,0.065391,2645,0
+820,4651,5,có một người phụ nữ mặc áo xanh đang nói chuyện với những người đàn ông,4,4,4,0,0.364882,110,0
+821,4671,1,một người đàn ông đeo khẩu trang màu trắng đang cầm một xấp tiền,26,26,26,0,0.206026,961,0
+822,4671,2,có một xấp tiền xuất hiện ở trên tay của người đàn ông,52,52,52,0,0.168901,961,0
+823,4671,3,có một người đàn ông đang ngồi trên một chiếc xe máy,118,118,118,0,0.176208,1743,0
+824,4671,4,có một người đàn ông xuất hiện trên một chiếc xe máy,154,154,154,0,0.164012,5738,0
+825,4671,5,có một người đàn ông đang cầm tiền ở trên một chiếc xe máy,61,61,61,0,0.262966,5738,0
+826,4683,1,có một cái ghế xuất hiện ở giữa của gian phòng,7,7,7,0,0.351964,10335,0
+827,4683,2,có một cái ghế được đặt ở giữa của căn phòng,7,7,7,0,0.392990,10335,0
+828,4683,3,có một vài bức tranh được treo ở hai bên tường,281,281,281,0,0.043472,3432,0
+829,4683,4,có một vài bức tranh được trưng bày ở hai bên tường,281,281,281,0,0.042192,3432,0
+830,4683,5,có một vài bức tranh xuất hiện ở hai bên tường,160,160,160,0,0.115651,3432,0
+831,4711,1,có một vài người đang đứng nhìn vào những tấm bảng thông báo,32,32,32,0,0.174657,7449,0
+832,4711,2,có những tấm bảng thông báo xuất hiện ở trước mặt những người đàn ông,87,87,87,0,0.118232,7449,0
+833,4711,3,có một vài người đàn ông đang nhìn về phía những tấm bảng thông báo,91,91,91,0,0.088984,7449,0
+834,4711,4,những người đàn ông này đang đứng gần những tấm bảng thông báo,51,51,51,0,0.116286,7449,0
+835,4711,5,có một vài người đàn ông đang đứng trước những cái bảng thông báo,23,23,23,0,0.251851,7449,0
+836,4713,1,có một người phụ nữ đang đứng mua thịt trong chợ,12,12,13,1,0.366652,1301,0
+837,4713,2,đây là khung cảnh ở những quầy hàng thịt trong khu chợ,95,95,96,1,0.104640,4544,0
+838,4713,3,đây là khung cảnh ở những quầy bán thịt trong một khu chợ,176,176,177,1,0.050759,1301,0
+839,4713,4,có một vài nugời phụ nữ đang đứng trong những quầy hàng bán thịt,132,132,133,1,0.152895,2370,0
+840,4713,5,có nhiều tảng thịt được bày bán ở trong các gian hàng,59,59,60,1,0.149389,9899,0
+841,4723,1,có nhiều người đang mua hàng ở bên trong siêu thị,4,1,4,3,1.000000,475,0
+842,4723,2,có nhiều người đang xuất hiện ở bên trong siêu thị,6,3,6,3,0.767096,5840,0
+843,4723,3,có đông người đang xuất hiện ở bên trong siêu thị,6,3,6,3,0.604385,5840,0
+844,4723,4,đây là khung cảnh đông đúc bên trong một siêu thị,8,5,8,3,0.343368,5840,0
+845,4723,5,đây là hình ảnh chụp ở bên trong của một siêu thị,6,3,6,3,0.445263,5840,0
+846,4727,1,có một người đàn ông đang mặc áo dài ở trên một cây cầu,58,58,58,0,0.305909,2485,0
+847,4727,2,có một nam thanh niên mặc áo dài đứng ở bên thành cầu,27,27,27,0,0.256194,2485,0
+848,4727,3,có một toà thành cổ xuất hiện ở trong khung hình,358,358,358,0,0.023880,11064,0
+849,4727,4,ở phía xa xa sau nam thanh niên là một toà thành cổ,364,364,364,0,0.008364,11064,0
+850,4727,5,nam thanh niên đang tạo dáng chụp hình ở trên cây cầu,31,31,31,0,0.250408,9729,0
+851,4759,1,có nhiều mặt hàng đồ thủ công xuất hiện ở trong căn phòng,23,23,23,0,0.247196,9923,0
+852,4759,2,có nhiều món đồ thủ công xuất hiện ở trong bức ảnh,52,52,52,0,0.213300,6000,0
+853,4759,3,đây là khung cảnh xuất hiện bên trong một cửa hàng lưu niệm,47,47,47,0,0.156276,4126,0
+854,4759,4,có nhiều mặt hàng được bày bán ở bên trong cửa hàng,10,10,10,0,0.658239,8624,0
+855,4759,5,có nhiều món đồ thủ công xuất hiện ở trong cửa hàng,4,4,4,0,0.337195,3800,0
+856,4766,1,có một cái cây xuất hiện ở trước ngôi nhà,4,4,4,0,0.446643,10436,0
+857,4766,2,có một cái cây xuất hiện ở phía trước căn nhà,40,40,40,0,0.256666,10436,0
+858,4766,3,có một căn nhà có tường được sơn màu vàng,36,36,36,0,0.132283,3116,0
+859,4766,4,ngôi nhà này có tường được sơn màu vàng,3,3,3,0,0.219384,7345,0
+860,4766,5,có một ngôi nhà màu vàng xuất hiện ở trong bức ảnh,2,2,2,0,0.673175,7345,0
+861,4770,1,có nhiều phương tiện giao thông đang di chuyển trên đường,2,1,5,4,0.993359,3865,0
+862,4770,2,có nhiều phương tiện giao thông đang đi ở trên đường,2,1,5,4,0.861171,3865,0
+863,4770,3,ở trên đường có sự xuất hiện của nhiều phương tiện giao thông,2,1,5,4,0.830238,3865,0
+864,4770,4,có nhiều phương tiện đang tham gia giao thông trên đường,2,1,5,4,0.740580,3865,0
+865,4770,5,ở trên đường có sự xuất hiện của nhiều xe máy và ô tô,111,110,114,4,0.162915,9564,0
+866,4788,1,có hai lá cờ được treo ở phía trên của cổng thành,1,1,1,0,0.466643,4788,0
+867,4788,2,có hai lá cờ xuất hiện ở phía trên của cổng thành,1,1,1,0,0.581321,4788,0
+868,4788,3,có một cái cổng thành xuất hiện ở trong bức ảnh,2,2,2,0,0.773012,5575,0
+869,4788,4,ở trên cổng thành có sự xuất hiện của hai lá cờ,1,1,1,0,0.581151,4788,0
+870,4788,5,ở trên cổng thành có hai lá cờ đang được treo,1,1,1,0,0.486486,4788,0
+871,4789,1,đường sá trong hình đang trong trạng thái ngập lụt,69,69,70,1,0.080678,815,0
+872,4789,2,có một chiếc xe máy đang di chuyển ở giữa đường,35,35,35,0,0.523401,340,0
+873,4789,3,có một chiếc xe máy đang di chuyển trên con đường ngập nước,13,13,14,1,0.538000,340,0
+874,4789,4,con đường đang ở trong trạng thái bị ngập lụt,2,2,3,1,0.199157,2839,0
+875,4789,5,đây là khung cảnh của một con đường khi bị ngập nước,3,3,4,1,0.164025,8615,0
+876,4813,1,có một bức tượng xuất hiện ở phía cuối của cây cầu,25,25,25,0,0.202687,9536,0
+877,4813,2,có một bức tượng xuất hiện ở phía bên kia của cây cầu,20,20,20,0,0.254668,9536,0
+878,4813,3,ở phía bên kia của cây cầu có sự xuất hiện của một bức tượng,13,13,13,0,0.271566,9536,0
+879,4813,4,ở phía cuối của cây cầu có sự xuất hiện của một bức tượng,22,22,22,0,0.223287,9536,0
+880,4813,5,có một bức tượng màu xám xuất hiện ở trong bức ảnh,85,85,85,0,0.128909,11008,0
+881,4851,1,có nhiều loại quả xuất hiện ở trên kệ hàng,16,16,16,0,0.601399,5811,0
+882,4851,2,đây là khung cảnh ở quầy hoa quả trong một siêu thị,5,5,5,0,0.356227,9999,0
+883,4851,3,có nhiều loại quả màu vàng và màu xanh lá cây xuất hiện trên kệ hàng,17,17,17,0,0.375905,5811,0
+884,4851,4,ở trên kệ hàng có sự xuất hiện của nhiều loại quả,16,16,16,0,0.551965,5811,0
+885,4851,5,có nhiều sản phẩm trái cây được bày bán ở trong khu vực này,105,105,105,0,0.118350,2225,0
+886,4932,1,có hai đứa bé xuất hiện ở trên bãi cỏ,309,309,309,0,0.014506,10993,0
+887,4932,2,ở trên bãi cỏ có sự xuất hiện của hai đứa bé,310,310,310,0,0.013784,10993,0
+888,4932,3,có hai đứa trẻ xuất hiện ở trên cánh đồng,309,309,309,0,0.014433,2839,0
+889,4932,4,ở trên cánh đồng có sự xuất hiện của hai đứa trẻ,310,310,310,0,0.013722,2839,0
+890,4932,5,ở trên bãi cỏ có sự xuất hiện của hai đứa trẻ,310,310,310,0,0.013666,10993,0
+891,4956,1,có nhiều phương tiện giao thông đang di chuyển ở trên đường,3,1,5,4,1.000000,3865,0
+892,4956,2,có nhiều phương tiện giao thông đang đi lại ở trên đường,3,1,5,4,0.774751,3865,0
+893,4956,3,ở trên đường có nhiều phương tiện giao thông đang di chuyển,3,1,5,4,1.000000,3865,0
+894,4956,4,có nhiều phương tiện giao thông đang xuất hiện ở trên đường,3,1,5,4,0.883345,3865,0
+895,4956,5,ở trên đường có sự xuất hiện của nhiều phương tiện giao thông,3,1,5,4,0.830238,3865,0
+896,4964,1,bức tranh vẽ về khung cảnh xuất hiện ở một con phố,160,157,162,5,0.042384,8615,0
+897,4964,2,có một con phố được vẽ ở bên trong bức tranh,225,222,227,5,0.065926,8615,0
+898,4964,3,có nhiều người xuất hiện ở bên trong bức tranh,236,233,238,5,0.104318,1407,0
+899,4964,4,ở bên trong bức tranh có hai cái cây với lá màu xanh và màu cam,228,225,230,5,0.030327,387,0
+900,4964,5,có nhiều người đang xuất hiện trên con phố bên trong bức tranh,174,171,176,5,0.144987,4035,0
+901,4971,1,có một vài chiếc xe máy đang di chuyển ở trên đường,6,1,9,8,1.000000,1108,0
+902,4971,2,ở trên đường có sự xuất hiện của một vài chiếc xe máy,6,1,7,6,0.706977,1108,0
+903,4971,3,có một toà nhà xuất hiện ở phía cuối của con đường,75,70,78,8,0.132851,2839,0
+904,4971,4,ở phía cuối của con đường là sự xuất hiện của một toà nhà,84,79,87,8,0.107757,10692,0
+905,4971,5,đây là khung cảnh nhìn từ phía trước của một toà nhà,161,156,164,8,0.018509,10692,0
+906,4989,1,có nhiều người xuất hiện ở bên trong khu chợ,2,1,4,3,0.979634,295,0
+907,4989,2,có nhiều người đang di chuyển ở trong một khu chợ,13,12,15,3,0.682483,273,0
+908,4989,3,ở trong khu chợ có nhiều người đang di chuyển,11,10,13,3,0.692921,273,0
+909,4989,4,ở trong khu chợ có nhiều người đang xuất hiện,6,5,7,2,0.949896,4544,0
+910,4989,5,đây là hình ảnh chụp lại một khu chợ có đông người,8,7,10,3,0.306444,10312,0
+911,5055,1,có một người phụ nữ đang dắt xe đạp ở trên đường,3,3,3,0,0.541069,5944,0
+912,5055,2,có một người phụ nữ xuất hiện bên một chiếc xe đạp ở trên đường,5,5,5,0,0.565911,3474,0
+913,5055,3,ở trên đường có một vài chiếc xe ô tô đang di chuyển,119,119,119,0,0.153863,9564,0
+914,5055,4,có một vài chiếc xe ô tô xuất hiện ở trên đường,129,129,129,0,0.150830,9564,0
+915,5055,5,ở trên đường có sự xuất hiện của một vài chiếc ô tô,242,242,242,0,0.077170,9564,0
+916,5061,1,có hai lá cờ xuất hiện ở trên bến cảng,363,363,363,0,0.007642,2839,0
+917,5061,2,có một con thuyền đang đậu ở trên bến cảng,276,276,276,0,0.042508,2069,0
+918,5061,3,ở trên bến cảng có sự xuất hiện của hai lá cờ,363,363,363,0,0.007345,2839,0
+919,5061,4,có một chiếc tàu đang cập bến ở bên bến cảng,255,255,255,0,0.033197,6255,0
+920,5061,5,ở bên bến cảng có sự xuất hiện của một con tàu,304,304,304,0,0.030913,6255,0
+921,5100,1,có nhiều xe máy đang di chuyển ở trên đường,58,55,59,4,0.483197,340,0
+922,5100,2,có nhiều xe máy đang di chuyển ở trên đường,58,55,59,4,0.483197,340,0
+923,5100,3,có nhiều xe máy đang xuất hiện ở trên đường,97,94,98,4,0.272176,340,0
+924,5100,4,có một người đàn ông đeo ba lô đang chạy xe máy ở trên đường,115,112,116,4,0.119862,5738,0
+925,5100,5,có nhiều xe máy đang tham gia giao thông trên đường,5,2,6,4,0.453216,7587,0
+926,5102,1,có một người phụ nữ đang đứng bên trong quầy hàng hoa,11,11,11,0,0.550573,7335,0
+927,5102,2,có một người phụ nữ đứng trong quầy hàng bán hoa,3,3,3,0,0.628330,7335,0
+928,5102,3,có nhiều người đang đứng trước những quầy hàng hoa,5,5,5,0,0.423718,10452,0
+929,5102,4,có nhiều người đang mua hoa ở trong chợ hoa,39,39,39,0,0.309020,5280,0
+930,5102,5,có nhiều người đang cầm trên tay một bó hoa ở trong hình,92,92,92,0,0.187492,2905,0
+931,5214,1,có một bộ vest được trưng bày trong tủ kính,48,47,48,1,0.086030,3924,0
+932,5214,2,có nhiều bộ quần áo đang được treo ở trong cửa tiệm,117,116,117,1,0.122769,4489,0
+933,5214,3,có một chiếc chiếc áo màu xám được treo trong tủ,106,105,106,1,0.095320,5573,0
+934,5214,4,ở khu vực cửa của căn nhà là cánh cửa sắt màu xanh lá cây,13,12,13,1,0.230685,9548,0
+935,5214,5,ở bên trong căn nhà có sự xuất hiện của nhiều bộ quần áo,3,2,3,1,0.508534,5687,0
+936,5223,1,một người đang chạm tay vào dòng chữ trên biển tên,90,90,90,0,0.074019,1602,0
+937,5223,2,có một người đội mũ nâu đang chạm tay vào dòng chữ,187,187,187,0,0.048295,10578,0
+938,5223,3,có một cái logo và hai dòng chữ màu vàng xuất hiện trước mặt người đàn ông,81,81,81,0,0.102776,11072,0
+939,5223,4,có một cái logo và hai dòng chữ hiện diện trước mặt người đàn ông,87,87,87,0,0.074144,11072,0
+940,5223,5,người đàn ông đang đứng trước một cái logo và hai dòng chữ màu vàng,229,229,229,0,0.038434,6148,0
+941,5231,1,đây là hình ảnh chụp mặt trước của một nhà hàng,144,144,144,0,0.064812,7394,0
+942,5231,2,có một vài lẵng hoa được đặt trước cửa nhà hàng,65,65,65,0,0.141035,9569,0
+943,5231,3,ở trước cửa nhà hàng có sự xuất hiện của một vài lẵng hoa,88,88,88,0,0.158755,3002,0
+944,5231,4,có một vài lẵng hoa xuất hiện ở trước cửa nhà hàng,76,76,76,0,0.167764,3002,0
+945,5231,5,đây là ảnh chụp mặt tiền của một cửa hàng ẩm thực,38,38,38,0,0.104627,961,0
+946,5249,1,có một nhóm người đang cùng nhau chụp ảnh trước một căn nhà,12,12,12,0,0.336071,9869,0
+947,5249,2,có một đám người đang cùng nhau chụp ảnh trước một căn nhà,42,42,42,0,0.188395,9869,0
+948,5249,3,ở trước căn nhà có một đám người đang chụp ảnh,47,47,47,0,0.201957,9869,0
+949,5249,4,ở trước căn nhà có một nhóm người đang chụp ảnh,11,11,11,0,0.384588,9869,0
+950,5249,5,có một nhóm người mặc đồng phục đang chụp ảnh trước ngôi nhà,13,13,13,0,0.278263,9869,0
+951,5257,1,có những món ăn cùng một chiếc điện thoại ở trên bàn,4,4,5,1,0.479063,418,0
+952,5257,2,ở trên bàn có sự xuất hiện của những món ăn và một chiếc điện thoại,4,4,5,1,0.457536,418,0
+953,5257,3,có một chiếc điện thoại được đặt ở bên những món ăn,4,4,5,1,0.392018,418,0
+954,5257,4,có những món ăn được bày ra ở trên bàn,1,1,1,0,0.936038,5257,0
+955,5257,5,ở trên bàn có sự xuất hiện của một vài món ăn,2,2,3,1,0.599557,5904,0
+956,5280,1,có nhiều người đang xuất hiện ở bên trong khu chợ,21,21,21,0,0.747350,10609,0
+957,5280,2,có nhiều người đang di chuyển bên trong khu chợ,24,24,24,0,0.630803,273,0
+958,5280,3,đây là hình ảnh chụp ở bên trong của một khu chợ,25,25,25,0,0.410084,1409,0
+959,5280,4,đây là khung cảnh xuất hiện ở bên trong của một khu chợ,26,26,26,0,0.413888,1409,0
+960,5280,5,ở trong khu chợ có sự xuất hiện của nhiều người,24,24,24,0,0.594640,1409,0
+961,5291,1,một người đang ngồi ở bậc thềm trước một ngôi nhà gỗ,81,81,81,0,0.118409,5346,0
+962,5291,2,ở phía trước ngôi nhà gỗ có một người đang ngồi,70,70,70,0,0.151542,5346,0
+963,5291,3,có một người xuất hiện ở trước một ngôi nhà gỗ,21,21,21,0,0.264657,7345,0
+964,5291,4,có một người xuất hiện ở trước một căn nhà làm bằng gỗ,6,6,6,0,0.334719,3116,0
+965,5291,5,có một người đang ngồi bên những chậu cây trước căn nhà gỗ,1,1,1,0,0.630543,5291,0
+966,5309,1,có nhiều người đang tụ tập ở bên đường,60,60,60,0,0.197887,2839,0
+967,5309,2,có nhiều người đang xuất hiện ở hai bên đường,76,76,76,0,0.286753,2839,0
+968,5309,3,ở hai bên đường có sự xuất hiện của nhiều người,48,48,48,0,0.292406,2839,0
+969,5309,4,ở hai bên đường có sự hiện diện của nhiều người,36,36,36,0,0.235943,2839,0
+970,5309,5,đây là hình ảnh chụp vào buổi tối ở một con phố đông người,140,140,140,0,0.049366,10921,0
+971,5343,1,có một chiếc thùng xốp được đặt ở một bên cửa của một căn nhà,96,95,96,1,0.134130,5687,0
+972,5343,2,có một vài chiếc xe máy xuất hiện ở phía trước của một căn nhà,24,23,24,1,0.406385,10692,0
+973,5343,3,đây là ảnh chụp mặt trước của một ngôi nhà,189,188,189,1,0.024556,7394,0
+974,5343,4,ngôi nhà ở giữa trong bức ảnh đang trong trạng thái đóng cửa,203,202,203,1,0.035904,7345,0
+975,5343,5,có một ngôi nhà đang đóng cửa ở trong bức ảnh,192,191,192,1,0.090596,7345,0
+976,5346,1,có một cặp đôi đang nắm tay nhau ở đầu con hẻm,38,38,38,0,0.086915,10748,0
+977,5346,2,ở đầu con hẻm có một cặp đôi đang nắm tay nhau,38,38,38,0,0.086915,10748,0
+978,5346,3,ở đầu con hẻm có một cặp đôi đang nắm tay,36,36,36,0,0.090965,10748,0
+979,5346,4,chàng trai và cô gái đang nắm tay nhau ở đầu con hẻm,129,129,129,0,0.034747,10748,0
+980,5346,5,ở trước con hẻm có một cặp đôi đang thực hiện hành động nắm tay,10,10,10,0,0.128498,10748,0
+981,5365,1,có nhiều người đang tụ tập ở bên đường,196,195,196,1,0.095978,2839,0
+982,5365,2,ở bên đường có sự xuất hiện của một nhóm bạn trẻ,24,23,24,1,0.224556,10958,0
+983,5365,3,ở bên đường có một đám bạn trẻ đang tụ tập cùng nhau,190,189,190,1,0.059197,999,0
+984,5365,4,có một nhóm bạn trẻ đang xuất hiện ở bên vệ đường,10,9,10,1,0.221008,10958,0
+985,5365,5,có một nhóm bạn trẻ đang tụ tập ở bên đường,6,5,6,1,0.206723,10958,0
+986,5366,1,có một người đàn ông đeo ba lô đang di chuyển ở trên lối đi,368,368,368,0,0.022711,2607,0
+987,5366,2,đây là hình ảnh chụp một con phố ẩm thực,319,260,375,115,0.000000,10921,0
+988,5366,3,có nhiều mặt hàng ẩm thực được bày bán ở hai bên con phố,6,6,6,0,0.375587,8624,0
+989,5366,4,có những chiếc đèn lồng được treo ở không gian phía trên của khu phố ẩm thực,13,13,13,0,0.136294,5573,0
+990,5366,5,ở không gian phía trên của khu phố ẩm thực có những chiếc đèn lồng,59,59,59,0,0.097748,5573,0
+991,5374,1,có nhiều người đang ngồi ở khu vực giao lộ giữa hai con phố,89,86,92,6,0.139767,1460,0
+992,5374,2,có nhiều người đang ngồi ở bên đường giao giữa hai con phố,24,21,27,6,0.284508,4035,0
+993,5374,3,đây là khung cảnh được chụp ở khu vực giao giữa hai con phố,129,126,132,6,0.019939,1460,0
+994,5374,4,có nhiều người đang ngồi ở bên lề đường,12,9,15,6,0.385480,3670,0
+995,5374,5,ở giao của hai con phố có sự xuất hiện của nhiều người đang ngồi trên ghế nhựa,69,66,72,6,0.185690,2839,0
+996,5540,1,trên chiếc xích đu có một cái nón,277,277,279,2,0.025689,9570,0
+997,5540,2,có hai cô gái đang chụp ảnh qua tấm gương,26,26,28,2,0.197437,1687,0
+998,5540,3,"qua tấm gương, có một cô gái đang cầm một chiếc máy ảnh và một cô gái đang ngồi vắt chéo chân",85,85,87,2,0.147413,2083,0
+999,5540,4,khung của tấm gương có màu nâu,2,2,4,2,0.135783,7569,0
+1000,5540,5,tấm gương được đặt ở trên bức tường màu hồng đậm,9,9,11,2,0.170068,1407,0
+1001,5542,1,người đàn ông đội chiếc mũ xanh đang cầm một chiếc máy tính bảng,131,131,131,0,0.063557,5738,0
+1002,5542,2,trên tay của đứa trẻ đang choàng tay qua bạn bên cạnh có một chiếc đồng hồ,241,241,241,0,0.041919,418,0
+1003,5542,3,người đàn ông đang thuyết trình cho học sinh thông qua một chiếc micro,119,119,119,0,0.054076,3110,0
+1004,5542,4,người đàn ông đang thuyết trình thì đội một chiếc mũ màu xanh,123,123,123,0,0.063134,3110,0
+1005,5542,5,tất cả các học sinh nghe thuyết trình đều mặc đồng phục và đeo khăn quàng đỏ,236,77,375,298,0.000000,3110,0
+1006,5557,1,đèn chùm của siêu thị được thiết kế với hình dạng tương tự giọt nước,248,101,375,274,0.000000,9999,0
+1007,5557,2,con vật đang đứng giữa sảnh siêu thị là con chó,135,135,135,0,0.017643,9999,0
+1008,5557,3,đèn chùm của siêu thị có hai màu là vàng ánh kim và bạc,114,114,114,0,0.009053,9999,0
+1009,5557,4,có hai cái thang cuốn ở phía xa của khung hình,115,115,115,0,0.031914,7290,0
+1010,5557,5,có nhiều đèn chùm màu vàng hơn đèn chùm màu bạc,56,56,56,0,0.041153,5573,0
+1011,5564,1,cô gái đang mặc một chiếc áo dài,7,6,9,3,0.640859,479,0
+1012,5564,2,tay trái của chàng trai đang đeo một chiếc đồng hồ,192,191,194,3,0.029737,418,0
+1013,5564,3,chiếc áo chàng trai đang mặc có hoạ tiết cành cây ở phía trước,43,42,45,3,0.113293,3768,0
+1014,5564,4,chàng trai và cô gái đang nhìn nhau,17,16,19,3,0.163834,5871,0
+1015,5564,5,chàng trai và cô gái đang mặc áo dài và cùng ngồi ở trên ban công một toà nhà,12,11,14,3,0.311204,845,0
+1016,5566,1,có ba cái cây được vẽ bên trong bức tranh,3,2,3,1,0.387253,8615,0
+1017,5566,2,có một người đang đạp xe ở bên trong bức tranh,5,4,5,1,0.516709,3474,0
+1018,5566,3,có sự xuất hiện của bức tranh ở trên sàn nhà,2,1,2,1,0.524404,1407,0
+1019,5566,4,bức tranh được đặt trên sàn nhà vẽ về khung cảnh một khu phố,3,2,3,1,0.315479,8615,0
+1020,5566,5,các bức tranh đang được đặt ở trên sàn nhà,2,1,2,1,0.402792,1407,0
+1021,5569,1,cô gái đang uống một chai nước,9,9,9,0,0.243339,2083,0
+1022,5569,2,phần tay trái của áo cô gái có biểu tượng hình xương cá,19,19,19,0,0.181103,5223,0
+1023,5569,3,cô gái đang cầm chai nước bằng tay trái,28,28,28,0,0.172442,3266,0
+1024,5569,4,cô gái đang mặc chiếc áo màu đen sọc trắng với một biểu tượng hình xương xá,2,2,2,0,0.360487,4138,0
+1025,5569,5,cô gái đang uống một chai nước ở phía trước tiệm tạp hoá,20,20,20,0,0.173734,4057,0
+1026,5573,1,có một móc khoá hình ông già noel,371,371,371,0,0.007281,4492,0
+1027,5573,2,cái móc khoá hình chiếc găng tay có màu đỏ,52,52,52,0,0.075807,924,0
+1028,5573,3,trên móc khoá hình cây thông có bốn ngôi sao,168,168,168,0,0.026746,4492,0
+1029,5573,4,có tổng cộng năm chiếc móc khoá ở trên bàn,30,30,30,0,0.088114,1223,0
+1030,5573,5,"có một chiếc móc khoá màu xanh lá cây, hai chiếc móc khoá màu nâu và hai chiếc móc khoá màu đỏ",23,23,23,0,0.099579,8689,0
+1031,5575,1,có một tấm băng rôn đỏ được đặt trước cổng ngôi đền,4,4,4,0,0.171748,8601,0
+1032,5575,2,có hai bức tượng được đặt ở trước cổng đền,5,5,5,0,0.305150,11008,0
+1033,5575,3,trước cổng của ngôi đền có treo một tấm băng rôn màu đỏ,9,9,9,0,0.169445,10527,0
+1034,5575,4,trên phần đỉnh của cổng ngôi đền có treo hai lá cờ,4,4,4,0,0.144560,4788,0
+1035,5575,5,đây là khung cảnh xuất hiện ở khu vực cổng của một ngôi đền,8,8,8,0,0.262983,5557,0
+1036,5604,1,có một nhóm người đang chụp ảnh tập thể trước một khu di tích,2,2,2,0,0.567995,999,0
+1037,5604,2,có một đám đông đang chụp ảnh trước một khu di tích,2,2,2,0,0.584445,999,0
+1038,5604,3,có một đám đông đang chụp ảnh cùng nhau trước một khu di tích,2,2,2,0,0.521696,999,0
+1039,5604,4,có một tấm bia màu đen xuất hiện ở sau lưng nhóm người,54,54,54,0,0.146411,6418,0
+1040,5604,5,ở trước một khu di tích có sự xuất hiện của một nhóm người,1,1,1,0,0.791159,5604,0
+1041,5628,1,có một người đàn ông đang ngồi trên xe máy ở bên ngoài khu vực ngăn cách,75,72,78,6,0.205162,1743,0
+1042,5628,2,có một người phụ nữ đang ngồi ở quầy hàng bên trong khu vực ngăn cách,51,48,54,6,0.273903,7335,0
+1043,5628,3,có một vài người đang đứng ở bên ngoài khu vực ngăn cách,34,31,37,6,0.226396,10994,0
+1044,5628,4,có một chiếc ô xuất hiện ở bên trong khu vực ngăn cách,14,11,17,6,0.307669,5557,0
+1045,5628,5,ở bên trong khu vực ngăn cách có sự xuất hiện của một quầy bán hàng,8,5,10,5,0.343813,5557,0
+1046,5633,1,đây là hình ảnh chụp một dãy những ngôi nhà cao tầng ở bên bờ hồ,4,4,4,0,0.251264,1820,0
+1047,5633,2,có nhiều ngôi nhà cao tầng xuất hiện ở bên hồ,63,63,63,0,0.145898,1820,0
+1048,5633,3,ở bên bờ hồ có sự xuất hiện của nhiều ngôi nhà cao tầng,2,2,2,0,0.352279,1820,0
+1049,5633,4,ở bên bờ hồ có sự xuất hiện của những ngôi nhà cao tầng,2,2,2,0,0.350269,1820,0
+1050,5633,5,có những ngôi nhà cao tầng xuất hiện ở bên bờ hồ,2,2,2,0,0.366109,1820,0
+1051,5662,1,có một chàng trai đang đứng ở bên một cái hồ,202,202,202,0,0.092296,1225,0
+1052,5662,2,có một chàng trai đang đứng bên bờ của một cái hồ,8,8,8,0,0.261166,1225,0
+1053,5662,3,có một cái hồ nước ở bên cạnh chàng trai mặc áo vàng,49,49,49,0,0.144941,10436,0
+1054,5662,4,có một chàng trai mặc áo vàng đang đứng bên bờ hồ,2,2,2,0,0.335372,2884,0
+1055,5662,5,có một chàng trai mặc áo vàng đang đứng ở bên rìa một hồ nước,64,64,64,0,0.144222,110,0
+1056,5669,1,có hai người đàn ông xuất hiện ở bên ngôi nhà,106,106,106,0,0.146512,5886,0
+1057,5669,2,có hai người đàn ông ngồi ở một bên của ngôi nhà,161,161,161,0,0.107790,1456,0
+1058,5669,3,có một chiếc xe đạp màu đỏ bên một cái chum,7,7,7,0,0.337904,2832,0
+1059,5669,4,ngôi nhà có vị trí nằm ở trên mặt nước,308,308,308,0,0.020621,823,0
+1060,5669,5,ở trên mặt nước có sự xuất hiện của một ngôi nhà,132,132,132,0,0.124383,823,0
+1061,5687,1,đây là hình ảnh chụp ở bên trong một căn nhà làm bằng gỗ,1,1,1,0,0.349030,5687,0
+1062,5687,2,có hai chiếc đèn lồng được treo ở trong căn nhà,7,7,7,0,0.363445,2779,0
+1063,5687,3,có hai chiếc đèn lồng được trang trí ở bên trong căn nhà,4,4,4,0,0.391914,2779,0
+1064,5687,4,ở bên trong căn nhà có sự xuất hiện của hai cái đèn lồng,3,3,3,0,0.551083,2779,0
+1065,5687,5,có nhiều bức hoạ được trang trí ở tầng dưới của căn nhà,5,5,5,0,0.298034,6000,0
+1066,5710,1,có một người đàn ông mặc áo trắng đang nhận tiền từ một người phụ nữ đứng đối diện,59,59,59,0,0.211471,10648,0
+1067,5710,2,có một nam thanh niên đang mua hàng ở quầy hàng của cô gái mặc áo màu hồng,138,138,138,0,0.114975,2611,0
+1068,5710,3,có nhiều mặt hàng rau củ quả được bày bán ở trong khu chợ,143,143,143,0,0.105574,1015,0
+1069,5710,4,có một chàng trai đang đứng ở quầy hàng bán rau củ quả,86,86,86,0,0.133204,1085,0
+1070,5710,5,có một chàng trai cầm trên tay một cái ví đen ở trước một quầy hàng rau củ quả,11,11,11,0,0.339835,3727,0
+1071,5715,1,đây là hình ảnh được chụp ở phía trước của một cửa hàng tạp hoá,79,79,79,0,0.131351,2345,0
+1072,5715,2,đây là hình ảnh được chụp ở phía trước của một cửa hàng bách hoá,79,79,79,0,0.146005,2345,0
+1073,5715,3,có một cửa hàng bách hoá xuất hiện ở trong bức ảnh,116,116,116,0,0.204338,2645,0
+1074,5715,4,có một người đàn ông và một chiếc xe máy xuất hiện ở trước cửa hàng bách hoá,62,62,62,0,0.292618,5738,0
+1075,5715,5,ở trước cửa hàng bách hoá có một chiếc xe máy và một người đàn ông,61,61,61,0,0.301427,5738,0
+1076,5725,1,có một vài chiếc thuyền đang di chuyển ở trên sông,1,1,1,0,0.833737,5725,0
+1077,5725,2,ở trên sông có sự xuất hiện của một vài con thuyền,2,2,2,0,0.504851,2069,0
+1078,5725,3,có một vài con thuyền xuất hiện ở trên một con sông,6,6,6,0,0.468319,2069,0
+1079,5725,4,có một cây cầu được bắc ngang qua con sông,10,10,10,0,0.204559,4556,0
+1080,5725,5,ở trên mặt nước có sự xuất hiện của một cây cầu,128,128,128,0,0.117359,823,0
+1081,5733,1,có một nam thanh niên và một cô gái đang đứng bên quầy hàng rau củ quả,4,4,4,0,0.556412,1085,0
+1082,5733,2,có một chàng trai đang cầm trên tay một cái túi màu vàng,233,233,233,0,0.054867,4671,0
+1083,5733,3,có một cái túi màu vàng xuất hiện ở trên tay của nam thanh niên,346,346,346,0,0.023531,9570,0
+1084,5733,4,đây là khung cảnh xuất hiện ở khu vực bán rau củ quả của một siêu thị,11,11,11,0,0.337758,1085,0
+1085,5733,5,có một cô gái mặc áo đen và một chàng trai mặc áo trắng đang đứng chọn rau củ quả cạnh nhau,4,4,4,0,0.481791,3727,0
+1086,5738,1,có một nam thanh niên đang đứng ở trong quán ăn,35,35,35,0,0.170742,1011,0
+1087,5738,2,có một cái bàn với những tờ giấy được dán bên trên đang xuất hiện ở trước cửa quán,146,146,146,0,0.092843,3002,0
+1088,5738,3,ở trước cửa quán có sự xuất hiện của một cái bàn có dán theo vài tấm giấy,228,228,228,0,0.049991,3002,0
+1089,5738,4,có một vài người đang đứng ở một bên của quán ăn,20,20,20,0,0.365305,7405,0
+1090,5738,5,có một vài người đang đứng ở bên trong quán ăn,37,37,37,0,0.324731,7405,0
+1091,5799,1,có một quyển sách ở trên tay của người trong bức ảnh,1,1,1,0,0.722370,5799,0
+1092,5799,2,có một người đang cầm trên tay một quyển sách,1,1,1,0,0.936688,5799,0
+1093,5799,3,có một quyển sách xuất hiện ở trên tay của người trong bức ảnh,1,1,1,0,0.701181,5799,0
+1094,5799,4,ở trên tay của người trong bức ảnh có sự xuất hiện của một quyển sách,1,1,1,0,0.643231,5799,0
+1095,5799,5,người trong bức ảnh đang cầm trên tay một quyển sách,1,1,1,0,0.823888,5799,0
+1096,5811,1,đây là hình ảnh chụp ở bên trong của một siêu thị,316,316,317,1,0.021618,5840,0
+1097,5811,2,có nhiều người đang mua hàng ở bên trong siêu thị,135,135,136,1,0.181632,475,0
+1098,5811,3,có nhiều người đang đứng trong khu vực bày bán hoa quả của siêu thi,91,91,92,1,0.189057,10994,0
+1099,5811,4,có một tấm biển thông báo nền đỏ ở bên quầy hoa quả,34,34,35,1,0.162361,7449,0
+1100,5811,5,có nhiều kệ hàng hoa quả xuất hiện ở trong bức ảnh,2,2,3,1,0.620976,4851,0
+1101,5840,1,có nhiều người đang đứng ở bên quầy hàng thanh long,54,54,54,0,0.240287,10452,0
+1102,5840,2,ở bên quầy hàng thanh long có nhiều người đang xuất hiện,17,17,17,0,0.334774,10452,0
+1103,5840,3,có nhiều quả thanh long xuất hiện ở trên quầy hàng,54,54,54,0,0.193396,5811,0
+1104,5840,4,đây là khung cảnh xuất hiện ở trong một xưởng đóng gói hàng nông sản,47,47,47,0,0.122843,7365,0
+1105,5840,5,có nhiều quả thanh long xuất hiện ở trong khu xưởng,28,28,28,0,0.225051,4544,0
+1106,5862,1,có một người phụ nữ đang cầm những sản phẩm ở trên tay,60,60,61,1,0.197024,7233,0
+1107,5862,2,có một người phụ nữ đang đứng bên quầy hàng rau củ quả,33,33,34,1,0.311261,5733,0
+1108,5862,3,có một quầy hàng rau củ quả xuất hiện ở bên người phụ nữ,67,67,68,1,0.220627,5733,0
+1109,5862,4,có một người phụ nữ đang cạnh quầy hàng rau củ quả,59,59,60,1,0.188683,5733,0
+1110,5862,5,ở cạnh quầy hàng rau củ quả có sự xuất hiện của một người phụ nữ,107,107,108,1,0.156043,5733,0
+1111,5871,1,có một cô gái đang tạo dáng ở trên đường tàu,12,12,12,0,0.571799,3579,0
+1112,5871,2,ở trên đường ray tàu hoả có sự xuất hiện của một cô gái,14,14,14,0,0.216718,91,0
+1113,5871,3,có một cô gái đang ngồi ở trên đường ray tàu hoả,17,17,17,0,0.233744,2083,0
+1114,5871,4,ở trên đường ray tàu hoả có một cô gái đang tạo dáng chụp ảnh,19,19,19,0,0.484260,411,0
+1115,5871,5,có một cô gái đang ngồi trên đường ray tàu hoả trong bức ảnh,43,43,43,0,0.216655,2083,0
+1116,5878,1,có một vài bát bún xuất hiện ở trên bàn,6,6,6,0,0.275651,351,0
+1117,5878,2,ở trên bàn có sự xuất hiện của ba bát bún,4,4,4,0,0.241541,351,0
+1118,5878,3,có những bát nước chấm và những bát bún xuất hiện ở trên bàn,5,5,5,0,0.170106,351,0
+1119,5878,4,ở trên bàn có sự xuất hiện của những bát bún và những bát nước chấm,5,5,5,0,0.166375,351,0
+1120,5878,5,có những bát nước chấm được đặt ở trên và ở xung quanh những bát bún,133,133,133,0,0.046902,351,0
+1121,5884,1,có một cậu bé đang đạp xe ở dưới trời mưa,251,251,251,0,0.036110,3474,0
+1122,5884,2,có một cậu bé đang đạp xe ở trên con phố,52,52,52,0,0.141659,3474,0
+1123,5884,3,đây là khung cảnh chụp một con phố lúc trời mưa,34,34,34,0,0.084541,10921,0
+1124,5884,4,con phố này đang ở trong tình trạng thời tiết là mưa,29,29,29,0,0.071086,4035,0
+1125,5884,5,có một người đang đạp xe đạp dưới trời mưa ở trên con phố,80,80,80,0,0.100398,3474,0
+1126,5886,1,có một người đang đứng ở bên khu vực bán hàng,24,24,24,0,0.436095,10994,0
+1127,5886,2,có một người đang đứng ở phía trước cửa hàng,6,6,6,0,0.584398,2345,0
+1128,5886,3,ở phía trước cửa hàng có sự xuất hiện của một người,6,6,6,0,0.442079,2345,0
+1129,5886,4,ở phía trước của cửa hàng có một người mặc áo xám,7,7,7,0,0.363876,2345,0
+1130,5886,5,ở phía trước cửa hàng có một người mặc áo xám và đeo khẩu trang xanh,29,29,29,0,0.217295,2345,0
+1131,5904,1,có nhiều món ăn đang được bày ra ở trên bàn,3,3,3,0,0.837878,5257,0
+1132,5904,2,ở trên bàn có sự xuất hiện của nhiều món ăn,1,1,1,0,0.715765,5904,0
+1133,5904,3,có nhiều món ăn xuất hiện ở trong bức ảnh,6,6,6,0,0.524933,387,0
+1134,5904,4,có nhiều món ăn được trưng bày ở trong bức ảnh,1,1,1,0,0.638289,5904,0
+1135,5904,5,trong bức ảnh có sự xuất hiện của nhiều món ăn,6,6,6,0,0.470555,387,0
+1136,5909,1,có một người phụ nữ đang quét rác ở trong khu chợ,96,96,96,0,0.154035,10312,0
+1137,5909,2,đây là hình ảnh xuất hiện ở trong một khu chợ,307,307,307,0,0.031617,10312,0
+1138,5909,3,ở bên trong khu chợ có sự xuất hiện của nhiều người mua hàng,342,342,342,0,0.031478,5280,0
+1139,5909,4,có một người phụ nữ đang cầm chổi để quét rác ở trong khu chợ,104,104,104,0,0.116328,10312,0
+1140,5909,5,ở trên lối đi có một người phụ nữ đang quét sàn,61,61,61,0,0.144271,2607,0
+1141,5944,1,có một vài người xuất hiện ở trước toà nhà,209,209,209,0,0.105358,3116,0
+1142,5944,2,ở trước toà nhà có sự xuất hiện của một vài người,214,214,214,0,0.095006,10692,0
+1143,5944,3,có một vài người đang di chuyển ở phía trước của toà nhà,184,184,184,0,0.106756,10692,0
+1144,5944,4,đây là hình ảnh chụp ở bên ngoài của một toà nhà,238,238,238,0,0.035605,7394,0
+1145,5944,5,đây là khung cảnh xuất hiện ở bên ngoài của một toà nhà,265,265,265,0,0.035879,9857,0
+1146,5999,1,có nhiều quầy hàng bán đồ trang trí ở bên đường,46,42,48,6,0.243011,10881,0
+1147,5999,2,có nhiều cửa hàng đồ trang trí ở một bên đường,38,34,40,6,0.256952,4604,0
+1148,5999,3,có nhiều người xuất hiện ở quanh các cửa hàng bán đồ trang trí,126,122,128,6,0.141012,4604,0
+1149,5999,4,có nhiều cửa hàng bán đồ trang trí xuất hiện ở bên đường,72,68,74,6,0.235169,4604,0
+1150,5999,5,có nhiều người đang đứng ở trước các cửa hàng bán đồ trang trí,109,105,111,6,0.173682,4604,0
+1151,6000,1,có nhiều mặt hàng đồ trang trí được bày bán ở hai bên lối đi,13,13,13,0,0.437498,3855,0
+1152,6000,2,có nhiều mặt hàng đồ trang trí được bày bán ở hai bên đường,12,12,12,0,0.482822,4604,0
+1153,6000,3,ở hai bên đường có sự xuất hiện của nhiều loại đồ trang trí,1,1,1,0,0.724553,6000,0
+1154,6000,4,có nhiều loại đồ trang trí được bày bán ở hai bên đường,1,1,1,0,0.632613,6000,0
+1155,6000,5,có một vài người đang di chuyển giữa những quầy hàng bán đồ trang trí,19,19,19,0,0.392713,10881,0
+1156,6039,1,có hai chiếc xe máy đang được dựng ở phía trước nhà thuốc,339,338,340,2,0.023886,3670,0
+1157,6039,2,ở phía trước của nhà thuốc có sự xuất hiện của hai chiếc xe máy,174,173,175,2,0.076842,10692,0
+1158,6039,3,đây là hình ảnh chụp ở phía trước của một hiệu thuốc,59,58,60,2,0.102149,2345,0
+1159,6039,4,có một cái bảng tên có nền màu trắng ở trước hiệu thuốc,221,220,222,2,0.041372,10527,0
+1160,6039,5,ở mặt trước của hiệu thuốc có sự xuất hiện của một tấm biển tên,4,3,5,2,0.288180,10527,0
+1161,6115,1,có một vài người đang đứng ở khu vực bán rau củ quả,120,120,120,0,0.169326,1085,0
+1162,6115,2,có một khay quả xuất hiện ở trên tay người phụ nữ mặc áo tím,1,1,1,0,0.513932,6115,0
+1163,6115,3,người phụ nữ mặc áo tím đang cầm trên tay một khay quả,9,9,9,0,0.434279,5710,0
+1164,6115,4,có một người phụ nữ mặc áo xanh đang đứng cạnh một người phụ nữ mặc áo tím,36,36,36,0,0.390640,110,0
+1165,6115,5,có hai người phụ nữ đang đứng trước khu vực bày bán rau củ quả,43,43,43,0,0.225458,2734,0
+1166,6122,1,đây là hình ảnh chụp ở cổng vào của một quán bia,167,161,169,8,0.034008,5575,0
+1167,6122,2,có một cái cổng vào quán bia xuất hiện ở trong bức ảnh,249,243,251,8,0.048503,5575,0
+1168,6122,3,có hai dòng chữ xuất hiện ở trên cái bảng tên,164,158,164,6,0.067088,4788,0
+1169,6122,4,có một dòng chữ màu đỏ và một dòng chữ màu xanh xuất hiện ở trên bảng tên,167,161,169,8,0.064673,8689,0
+1170,6122,5,có một người đang chạy xe máy ở trên đường,9,3,11,8,0.514841,340,0
+1171,6148,1,một chàng trai đang ở trong căn nhà bị ngăn cách,26,26,26,0,0.119158,3116,0
+1172,6148,2,có một chàng trai đang đứng trong căn nhà bị cách ly,10,10,10,0,0.188034,9869,0
+1173,6148,3,có một người phụ nữ mặc áo đỏ đang đứng ở bên ngoài ngôi nhà,68,68,68,0,0.244216,9505,0
+1174,6148,4,ở bên ngoài căn nhà có một người phụ nữ,129,129,129,0,0.145637,5687,0
+1175,6148,5,người phụ nữ mặc áo đỏ đang nói chuyện với nam thanh niên ở trong căn nhà,124,124,124,0,0.097765,1518,0
+1176,6158,1,có một cô gái đeo túi xách đang tạo dáng trên đường ray,273,269,275,6,0.033591,3579,0
+1177,6158,2,có một cô gái đeo túi xách xuất hiện ở trên đường ray,146,142,148,6,0.112202,91,0
+1178,6158,3,có nhiều người đang xuất hiện ở trên đường ray tàu hoả,40,40,40,0,0.239360,2839,0
+1179,6158,4,ở trên đường ray tàu hoả có một cô gái đang tạo dáng,240,236,242,6,0.053150,3579,0
+1180,6158,5,ở trên đường ray tàu hoả có một cô gái cầm theo một cái túi xách,311,307,313,6,0.027141,91,0
+1181,6227,1,cô gái áo sọc ca rô đang lựa mua củ quả,7,7,8,1,0.212286,5733,0
+1182,6227,2,có một người phụ nữ áo đỏ đang lựa rau củ,20,20,21,1,0.332995,5733,0
+1183,6227,3,người phụ nữ mặc áo màu đỏ đang nói chuyện với người phụ nữ mặc áo ca rô ở bên cạnh,336,336,337,1,0.009446,9505,0
+1184,6227,4,có ba người phụ nữ đang đứng ở bên quầy rau củ quả,9,9,10,1,0.477352,5733,0
+1185,6227,5,có hai người phụ nữ đang nói chuyện với nhau ở bên trái của khung hình,326,326,327,1,0.022139,10407,0
+1186,6255,1,có ba chiếc tàu đang di chuyển trên biển,1,1,1,0,0.783104,6255,0
+1187,6255,2,các chiếc tàu có màu sắc chủ đạo là màu trắng,3,3,3,0,0.191767,9570,0
+1188,6255,3,có ba chiếc tàu màu trắng trên biển,1,1,1,0,0.508959,6255,0
+1189,6255,4,cả ba chiếc tàu có hình dáng giống nhau,10,10,10,0,0.201845,3938,0
+1190,6255,5,bầu trời trên biển thì trong xanh,5,5,5,0,0.176379,10993,0
+1191,6275,1,người phụ nữ áo tím mang nón lá,128,124,129,5,0.033568,350,0
+1192,6275,2,người phụ nữ đội nón lá mang áo quần màu tím,132,128,133,5,0.028884,7441,0
+1193,6275,3,đây là khung cảnh phía trước của chợ hội an,274,72,375,303,0.000000,2345,0
+1194,6275,4,màu sắc chủ đạo của tường khu chợ là màu nâu,267,85,375,290,0.000000,1409,0
+1195,6275,5,có một cái giếng ở trước cổng chợ,98,94,99,5,0.068578,4788,0
+1196,6381,1,có những cửa hàng bán đồ trang trí xuất hiện ở bên đường,60,58,61,3,0.207574,4604,0
+1197,6381,2,ở bên đường có những cửa hàng bán đồ trang trí,141,139,141,2,0.116224,4604,0
+1198,6381,3,có một vài người đang chạy xe máy qua những cửa hàng đồ trang trí,206,204,207,3,0.066592,4604,0
+1199,6381,4,ở phía trước cửa hàng bán đồ trang trí có nhiều người đang chạy xe máy,117,115,118,3,0.146655,4604,0
+1200,6381,5,có nhiều loại đồ trang trí xuất hiện ở trên các cửa hàng bên đường,57,55,58,3,0.251233,6000,0
+1201,6396,1,có một người đàn ông đang cho cá ăn bên bờ sông,23,23,24,1,0.266285,5633,0
+1202,6396,2,ở bên bờ sông có một người đàn ông đang cho cá ăn,24,24,25,1,0.264704,5633,0
+1203,6396,3,có một người đàn ông đang cầm cái thau đồ ăn cho cá,16,16,17,1,0.238545,681,0
+1204,6396,4,ở bên bờ sông có sự xuất hiện của một người đàn ông cầm theo một cái nồi,24,24,25,1,0.251356,5633,0
+1205,6396,5,ở bên bờ sông có sự xuất hiện của một người đàn ông cầm theo một cái thau,23,23,24,1,0.244948,5633,0
+1206,6411,1,có một nhóm người đang xuất hiện ở một khu tham quan,2,2,2,0,0.408016,3369,0
+1207,6411,2,có một nhóm người đang xuất hiện ở trong một khu di tích,8,8,8,0,0.494549,5604,0
+1208,6411,3,có một người đàn ông mặc áo xanh lá cây đang thuyết minh cho đám đông,130,130,130,0,0.068350,5909,0
+1209,6411,4,có một người mặc áo xanh lá cây đang thuyết minh cho những khách tham quan,118,118,118,0,0.065558,10608,0
+1210,6411,5,có một chàng trai mặc áo khoác màu xanh dương đang cầm một chiếc máy ảnh,162,162,162,0,0.085480,1518,0
+1211,6418,1,có hai người đàn ông đang xuất hiện bên một tấm bảng hiệu,47,47,47,0,0.215839,10527,0
+1212,6418,2,có một tấm bảng hiệu đang được sửa chữa bởi hai người đàn ông,27,27,27,0,0.144827,7449,0
+1213,6418,3,có một tấm bảng hiệu xuất hiện ở trên mặt đất,13,13,13,0,0.178672,10527,0
+1214,6418,4,có hai người đàn ông xuất hiện ở trước tấm bảng hiệu,21,21,21,0,0.238332,10527,0
+1215,6418,5,có hai người đàn ông đang sửa chữa tấm bảng hiệu,30,30,30,0,0.137144,7449,0
+1216,7202,1,có một người đàn ông đội mũ hồng đang đứng bên chiếc xe buýt,1,1,1,0,0.580566,7202,0
+1217,7202,2,có một chiếc xe buýt màu xanh xuất hiện trong bức ảnh,2,2,2,0,0.568956,8689,0
+1218,7202,3,có sự xuất hiện của một chiếc xe buýt màu xanh trong bức ảnh,2,2,2,0,0.536818,8689,0
+1219,7202,4,có một người đàn ông mặc áo hồng đang xuất hiện bên cạnh chiếc xe buýt,1,1,1,0,0.527521,7202,0
+1220,7202,5,có một chiếc xe buýt xuất hiện ở bên cạnh người đàn ông đội mũ hồng,1,1,1,0,0.486639,7202,0
+1221,7233,1,có một người phụ nữ và một đứa bé đang đứng ở bên quầy hàng sữa,79,79,79,0,0.182894,4273,0
+1222,7233,2,có một người phụ nữ và một cô bé ở trước quầy hàng sữa,69,69,69,0,0.182776,4273,0
+1223,7233,3,có một người phụ nữ và một cô bé đang đứng gần những lọ sữa,64,64,64,0,0.168242,4273,0
+1224,7233,4,có nhiều lọ sữa xuất hiện ở trên kệ hàng trước mặt của hai người,305,305,305,0,0.053902,7316,0
+1225,7233,5,có một người phụ nữ và một cô bé xuất hiện ở phía trước của một quầy sữa,91,91,91,0,0.181799,4273,0
+1226,7275,1,có nhiều người xuất hiện ở trên phố đi bộ,57,57,57,0,0.240908,3785,0
+1227,7275,2,ở trên phố đi bộ có nhiều người đang di chuyển,118,118,118,0,0.154739,1460,0
+1228,7275,3,ở trên phố đi bộ có sự xuất hiện của rất nhiều người,60,60,60,0,0.186388,3785,0
+1229,7275,4,đây là khung cảnh xuất hiện vào buổi tối trên một con phố đi bộ đông người,100,100,100,0,0.072513,10921,0
+1230,7275,5,đây là hình ảnh nhìn từ trên cao của một con phố đi bộ đông đúc lúc trời tối,355,326,375,49,0.000000,10921,0
+1231,7277,1,có nhiều mặt hàng rau củ quả xuất hiện ở trên các kệ hàng,2,1,2,1,0.800541,6227,0
+1232,7277,2,có nhiều mặt hàng rau củ quả được bày bán ở khu vực này,7,6,7,1,0.510117,1015,0
+1233,7277,3,đây là hình ảnh chụp ở khu vực bán rau củ quả của một siêu thị,7,6,7,1,0.372454,1085,0
+1234,7277,4,có nhiều người đang đứng ở trong quầy rau củ quả,8,7,8,1,0.603286,1085,0
+1235,7277,5,có nhiều người xuất hiện trong quầy hàng rau củ quả của siêu thị,2,1,2,1,0.607220,6227,0
+1236,7286,1,có một vài người đang đứng ở khu vực cửa của cửa hàng,19,19,19,0,0.377545,9548,0
+1237,7286,2,có một vài người xuất hiện ở khu vực cửa của cửa hàng,17,17,17,0,0.360568,9548,0
+1238,7286,3,có nhiều người đang mua hàng ở bên trong cửa hàng,106,106,106,0,0.235590,5280,0
+1239,7286,4,ở bên trong cửa hàng có sự xuất hiện của nhiều người,90,90,90,0,0.307838,3002,0
+1240,7286,5,đây là hình ảnh xuất hiện ở phía trước một cửa hàng,260,260,260,0,0.045933,3002,0
+1241,7290,1,có một cái cầu thang với tay vịn làm bằng gỗ,1,1,1,0,0.366670,7290,0
+1242,7290,2,có một cái cầu thang được ốp đá ở trong căn nhà,1,1,1,0,0.558746,7290,0
+1243,7290,3,ở phía dưới cầu thang có một phòng vệ sinh,1,1,1,0,0.545225,7290,0
+1244,7290,4,có một cái cầu thang xuất hiện ở trong ngôi nhà,1,1,1,0,0.727455,7290,0
+1245,7290,5,đây là hình ảnh chụp khu vực cầu thang của một căn nhà,1,1,1,0,0.488528,7290,0
+1246,7316,1,có nhiều chai và lon nước ngọt xuất hiện ở trên kệ hàng,13,13,14,1,0.299072,5811,0
+1247,7316,2,có nhiều lon và chai nước xuất hiện ở trên kệ,12,12,13,1,0.339971,5811,0
+1248,7316,3,ở trên kệ có sự xuất hiện của nhiều chai nước và lon nước,14,14,15,1,0.263651,823,0
+1249,7316,4,có một người phụ nữ đang đứng trước kệ hàng bán nước giải khát,95,95,96,1,0.139213,3838,0
+1250,7316,5,có một người phụ nữ đang sắp xếp những lon nước ngọt,348,348,349,1,0.009534,3838,0
+1251,7327,1,có nhiều người đang đứng ở trước quầy hàng bán đồ trang trí giáng sinh,149,148,149,1,0.129306,966,0
+1252,7327,2,có nhiều mặt hàng đồ trang trí giáng sinh xuất hiện ở bên đường,113,112,113,1,0.135887,966,0
+1253,7327,3,có nhiều loại đồ trang trí giáng sinh được bày bán bên đường,104,103,104,1,0.108451,966,0
+1254,7327,4,có nhiều người đang tụ tập ở quanh quầy bán đồ trang trí giáng sinh,93,92,93,1,0.109098,966,0
+1255,7327,5,có nhiều người đang mua hàng ở quầy hàng bán đồ trang trí giáng sinh,137,136,137,1,0.121451,966,0
+1256,7335,1,có nhiều sản phẩm được bày bán ở quầy hàng,45,45,45,0,0.257264,47,0
+1257,7335,2,có nhiều mặt hàng được bày bán ở quầy hàng,31,31,31,0,0.342868,8624,0
+1258,7335,3,có một người phụ nữ mặc áo đen đang đứng ở quầy hàng,9,9,9,0,0.711770,10857,0
+1259,7335,4,ở trước quầy hàng có sự xuất hiện của một người phụ nữ mặc áo đen,12,12,12,0,0.507616,10857,0
+1260,7335,5,có một người mặc áo đen xuất hiện ở trước quầy hàng,17,17,17,0,0.369300,4651,0
+1261,7338,1,đây là hình ảnh chụp ở giao lộ giữa hai con phố,114,109,114,5,0.017834,1460,0
+1262,7338,2,hai con phố ở trong hình đang ở trạng thái vắng người,113,108,113,5,0.090981,4035,0
+1263,7338,3,đây là khung cảnh xuất hiện ở khu vực giao của hai con phố vắng người,169,164,169,5,0.044602,5557,0
+1264,7338,4,những ngôi nhà ở trên các con phố đang trong trạng thái đóng cửa,123,118,123,5,0.081374,1460,0
+1265,7338,5,không có người nào đang di chuyển ở bên trong của con phố,31,26,31,5,0.383864,4035,0
+1266,7345,1,có một là cờ được treo ở bên cạnh cái lư hương,201,201,201,0,0.042833,8601,0
+1267,7345,2,có một chiếc lư hương xuất hiện ở bên cạnh cột cờ,72,72,72,0,0.102847,8601,0
+1268,7345,3,có một cái cột cờ xuất hiện ở trước cổng đình,42,42,42,0,0.114663,4788,0
+1269,7345,4,ở gần cổng đình có sự xuất hiện của một lá cờ,39,39,39,0,0.114014,4788,0
+1270,7345,5,có một chiếc lư hương được đặt ở ngay bên dưới cột cờ,216,216,216,0,0.037523,8601,0
+1271,7355,1,có một cặp đôi đang cùng nhìn về một chiếc máy ảnh,3,3,3,0,0.297487,10748,0
+1272,7355,2,có một chiếc máy ảnh ở trên tay của chàng trai,3,3,3,0,0.323366,340,0
+1273,7355,3,cô gái ngồi bên cạnh chàng trai đang nhìn về phía chiếc máy ảnh,1,1,1,0,0.353374,7355,0
+1274,7355,4,chàng trai đang cho cô gái xem về chiếc máy ảnh,1,1,1,0,0.324087,7355,0
+1275,7355,5,có một cặp đôi đang ngồi bên nhau và cùng nhìn về chiếc máy ảnh,5,5,5,0,0.270893,10748,0
+1276,7365,1,có một cô gái đang đứng ở bên một quầy hàng sữa,12,12,12,0,0.406578,4273,0
+1277,7365,2,có nhiều hộp sữa xuất hiện ở trước mắt của cô gái,1,1,1,0,0.396270,7365,0
+1278,7365,3,có một cô gái đang cầm trên tay một cái giỏ màu đen,353,353,353,0,0.011957,924,0
+1279,7365,4,có một cái giỏ màu đen xuất hiện ở trên tay của cô gái,201,201,201,0,0.097664,924,0
+1280,7365,5,có một cái giỏ màu đen đang được cô gái cầm ở trên tay,370,370,370,0,0.028577,924,0
+1281,7369,1,có những cái rổ rỗng màu đen ở trên kệ hàng,13,12,13,1,0.309797,9987,0
+1282,7369,2,ở trên kệ hàng có nhiều cái rổ trống màu đen,13,12,13,1,0.305564,9987,0
+1283,7369,3,có những bó rau xuất hiện ở kệ hàng phía dưới cùng,14,13,14,1,0.296242,6227,0
+1284,7369,4,có một người phụ nữ mặc áo đen đang nhìn về phía quầy hàng rau củ quả,155,154,155,1,0.085521,10671,0
+1285,7369,5,có nhiều rổ hàng rỗng ở quầy hàng rau củ quả,28,27,28,1,0.252639,9987,0
+1286,7394,1,có một cô gái đang tạo dáng chụp ảnh trước một khu chợ,2,2,2,0,0.806059,9736,0
+1287,7394,2,có một cô gái đang tạo dáng để chụp ảnh,3,3,3,0,0.760777,9736,0
+1288,7394,3,ở phía sau lưng của cô gái là một khu chợ,48,48,48,0,0.195159,1409,0
+1289,7394,4,có một chiếc xe bán hàng xuất hiện ở phía sau của cô gái,59,59,59,0,0.221579,4356,0
+1290,7394,5,ở phía sau của cô gái đang tạo dáng chụp ảnh là một khu chợ,2,2,2,0,0.652538,411,0
+1291,7405,1,có một vài người đang ngồi ở một quán ăn,1,1,1,0,0.888795,7405,0
+1292,7405,2,có hai cái thùng màu đỏ được đặt ở phía trước quán ăn,2,2,2,0,0.378060,1011,0
+1293,7405,3,có một người đàn ông mặc áo xám đang ngồi ở quán ăn,4,4,4,0,0.588795,681,0
+1294,7405,4,có nhiều bộ bàn ghế được đặt ra ở phía trước cửa hàng,285,285,285,0,0.024225,3924,0
+1295,7405,5,ở phía trước cửa hàng có sự xuất hiện của những bộ bàn ghế,294,294,294,0,0.027096,3924,0
+1296,7419,1,có nhiều hình nhân xuất hiện ở trong khu trưng bày,289,289,289,0,0.029523,17,0
+1297,7419,2,có nhiều hình nhân được trưng bày trong căn phòng,302,302,302,0,0.010787,17,0
+1298,7419,3,ở trong căn phòng có sự xuất hiện của những tấm ảnh,284,284,284,0,0.029103,9923,0
+1299,7419,4,có nhiều bức ảnh được treo ở trên tường của căn phòng,259,259,259,0,0.060456,9671,0
+1300,7419,5,có nhiều bức ảnh xuất hiện ở trong căn phòng trưng bày,289,289,289,0,0.028309,10560,0
+1301,7441,1,có một nhóm người đang chụp ảnh cùng nhau trong bức ảnh bên trái,213,213,213,0,0.073268,2645,0
+1302,7441,2,có một vài người đang nói chuyện cùng nhau ở bức ảnh bên phải,199,199,199,0,0.082324,2645,0
+1303,7441,3,có thể nhận thấy khung cảnh phía sau là giống nhau ở hai bức ảnh,175,175,175,0,0.021087,8615,0
+1304,7441,4,hai bức ảnh chụp ở các khung cảnh giống nhau,190,190,190,0,0.016502,8615,0
+1305,7441,5,có một người phụ nữ đang được phỏng vấn trong bức ảnh bên phải,46,46,46,0,0.171887,2645,0
+1306,7449,1,có một người đàn ông xuất hiện ở bên biển tên của toà nhà,62,62,62,0,0.207121,5886,0
+1307,7449,2,có một người đàn ông đang ngồi xổm gần biển tên của toà nhà,53,53,53,0,0.154073,1456,0
+1308,7449,3,ở phía trước tấm biển tên có sự xuất hiện của một người đàn ông,1,1,1,0,0.436751,7449,0
+1309,7449,4,có một người đàn ông đang chạm vào tấm biển tên,3,3,3,0,0.300075,9518,0
+1310,7449,5,có những dòng chữ màu vàng xuất hiện ở trên tấm biển tên,23,23,23,0,0.127265,7569,0
+1311,7473,1,có một tấm biển quảng cáo xuất hiện ở phía trên bức tường,4,2,4,2,0.840407,7569,0
+1312,7473,2,có một tấm biển quảng cáo xuất hiện ở khu vực mái tôn,4,2,4,2,0.621749,7569,0
+1313,7473,3,có một tấm bảng hiệu màu nâu xuất hiện trên tường,14,12,14,2,0.204887,10527,0
+1314,7473,4,ở trên bức tường gạch có một tấm biển hiệu màu nâu,6,4,6,2,0.319052,1407,0
+1315,7473,5,ở bên cạnh bức tường gạch có một cái song sắt màu xanh lá cây,77,75,77,2,0.095639,10436,0
+1316,7479,1,có những chiếc xe đạp đang được dựng ở trước chợ,51,51,52,1,0.214087,3670,0
+1317,7479,2,có những chiếc xe đạp xuất hiện ở trước lối vào khu chợ,31,31,32,1,0.267160,3474,0
+1318,7479,3,có một quầy hàng đồ uống xuất hiện ở một bên chợ,38,38,39,1,0.255961,10339,0
+1319,7479,4,tường bên ngoài của khu chợ được sơn màu cam,12,12,13,1,0.308047,1409,0
+1320,7479,5,ở phía trước của khu chợ có sự xuất hiện của những chiếc xe đạp,22,22,23,1,0.370519,1409,0
+1321,7518,1,có hai cô gái đang xuất hiện bên một chiếc xe đạp,2,1,2,1,0.746300,2832,0
+1322,7518,2,có hai cô gái đang ở khu vực bên bờ một con sông,26,25,26,1,0.262597,2884,0
+1323,7518,3,ở bên bờ sông có sự xuất hiện của hai người phụ nữ,303,302,303,1,0.034385,5633,0
+1324,7518,4,có một cô gái mặc áo cam đang dắt theo một chiếc xe đạp,2,1,2,1,0.554733,2832,0
+1325,7518,5,có hai cô gái đang xuất hiện ở trên con đường ven bãi cỏ xanh,12,11,12,1,0.223450,2839,0
+1326,7537,1,có những chiếc xe ô tô được đỗ ở bên trong nhà hàng,35,35,35,0,0.193207,9564,0
+1327,7537,2,có nhiều chiếc xe hơi xuất hiện ở bên trong nhà hàng,92,92,92,0,0.224248,5715,0
+1328,7537,3,ở bên trong nhà hàng có sự xuất hiện của những chiếc xe hơi,56,56,56,0,0.208065,5715,0
+1329,7537,4,có một dòng chữ lớn màu đỏ ở biển tên của nhà hàng,204,204,204,0,0.046949,9857,0
+1330,7537,5,đây là khung cảnh nhìn từ bên ngoài của một nhà hàng,232,232,232,0,0.020009,5715,0
+1331,7564,1,có hai cô gái đang ngồi ăn cùng với nhau,4,4,4,0,0.380638,1223,0
+1332,7564,2,có hai cô gái đang cụng ly nước với nhau,235,235,235,0,0.021789,5871,0
+1333,7564,3,trên tay mỗi cô gái có sự xuất hiện của một ly nước,291,291,291,0,0.036794,823,0
+1334,7564,4,có hai cô gái đang ngồi ăn trên cùng một cái bàn,7,7,7,0,0.416686,1223,0
+1335,7564,5,có hai cô gái đang cụng ly nước vào nhau,236,236,236,0,0.021996,5871,0
+1336,7569,1,có một dòng chữ màu xanh xuất hiện trong bức ảnh,225,225,225,0,0.050303,387,0
+1337,7569,2,ở trong bức ảnh có sự xuất hiện của một dòng chữ màu xanh,237,237,237,0,0.055626,387,0
+1338,7569,3,ở trong bức ảnh có một dòng chữ màu xanh lá cây,360,360,360,0,0.022940,387,0
+1339,7569,4,có những cái túi cùng với biểu tượng trái tim ở bên dòng chữ,340,340,340,0,0.011291,9570,0
+1340,7569,5,có những cái túi và biểu tượng trái tim ở trong bức ảnh,322,322,322,0,0.013405,11008,0
+1341,7587,1,có một quán phở xuất hiện ở trên con phố,202,202,202,0,0.075952,351,0
+1342,7587,2,ở trên con phố có sự xuất hiện của một quán phở với biển tên màu cam,226,226,226,0,0.051237,351,0
+1343,7587,3,có nhiều người đang đứng ở trước một quán phở,183,183,183,0,0.116979,223,0
+1344,7587,4,có nhiều xe máy xuất hiện ở trên vỉa hè,10,10,10,0,0.380024,1033,0
+1345,7587,5,có nhiều xe máy đang lưu thông ở trên đường,1,1,1,0,1.000000,7587,0
+1346,7590,1,có hai cô gái đang ngồi ở trên một cây cầu gỗ,63,61,64,3,0.190772,845,0
+1347,7590,2,ở trên cây cầu gỗ có sự xuất hiện của hai cô gái,63,61,64,3,0.153086,823,0
+1348,7590,3,có hai cô gái xuất hiện ở trên cây cầu gỗ,53,51,54,3,0.162947,823,0
+1349,7590,4,có một ngôi nhà xuất hiện ở giữa rừng hoa,316,314,317,3,0.028656,7345,0
+1350,7590,5,có hai cô gái xuất hiện ở cây cầu nằm giữa rừng hoa,45,43,46,3,0.125808,9536,0
+1351,8601,1,có một tấm bia xuất hiện ở trong khu miếu thờ,292,292,292,0,0.033356,10312,0
+1352,8601,2,có một cô gái đang đứng ở bên khu miếu thờ,313,313,313,0,0.037517,1225,0
+1353,8601,3,có một cô gái xuất hiện ở gần khu vực miếu thờ,286,286,286,0,0.033940,5557,0
+1354,8601,4,cô gái này đang đứng ở bên cạnh một ngôi miếu thờ,106,106,106,0,0.106460,1225,0
+1355,8601,5,ở bên cạnh ngôi miếu thờ có sự xuất hiện của một cô gái,95,95,95,0,0.115798,5884,0
+1356,8604,1,có hai người đang trao cho nhau những hộp quà,53,53,53,0,0.064198,10578,0
+1357,8604,2,có một hộp quà màu đỏ đang được chàng trai trao cho cô gái,10,10,10,0,0.192937,10377,0
+1358,8604,3,có một hộp quà màu trắng được cô gái trao cho chàng trai,48,48,48,0,0.109047,5569,0
+1359,8604,4,có thể nhìn thấy một cây thông noel ở xa xa phía sau khung hình,347,347,347,0,0.014156,4492,0
+1360,8604,5,chàng trai và cô gái đang nhìn nhau mỉm cười và trao nhau những hộp quà,13,13,13,0,0.108276,9587,0
+1361,8605,1,có nhiều người đang đứng ở khu vực thanh toán của một siêu thị,1,1,1,0,0.938415,8605,0
+1362,8605,2,có nhiều người đang đúng ở quầy thu ngân của một siêu thị,13,13,13,0,0.253482,971,0
+1363,8605,3,có một cô gái đang quét mã ở quầy thu ngân,215,215,215,0,0.044469,971,0
+1364,8605,4,có nhiều người đang xếp hàng để chờ quét mã,230,230,230,0,0.038868,3002,0
+1365,8605,5,có một nhóm người đang xếp hàng để chở quét mã,201,201,201,0,0.051295,9869,0
+1366,8615,1,có một nam thanh niên đang cầm trên tay một cây gậy,190,190,190,0,0.059919,4671,0
+1367,8615,2,có một nam thanh niên đang đứng ở trước một nhà thờ,262,262,262,0,0.055087,9869,0
+1368,8615,3,có một nhà thờ xuất hiện ở trước mặt nam thanh niên,106,106,106,0,0.093451,3002,0
+1369,8615,4,có một chàng trai đang quay mặt về phía của nhà thờ,4,4,4,0,0.175826,10692,0
+1370,8615,5,ở phía trước của nhà thờ có sự xuất hiện của một nam thanh niên,113,113,113,0,0.085604,2345,0
+1371,8624,1,có nhiều gian hàng đang bày bán các loại đồ chơi,15,15,16,1,0.375044,9899,0
+1372,8624,2,có nhiều loại đồ chơi đang được bày bán ở trong những gian hàng,9,9,10,1,0.502375,9899,0
+1373,8624,3,có nhiều loại đồ chơi xuất hiện ở trong những gian hàng,57,57,58,1,0.242119,9899,0
+1374,8624,4,những gian hàng ở đây đang bày bán những mặt hàng đồ chơi,1,1,2,1,0.481550,8624,0
+1375,8624,5,có nhiều mặt hàng đồ chơi xuất hiện trong các gian hàng,2,2,3,1,0.416553,9899,0
+1376,8689,1,có một vài con thuyền xuất hiện ở trên mặt nước,130,130,130,0,0.137371,3140,0
+1377,8689,2,có những chiếc xuồng đang đậu ở trong một đầm sen,9,9,9,0,0.129186,2,0
+1378,8689,3,có những chiếc xuồng xuất hiện ở bên trong đầm sen,18,18,18,0,0.179255,2,0
+1379,8689,4,ở trong đầm sen có sự xuất hiện của những con thuyền,56,56,56,0,0.126452,2069,0
+1380,8689,5,có những chiếc xuồng đang đậu gần nhau ở trong đầm sen,9,9,9,0,0.105038,2,0
+1381,9505,1,những người đang đứng xếp hàng thì mặc áo màu đỏ,6,6,6,0,0.391781,4932,0
+1382,9505,2,có nhiều người đang xếp hàng ở trong quán ăn,96,96,96,0,0.191534,1011,0
+1383,9505,3,có một vài nhân viên đang chế biến đồ ăn bên trong quầy,21,21,21,0,0.195360,7405,0
+1384,9505,4,ở bên trong quầy có sự xuất hiện của một vài nhân viên,28,28,28,0,0.242046,5687,0
+1385,9505,5,có nhiều người đang xếp hàng chờ lấy đồ ăn,122,122,122,0,0.097728,2278,0
+1386,9518,1,có một chàng trai đang cầm trên tay một chiếc hộp,9,9,9,0,0.317951,10578,0
+1387,9518,2,có một nhân viên mặc áo đỏ đang cầm một chiếc hộp,45,45,45,0,0.182804,3930,0
+1388,9518,3,có một chiếc hộp xuất hiện ở trên tay của nam nhân viên,54,54,54,0,0.146861,10578,0
+1389,9518,4,có những chiếc xe tải ở dưới nền màu đỏ,354,354,354,0,0.009198,8689,0
+1390,9518,5,có những chiếc xe tải xuất hiện ở trong vùng có màu đỏ,356,356,356,0,0.016867,8689,0
+1391,9536,1,có nhiều toà tháp với nhiều tầng ở trong khu vực này,161,161,161,0,0.078296,5557,0
+1392,9536,2,có một vài người đang xuất hiện ở trong bức ảnh,2,2,2,0,0.612999,2645,0
+1393,9536,3,có một vài toà tháp cao tầng xuất hiện ở trong bức ảnh,5,5,5,0,0.368880,1820,0
+1394,9536,4,có một cái vườn cây xanh xuất hiện ở trước ngôi nhà có mái màu xanh lục,20,20,20,0,0.188626,387,0
+1395,9536,5,có một toà nhà lớn có mái màu xanh lục ở gần vườn cây,19,19,19,0,0.138425,9857,0
+1396,9548,1,có một vài quầy hàng xuất hiện ở bên đường,60,60,60,0,0.290230,4126,0
+1397,9548,2,ở bên đường có sự xuất hiện của một vài quầy hàng,43,43,43,0,0.317426,5687,0
+1398,9548,3,có những cái ô màu trắng xuất hiện ở trên những quầy hàng,224,224,224,0,0.078105,9570,0
+1399,9548,4,có một con chó đang xuất hiện ở bên đường,283,283,283,0,0.078503,2839,0
+1400,9548,5,ở bên đường có sự xuất hiện của một con chó,205,205,205,0,0.100889,2839,0
+1401,9555,1,đây là khung cảnh xuất hiện ở một khu vực có cáp treo,205,205,206,1,0.043926,5557,0
+1402,9555,2,có những chiếc cáp treo đang di chuyển băng qua rừng,20,13,21,8,0.255987,7537,0
+1403,9555,3,có những chiếc cáp treo xuất hiện ở không gian phía trên của rừng,46,46,47,1,0.108317,5573,0
+1404,9555,4,có thể thấy khung cảnh của một ngọn núi ở phía dưới dây cáp treo,116,116,117,1,0.031187,8615,0
+1405,9555,5,đây là khung cảnh xuất hiện ở một công trình cáp treo,190,183,191,8,0.030131,8615,0
+1406,9564,1,có một chiếc xe ô tô xuất hiện trong tấm hình quảng cáo,6,6,6,0,0.426336,7569,0
+1407,9564,2,có một người đang lái xe mô tô địa hình trong tấm biển quảng cáo,7,7,7,0,0.173390,7569,0
+1408,9564,3,có một chiếc xe máy địa hình ở trong ảnh quảng cáo,104,104,104,0,0.093076,5540,0
+1409,9564,4,có một chiếc ô tô màu cam đang chạy trên nền cát,1,1,1,0,0.426436,9564,0
+1410,9564,5,đây là hình ảnh chụp lại một tấm ảnh quảng cáo,180,180,180,0,0.014758,5540,0
+1411,9569,1,đây là khung cảnh nhìn từ phía trước của một ngôi nhà cao tầng,15,15,15,0,0.129315,1820,0
+1412,9569,2,có một ngôi nhà cao tầng xuất hiện ở trong bức ảnh,95,95,95,0,0.134114,1820,0
+1413,9569,3,có một người đang dắt xe đạp ở dưới cổng của ngôi nhà,18,18,18,0,0.205911,5944,0
+1414,9569,4,có một người đàn ông đang xuất hiện ở trên tầng trên cùng của ngôi nhà,170,170,170,0,0.144723,1820,0
+1415,9569,5,có một chiếc xe hơi đang đỗ ở phía trước cổng của ngôi nhà,4,4,4,0,0.307676,5715,0
+1416,9570,1,có hai cái bánh chưng đang được đặt trên đĩa,7,7,7,0,0.124492,5878,0
+1417,9570,2,có một đĩa bánh chưng xuất hiện ở trong bức ảnh,88,88,88,0,0.102188,3970,0
+1418,9570,3,có hình ảnh một cành đào xuất hiện ở trong nền cam,88,88,88,0,0.102913,2645,0
+1419,9570,4,có một sợi dây pháo màu đỏ xuất hiện ở phía trên đĩa bánh,8,8,8,0,0.179945,5878,0
+1420,9570,5,có hai cái bánh được gói bằng lá màu xanh ở trên đĩa,5,5,5,0,0.202457,5878,0
+1421,9574,1,một người đàn ông đang đứng bên một cái tủ trưng bày điện thoaiuj,28,27,28,1,0.289404,11072,0
+1422,9574,2,có nhiều chiếc tủ kính được điện thoại ở trước mặt người đàn ông,272,271,272,1,0.040928,418,0
+1423,9574,3,ở phía sau lưng của người đàn ông là những cái tủ kính chứa đồng hồ,183,182,183,1,0.023205,4180,0
+1424,9574,4,có nhiều đồng hồ và điện thoại xuất hiện trong những cái tủ kính,240,239,240,1,0.011737,10521,0
+1425,9574,5,có những chùm bóng bay xuất hiện ở trên trần nhà,309,308,309,1,0.012706,3116,0
+1426,9579,1,có nhiều mặt hàng quần áo được bày bán trong cửa hàng,4,4,4,0,0.871092,4008,0
+1427,9579,2,ở trong quầy hàng có sự xuất hiện của nhiều mặt hàng quần áo,3,3,3,0,0.652979,4489,0
+1428,9579,3,có một người đàn ông mặc áo đỏ đang chọc một cái áo,111,111,111,0,0.122945,4651,0
+1429,9579,4,có một chàng trai mặc áo đỏ đang móc lấy một cái áo,83,83,83,0,0.102313,924,0
+1430,9579,5,có một người phụ nữ mặc áo đen đang nhìn chàng trai lấy áo,89,89,89,0,0.115304,3768,0
+1431,9587,1,có một cửa hàng bánh mì xuất hiện ở trên con phố,280,280,280,0,0.057912,3002,0
+1432,9587,2,ở trên con phố có sự xuất hiện của một cửa hàng bánh mì,289,289,289,0,0.054930,3002,0
+1433,9587,3,có một tấm biển tên làm bằng gỗ ở mặt trước của quán bánh mì,329,329,329,0,0.017392,6418,0
+1434,9587,4,có một chiếc xích lô đang đỗ ở bên cạnh cửa hàng bánh mì,333,333,333,0,0.032670,5715,0
+1435,9587,5,ở một bên của cửa hàng bánh mì có sự xuất hiện của một chiếc xích lô,366,366,366,0,0.019842,5886,0
+1436,9598,1,có nhiều người đang chạy xe máy ở trên đường,69,65,69,4,0.219036,340,0
+1437,9598,2,ở trên đường có sự xuất hiện của nhiều xe máy,113,109,113,4,0.223568,340,0
+1438,9598,3,có nhiều người đang điều khiển xe máy ở trên đường,69,65,69,4,0.172690,340,0
+1439,9598,4,ở trên đường có sự xuất hiện của nhiều xe máy,113,109,113,4,0.223568,340,0
+1440,9598,5,có những hàng cây xanh xuất hiện ở trên vỉa hè,262,258,262,4,0.064883,1033,0
+1441,9632,1,có một người đàn ông đang đứng bên một kệ hàng màu trắng,11,11,11,0,0.504649,10648,0
+1442,9632,2,có một người đàn ông đang lắp ráp một kệ hàng trắng,16,16,16,0,0.311652,10648,0
+1443,9632,3,có một người đàn ông mặc áo trắng xuất hiện ở trong căn phòng,21,21,21,0,0.395282,9923,0
+1444,9632,4,có nhiều cái hộp xuất hiện ở gần người đàn ông,6,6,6,0,0.323471,10578,0
+1445,9632,5,có một cái kệ đang được lắp ráp bởi người đàn ông,4,4,4,0,0.261420,11072,0
+1446,9671,1,có một người phụ nữ đang tham quan trong một căn phòng tranh,1,1,1,0,0.495592,9671,0
+1447,9671,2,có một người phụ nữ mặc áo vàng xuất hiện trong triển lãm tranh,37,37,37,0,0.207149,3768,0
+1448,9671,3,có nhiều bức tranh đang được treo ở trên tường,4,4,4,0,0.550805,3432,0
+1449,9671,4,có nhiều bức tranh được trưng bày trong căn phòng,5,5,5,0,0.616883,10560,0
+1450,9671,5,có một vài bức tượng đang được đặt ở giữa căn phòng tranh,1,1,1,0,0.554899,9671,0
+1451,9674,1,có nhiều sợi dây ngăn cách xuất hiện ở trên đường,17,16,17,1,0.171713,2839,0
+1452,9674,2,có nhiều sợi dây đang được giăng ra ở hai bên con đường,44,43,44,1,0.149524,2839,0
+1453,9674,3,ở trên đường có sự xuất hiện của nhiều sợi dây ngăn cách,24,23,24,1,0.165660,2839,0
+1454,9674,4,ở bên kia đường có sự xuất hiện của một lá cờ trên một cái cột,10,9,10,1,0.221027,4788,0
+1455,9674,5,có một lá cờ dài xuất hiện ở trên một chiếc cột bên kia đường,24,23,24,1,0.218460,10715,0
+1456,9702,1,có một nhóm người đang đứng ở dưới mặt đường,12,12,12,0,0.322238,10958,0
+1457,9702,2,có nhiều người lính cứu hoả đang đứng bên đường,177,177,177,0,0.085762,10452,0
+1458,9702,3,có một cây cầu đang nối mặt đất với tần trên của một căn nhà,119,119,119,0,0.087477,823,0
+1459,9702,4,có một nhóm lính cứu hoả đang nhìn về phía một căn nhà bên đường,41,41,41,0,0.128036,9869,0
+1460,9702,5,có một chiếc đèn đường xuất hiện ở một bên đường,264,264,264,0,0.094979,2839,0
+1461,9729,1,có hai cô gái đang dùng nón rộng vành để che mặt,34,34,34,0,0.109193,5871,0
+1462,9729,2,có hai cô gái đang ngồi trên một dãy ghế trên vỉa hè,31,31,31,0,0.213313,2175,0
+1463,9729,3,ở trên vỉa hè có sự xuất hiện của hai cô gái đang nhìn nhau,32,32,32,0,0.195494,1033,0
+1464,9729,4,có một bức tường màu vàng xuất hiện ở phía sau lưng hai cô gái,66,66,66,0,0.159058,1407,0
+1465,9729,5,có một cái cây cổ thụ xuất hiện ở trên vỉa hè nơi hai cô gái đang ngồi,54,54,54,0,0.160015,51,0
+1466,9736,1,có một cặp đôi đang ngồi ở trên bậc thềm của ngôi nhà,253,253,253,0,0.050774,10748,0
+1467,9736,2,có một cặp đôi đang nhìn nhau ở trên bậc thêm,230,230,230,0,0.047010,10748,0
+1468,9736,3,có một chàng trai mặc áo sơ mi trắng đang nhìn vào mắt cô gái mặc áo đen,77,77,77,0,0.127734,10766,0
+1469,9736,4,có một cặp đôi đang ngồi ở trước cổng vào của một ngôi nhà có kiến trúc cổ,74,74,74,0,0.112195,10748,0
+1470,9736,5,có một ngôi nhà có kiến trúc cổ xuất hiện ở sau lưng của cặp đôi,241,241,241,0,0.038915,7345,0
+1471,9754,1,có một nhóm bạn trẻ đang chụp hình ở trên một con phố,21,19,23,4,0.254768,10921,0
+1472,9754,2,có một nhóm bạn trẻ đang tạo dáng chụp ảnh trên phố,16,14,18,4,0.445623,3579,0
+1473,9754,3,có nhiều người đang ngồi ở một bên đường,352,350,354,4,0.074641,223,0
+1474,9754,4,ở bên đường có nhiều người đang ngồi ăn uống,348,346,350,4,0.033199,1011,0
+1475,9754,5,ở khu vực mọi người đang ngồi bên phải đường có sự xuất hiện của một tấm biển báo,350,348,352,4,0.033491,5557,0
+1476,9826,1,có nhiều mặt hàng được bày bán ở trong cửa hàng tạp hoá,2,1,2,1,0.792092,8624,0
+1477,9826,2,có nhiều mặt hàng xuất hiện ở trong cửa hàng,2,1,2,1,0.753139,8624,0
+1478,9826,3,có hai người đang đứng mua hàng ở cửa tiệm,28,27,28,1,0.266263,2345,0
+1479,9826,4,ở cửa hàng có sự xuất hiện của hai khách mua hàng,14,13,14,1,0.343296,3002,0
+1480,9826,5,có hai người đang đứng ở phía trước cửa hàng,21,20,21,1,0.336065,2345,0
+1481,9857,1,đây là khung cảnh chụp vào buổi đêm trên một con phố,245,245,246,1,0.016428,10921,0
+1482,9857,2,có một nhà thờ xuất hiện ở bên kia đường,12,12,13,1,0.221775,5884,0
+1483,9857,3,ở bên kia đường có sự xuất hiện của một nhà thờ,20,20,21,1,0.208728,5687,0
+1484,9857,4,ở trên nhà thờ có sự xuất hiện của những bóng đèn màu vàng,12,12,13,1,0.167609,5573,0
+1485,9857,5,có những bóng đèn vàng xuất hiện ở khu vực nhà thờ,41,41,42,1,0.167980,5557,0
+1486,9869,1,có nhiều người đang xuất hiện ở trước một toà nhà màu đen,12,12,12,0,0.377312,3002,0
+1487,9869,2,có nhiều người đang xuất hiện ở trên vỉa hè,209,209,209,0,0.122018,1033,0
+1488,9869,3,ở trên vỉa hè có sự xuất hiện của nhiều người,252,252,252,0,0.082952,1033,0
+1489,9869,4,có những nhóm người đang tụ tập ở trên vỉa hè,13,13,13,0,0.235881,2175,0
+1490,9869,5,ở phía trước của toà nhà có những đám đông đang tụ tập,13,13,13,0,0.193155,10692,0
+1491,9899,1,có nhiều mặt hàng đang được bày bán ở quầy hàng,12,12,12,0,0.587865,8624,0
+1492,9899,2,có một người phụ nữ đang đứng trước gian hàng,27,27,27,0,0.355437,3838,0
+1493,9899,3,có nhiều mặt hàng gia vị xuất hiện ở trước quầy hàng,32,32,32,0,0.223385,3002,0
+1494,9899,4,có nhiều chiếc hộp xuất hiện ở một bên người phụ nữ mặc quần tím,343,343,343,0,0.066783,10578,0
+1495,9899,5,ở trong cửa hàng có bày bán nhiều mặt hàng gia vị,12,12,12,0,0.420154,8624,0
+1496,9904,1,có một nhóm người đang xuất hiện ở dưới dòng nước,163,163,163,0,0.104104,9702,0
+1497,9904,2,có một nhóm bạn trẻ đang ngồi ở dưới dòng nước,42,42,42,0,0.165351,2175,0
+1498,9904,3,ở dưới dòng nước có sự xuất hiện của một nhóm bạn trẻ,212,212,212,0,0.043195,823,0
+1499,9904,4,có những cậu bé đang chơi đùa với những cái mô hình cano dưới nước,190,190,190,0,0.021528,815,0
+1500,9904,5,ở dưới nước có một đám trẻ đang chơi đùa với những mô hình cano,132,132,132,0,0.049398,815,0
+1501,9923,1,đây là khung cảnh ở bên trong một bảo tàng,25,25,25,0,0.146549,8615,0
+1502,9923,2,có nhiều bộ xương được trưng bày ở trong bảo tàng,130,130,130,0,0.075097,9579,0
+1503,9923,3,có nhiều bộ xương xuất hiện ở trong căn phòng trưng bày,7,7,7,0,0.493288,10560,0
+1504,9923,4,ở trong căn phòng trưng bày có sự xuất hiện của nhiều bộ xương,7,7,7,0,0.515067,10560,0
+1505,9923,5,ở trong bảo tàng có sự xuất hiện của nhiều bộ xương,32,32,32,0,0.191758,1064,0
+1506,9935,1,có nhiều con thuyền đang xuất hiện ở trên sông,2,2,2,0,0.629349,2069,0
+1507,9935,2,trên mặt nước có sự xuất hiện của những con thuyền chở hàng,36,36,36,0,0.174750,823,0
+1508,9935,3,có một chiếc thuyền chở hoa ở trong khu chợ nổi,305,305,305,0,0.031647,4364,0
+1509,9935,4,có một người đàn ông đang đứng ở trên con thuyền chở dưa hấu,36,36,36,0,0.196833,6396,0
+1510,9935,5,có những con thuyền chở theo hàng hoá xuất hiện ở trên mặt nước,46,46,46,0,0.170805,823,0
+1511,9951,1,có một người phụ nữ đội nón rộng vành đang cầm trên tay một cái giỏ xanh,58,57,58,1,0.139866,10578,0
+1512,9951,2,có nhiều mặt hàng rau củ quả được bày bán trong siêu thị,60,59,60,1,0.209312,1015,0
+1513,9951,3,đây là khung cảnh xuất hiện ở quầy rau củ quả của một siêu thị,33,32,33,1,0.212308,1085,0
+1514,9951,4,có nhiều người đang mua rau củ quả trong siêu thị,30,29,30,1,0.270150,2215,0
+1515,9951,5,có một cái giỏ hàng màu xanh lá ở trên tay người phụ nữ đội mũ rộng vành,76,75,76,1,0.113255,4671,0
+1516,9955,1,có nhiều người đang đi tham quan trong một bãi cỏ xanh,92,91,92,1,0.117688,10993,0
+1517,9955,2,có một ngọn đồi xuất hiện ở một bên nhóm người tham quan,275,274,275,1,0.054543,9869,0
+1518,9955,3,có một đoàn người đang di chuyển ở trên lối đi,19,18,19,1,0.428388,2607,0
+1519,9955,4,người đàn ông mặc áo trắng đang đi ở phía trước tiên của đoàn,167,166,167,1,0.064179,10648,0
+1520,9955,5,có một đoàn người xuất hiện ở khu vực lối đi,201,200,201,1,0.070091,5557,0
+1521,9986,1,đây là khung cảnh xuất hiện ở khu vực giao của hai con đường,104,96,104,8,0.097244,2839,0
+1522,9986,2,có những chiếc xe máy đang được dựng ở trên vỉa hè,21,13,21,8,0.379855,10923,0
+1523,9986,3,ở trên vỉa hè có sự xuất hiện của những chiếc xe máy,20,12,20,8,0.381037,1033,0
+1524,9986,4,có một phương tiện giao thông đang di chuyển ở trên đường,38,30,38,8,0.413869,3865,0
+1525,9986,5,có nhiều cây xanh xuất hiện ở trên vỉa hè,211,203,211,8,0.088145,1033,0
+1526,9987,1,có nhiều quả mít xuất hiện ở trên kệ hàng,23,23,23,0,0.276512,5811,0
+1527,9987,2,có nhiều trái mít được bày bán trên kệ hàng,121,121,121,0,0.076697,11601,0
+1528,9987,3,ở bên đường có một kệ hàng bày bán những trái mít,211,211,211,0,0.071965,11601,0
+1529,9987,4,có nhiều quả mít xuất hiện ở sạp hàng bên đường,32,32,32,0,0.225281,11537,0
+1530,9987,5,ở bên đường có sự xuất hiện của một sạp hàng mít,245,245,245,0,0.077174,2839,0
+1531,9999,1,có nhiều người đang tham gia mua sắm trong siêu thị,9,9,9,0,0.476034,2215,0
+1532,9999,2,đây là khung cảnh xuất hiện ở bên trong một siêu thị,2,2,2,0,0.474370,5840,0
+1533,9999,3,có một người phụ nữ mặc áo trắng đang đẩy theo một chiếc xe đẩy siêu thị,11,11,11,0,0.319482,3541,0
+1534,9999,4,có một chiếc giỏ hàng đang được kéo bởi người đàn ông mặc áo trắng,249,249,249,0,0.063958,10648,0
+1535,9999,5,có nhiều người đang xuất hiện ở trong siêu thị,2,2,2,0,0.856012,5840,0
+1536,10307,1,có nhiều người đang xuất hiện ở khu vực bán nước giải khát,94,93,94,1,0.120993,5557,0
+1537,10307,2,có một người phụ nữ đang đẩy một cái xe đẩy siêu thị,367,366,367,1,0.009194,3541,0
+1538,10307,3,có một chiếc xe đẩy xuất hiện ở phía trước người phụ nữ mặc áo nâu,366,365,366,1,0.024688,100,0
+1539,10307,4,có một nhóm người đang đứng gần một chiếc xe đẩy bên cạnh quầy nước giải khát,373,372,373,1,0.006889,3541,0
+1540,10307,5,đây là khung cảnh xuất hiện ở bên trong một siêu thị,356,355,356,1,0.016522,5840,0
+1541,10312,1,có nhiều người đang tham gia vào một khu chợ,1,1,1,0,0.489161,10312,0
+1542,10312,2,đây là khung cảnh đông đúc của một khu hội chợ,8,8,8,0,0.256999,1409,0
+1543,10312,3,có nhiều người đang xuất hiện ở trong phiên chợ,4,4,4,0,0.525283,4544,0
+1544,10312,4,ở trong phiên chợ đang có sự xuất hiện của nhiều người,11,11,11,0,0.495824,1409,0
+1545,10312,5,có đông người đang xuất hiện ở trong một khu chợ,1,1,1,0,0.770100,10312,0
+1546,10335,1,có một người đàn ông đang xuất hiện ở trong căn phòng,3,3,3,0,0.590604,9923,0
+1547,10335,2,có sự xuất hiện của một nam thanh niên ở trong phòng,4,4,4,0,0.341588,9923,0
+1548,10335,3,có một bộ bàn ghế xuất hiện ở giữa căn phòng,1,1,1,0,0.892122,10335,0
+1549,10335,4,có những cái đèn được treo ở trên trần của căn phòng,9,9,9,0,0.307518,2779,0
+1550,10335,5,có một chậu cây xuất hiện ở bên trong căn phòng,4,4,4,0,0.524280,5291,0
+1551,10339,1,có nhiều người đang xuất hiện ở một khu miếu thờ,5,5,6,1,0.407792,10312,0
+1552,10339,2,có đông người đang ở trong một khu miếu thờ,2,2,3,1,0.294526,10312,0
+1553,10339,3,ở trong khu miếu thờ có sự xuất hiện của nhiều người,16,16,17,1,0.395164,1409,0
+1554,10339,4,có một khu miếu thờ xuất hiện ở trong bức ảnh,18,18,19,1,0.321218,2645,0
+1555,10339,5,đây là bức ảnh chụp bên trong của một khu miếu thờ,22,22,23,1,0.227960,411,0
+1556,10343,1,có nhiều người đang đứng ở quầy hàng hoa quả trong siêu thị,11,10,11,1,0.568797,9999,0
+1557,10343,2,đây là khung cảnh xuất hiện ở một quầy hàng trái cây trong siêu thị,11,10,11,1,0.375428,5840,0
+1558,10343,3,đây là khung cảnh xuất hiện ở một quầy hoa quả của siêu thị,14,13,14,1,0.276505,5840,0
+1559,10343,4,có nhiều người đang đứng ở quầy hàng trái cây,65,64,65,1,0.236958,10452,0
+1560,10343,5,có nhiều mặt hàng rau củ quả đang được bày bán trên những kệ hàng,74,73,74,1,0.180341,1015,0
+1561,10345,1,có nhiều phương tiện giao thông đang di chuyển trên đường,7,7,7,0,0.684278,3865,0
+1562,10345,2,có một vài chiếc xích lô đang di chuyển ở trên đường,106,106,106,0,0.143408,7537,0
+1563,10345,3,ở trên đường có sự xuất hiện của nhiều xe cộ,92,92,92,0,0.201241,2839,0
+1564,10345,4,có nhiều xe cộ đang lưu thông ở trên đường,2,2,2,0,0.616768,7587,0
+1565,10345,5,đây là khung cảnh xuất hiện ở trong một con đường,170,170,170,0,0.100859,2839,0
+1566,10377,1,có một ông già noel và hai đứa bé đang chụp hình cùng nhau,223,223,223,0,0.029176,4492,0
+1567,10377,2,có một ông già noel và hai đứa bé đang chụp hình trước khu vực trang trí giáng sinh,241,241,241,0,0.024903,966,0
+1568,10377,3,có nhiều đồ vật trang trí giáng sinh xuất hiện ở phía sau nhóm người,367,367,367,0,0.007612,966,0
+1569,10377,4,ở phía sau nhóm người có sự xuất hiện của những món đồ trang trí giáng sinh,367,367,367,0,0.007345,3800,0
+1570,10377,5,có một vài cây thông noel xuất hiện trong khu vực trang trí giáng sinh,320,320,320,0,0.018601,4813,0
+1571,10407,1,có một người mặc áo vàng đang đứng bên trong quầy hàng,9,9,9,0,0.542253,110,0
+1572,10407,2,ở trong quầy hàng có sự xuất hiện của một người phụ nữ mặc áo vàng,8,8,8,0,0.470329,9505,0
+1573,10407,3,có một người phụ nữ và một người đàn ông đang đứng trước quầy hàng,19,19,19,0,0.459443,7335,0
+1574,10407,4,có một giỏ đựng hoa quả xuất hiện ở trên quầy hàng,71,71,71,0,0.140934,11537,0
+1575,10407,5,ở phía trước quầy hàng có sự xuất hiện của một người phụ nữ và một người đàn ông,32,32,32,0,0.331664,7335,0
+1576,10436,1,có nhiều xe cộ đang di chuyển ở dưới đường,280,280,280,0,0.032994,205,0
+1577,10436,2,có nhiều xe cộ đang di chuyển ở trên mặt đường,307,307,307,0,0.033908,205,0
+1578,10436,3,ở con đường phía dưới có nhiều xe cộ đang đi lại,280,280,280,0,0.028253,2839,0
+1579,10436,4,đây là khung cảnh của một con đường nhìn từ ban công của một căn nhà,3,3,3,0,0.275179,845,0
+1580,10436,5,có nhiều phương tiện giao thông đang di chuyển ở trên đường,299,299,299,0,0.028875,3865,0
+1581,10452,1,có một nhóm người đang thực hiện động tác vái lạy,97,97,97,0,0.053593,9869,0
+1582,10452,2,có một nhóm người đang cùng nhau cầu nguyện trong căn phòng,49,49,49,0,0.125398,1440,0
+1583,10452,3,có một nhóm người đang đứng cầu nguyện cùng với nhau,28,28,28,0,0.167560,9869,0
+1584,10452,4,có một cánh cửa gỗ xuất hiện ở phía sau lưng nhóm người,184,184,184,0,0.071585,3002,0
+1585,10452,5,có một nhóm người đang cùng chắp tay cầu nguyện,99,99,99,0,0.065793,9869,0
+1586,10461,1,có nhiều người xuất hiện ở trong cửa hàng bán đồ trang trí,23,22,24,2,0.343823,4604,0
+1587,10461,2,có nhiều mặt hàng đồ trang trí xuất hiện ở trong cửa hàng,48,47,49,2,0.284750,4604,0
+1588,10461,3,có nhiều mặt hàng đồ trang trí được bày bán bên trong cửa hàng,126,125,127,2,0.143729,8624,0
+1589,10461,4,ở bên trong cửa hàng có sự xuất hiện của nhiều mặt hàng đồ trang trí,73,72,74,2,0.263216,4604,0
+1590,10461,5,có một vài người đang xuất hiện trong cửa hàng đồ trang trí,36,35,37,2,0.276940,4604,0
+1591,10462,1,có nhiều mặt hàng đang được bày bán trong cửa hàng tạp hoá,4,3,5,2,0.754175,8624,0
+1592,10462,2,đây là khung cảnh nhìn từ phía trước của một cửa hàng tạp hoá,3,2,4,2,0.288208,2345,0
+1593,10462,3,có nhiều kệ hàng xuất hiện bên trong cửa hàng tạp hoá,12,11,13,2,0.542225,69,0
+1594,10462,4,ở bên trong cửa hàng tạp hoá có sự xuất hiện của nhiều kệ hàng,12,11,13,2,0.525684,69,0
+1595,10462,5,có nhiều gói đồ ăn vặt xuất hiện ở khu vực cửa của cửa tiệm,55,54,56,2,0.173967,9548,0
+1596,10480,1,có một cô gái đang đứng ở lối đi vào một ngôi thành cổ,42,42,42,0,0.185762,11064,0
+1597,10480,2,có một toà thành cổ xuất hiện ở phía sau lưng của cô gái,11,11,11,0,0.254921,11064,0
+1598,10480,3,ở phía sau lưng của cô gái có sự xuất hiện của một toà thành cổ,12,12,12,0,0.236237,11064,0
+1599,10480,4,có một cô gái đang tạo dáng chụp hình trước một toà thành cổ,2,2,2,0,0.666840,7394,0
+1600,10480,5,có một cô gái đội mũ màu trắng đang đứng trước toà thành,7,7,7,0,0.318381,11064,0
+1601,10486,1,có một bức tượng màu vàng được đặt trong căn phòng,14,14,14,0,0.310361,17,0
+1602,10486,2,có một bức tượng hình người được trưng bày trong phòng,40,40,40,0,0.215680,17,0
+1603,10486,3,có nhiều bức ảnh được trưng bày ở phía sau bức tượng,291,291,291,0,0.021391,11008,0
+1604,10486,4,ở phía sau của bức tượng hình người là những bức tranh,355,355,355,0,0.012427,5223,0
+1605,10486,5,có những chậu cây được đặt ở dưới những bức ảnh,295,295,295,0,0.021748,387,0
+1606,10521,1,có một người phụ nữ đang phát biểu ở trên bục,18,18,18,0,0.218534,2550,0
+1607,10521,2,có một người phụ nữ đang xuất hiện ở trên bục,21,21,21,0,0.282005,4510,0
+1608,10521,3,có nhiều cái micro xuất hiện ở trước mặt người phụ nữ,87,87,87,0,0.171763,3002,0
+1609,10521,4,ở trước mắt người phụ nữ có sự xuất hiện của những chiếc micro,24,24,24,0,0.203818,5346,0
+1610,10521,5,có một người đàn bà đang phát biểu trước báo chí,196,196,196,0,0.049644,2550,0
+1611,10527,1,đây là khung cảnh phía trước một toà nhà lớn,42,42,42,0,0.070907,9857,0
+1612,10527,2,có một tấm bảng hiệu màu xanh lá cây xuất hiện trước toà nhà,1,1,1,0,0.540706,10527,0
+1613,10527,3,ở phía truóc toà nhà có sự xuất hiện của một tấm bảng hiệu màu xanh lá cây,1,1,1,0,0.478837,10527,0
+1614,10527,4,đây là khung cảnh xuất hiện ở bên ngoài của một nhà hàng,84,84,84,0,0.133434,5687,0
+1615,10527,5,ở bên ngoài nhà hàng có sự xuất hiện của một cái cổng chào của tiệc cưới,106,106,106,0,0.104894,10436,0
+1616,10560,1,có một nhóm người đang xuất hiện trong một căn phòng trưng bày,4,4,4,0,0.705394,1440,0
+1617,10560,2,ở bên trong căn phòng có sự xuất hiện của một đoàn khách tham quan,8,8,8,0,0.343144,9923,0
+1618,10560,3,có một đoàn khách đang tham quan bên trong bảo tàng,214,214,214,0,0.043573,4126,0
+1619,10560,4,có nhiều bức ảnh được treo ở trên một bức tường màu đỏ,45,45,45,0,0.234564,1407,0
+1620,10560,5,có nhiều bức ảnh xuất hiện ở trước mặt những khách tham quan,34,34,34,0,0.202459,387,0
+1621,10578,1,có một người đàn ông đang đóng hộp đồ ăn,4,4,4,0,0.345758,681,0
+1622,10578,2,có một người đội mũ đen đang đóng hộp thức ăn,3,3,3,0,0.281494,5878,0
+1623,10578,3,có một hộp thức ăn xuất hiện trước mặt người đàn ông đội nón đen,5,5,5,0,0.254975,5878,0
+1624,10578,4,có một hộp thức ăn xuất hiện trên tay của người đàn ông,3,3,3,0,0.448339,5878,0
+1625,10578,5,trên tay của người đàn ông có sự xuất hiện của một hộp đồ ăn,1,1,1,0,0.437171,10578,0
+1626,10608,1,có một người phụ nữ mặc áo dài đang đứng trước một cái tủ kính,2,2,2,0,0.507942,4057,0
+1627,10608,2,có một vật phẩm được trưng bày trong tủ kính hình kim tự tháp,374,373,375,2,0.000000,2225,0
+1628,10608,3,có một hiện vật được trưng bày trong tủ kính có đỉnh nhọn,374,373,375,2,0.000000,1440,0
+1629,10608,4,có một nhóm người đang đứng ở một bên của tủ kính,328,328,328,0,0.042722,9869,0
+1630,10608,5,có một nhóm người đang nghe cô gái mặc áo dài thuyết minh,1,1,1,0,0.461981,10608,0
+1631,10609,1,có một người đang ôm mộ cái thùng màu xanh dương ở trên đường,174,171,174,3,0.080171,1518,0
+1632,10609,2,ở trên đường có sự xuất hiện của một người đang ôm một cái thùng,89,86,89,3,0.185989,4788,0
+1633,10609,3,có nhiều gian hàng xuất hiện ở một bên đường,10,7,10,3,0.377217,2839,0
+1634,10609,4,có một người đàn ông đang dắt theo một em bé mặc áo hồng,194,191,194,3,0.064699,4651,0
+1635,10609,5,có một em bé mặc áo hồng đang đi cùng với người đàn ông mặc áo xanh,167,164,167,3,0.057687,2098,0
+1636,10648,1,có một bác bảo vệ đang kiểm tra nhiệt độ của người đi vào,61,61,61,0,0.057501,2607,0
+1637,10648,2,có một cô gái mặc áo đen đang chuẩn bị được kiểm tra nhiệt độ,50,50,50,0,0.136826,5569,0
+1638,10648,3,có hai cô gái đang chuẩn bị bước qua cánh cửa,59,59,59,0,0.095325,270,0
+1639,10648,4,có một bác bảo vệ đang đứng ở phía trước cánh cửa,11,11,11,0,0.187633,2345,0
+1640,10648,5,ở phía trước cánh cửa có sự xuất hiện của một bác bảo vệ,42,42,42,0,0.107981,2345,0
+1641,10657,1,có một người đang cầm máy ảnh để chụp ảnh,76,73,77,4,0.157970,7355,0
+1642,10657,2,có một nam thanh niên đang chụp ảnh ở trên đường,67,64,68,4,0.161932,1047,0
+1643,10657,3,ở trên đường có một người đang thực hiện động tác chụp ảnh,97,94,98,4,0.127871,2839,0
+1644,10657,4,ở trên đường có sự xuất hiện của một người đang cầm máy ảnh,349,346,350,4,0.053503,2839,0
+1645,10657,5,ở trên đường có sự xuất hiện của một người đang chụp ảnh,133,133,133,0,0.204013,2839,0
+1646,10671,1,có nhiều người đang đứng bên một quầy hàng nông sản,18,18,18,0,0.331470,10452,0
+1647,10671,2,có một người phụ nữ mặc áo xanh đang đứng bên trong quầy nông sản,14,14,14,0,0.471431,110,0
+1648,10671,3,ở bên trong quầy hàng rau củ quả có sự xuất hiện của một người phụ nữ,2,2,2,0,0.727278,5733,0
+1649,10671,4,có một người phụ nữ đang đứng ở bên trong quầy hàng,15,15,15,0,0.589041,7335,0
+1650,10671,5,có một vài người đang xuất hiện bên cạnh quầy hàng rau củ quả,5,5,5,0,0.637930,1085,0
+1651,10683,1,có một người đan ông đang ngồi ở trên một chiếc thuyền,2,1,2,1,0.629355,6396,0
+1652,10683,2,người đàn ông mặc áo trắng đang giơ tay để kéo một người trên thuyền,3,2,3,1,0.430339,2905,0
+1653,10683,3,có hai người đàn ông đang giơ tay ra với nhau,10,9,10,1,0.236297,418,0
+1654,10683,4,có sự xuất hiện của hai người đàn ông ở trong bức ảnh,53,52,53,1,0.294500,9632,0
+1655,10683,5,đây là một bức ảnh chụp ở khu vực sông nước,167,166,167,1,0.042304,411,0
+1656,10692,1,đây là khung cảnh xuất hiện ở trước một toà nhà,5,5,5,0,0.349373,9857,0
+1657,10692,2,có nhiều xe máy đang đỗ ở phía trước toà nhà,1,1,1,0,0.623855,10692,0
+1658,10692,3,ở phía trước của toà nhà có sự xuất hiện của những chiếc xe máy,1,1,1,0,0.707660,10692,0
+1659,10692,4,có những dòng chữ màu trắng xuất hiện trên bảng hiệu nền đen của toà nhà,6,6,6,0,0.199711,10527,0
+1660,10692,5,có một tấm bảng hiệu với nền đen chữ trắng xuất hiện ở trước toà nhà,8,8,8,0,0.241900,10527,0
+1661,10715,1,có một nhóm người đang mặc áo dài cùng với nhau,3,3,3,0,0.399859,479,0
+1662,10715,2,có một nhóm người đang nhảy lên trong một khu cung điện,249,249,249,0,0.053180,6411,0
+1663,10715,3,có một nhóm người đang nhảy lên ở khu vực lối đi của một khu di tích,105,105,105,0,0.137766,2607,0
+1664,10715,4,ở trên lối đi của khu di tích có một nhóm bạn trẻ đang nhảy lên cùng nhau,73,73,73,0,0.141748,2607,0
+1665,10715,5,có một nhóm người mặc áo dài đang nhảy lên cùng nhau ở trong khu di tích,3,3,3,0,0.377115,5604,0
+1666,10719,1,có nhiều người xuất hiện ở trước một ngôi đền cổ,132,131,132,1,0.132356,7345,0
+1667,10719,2,có nhiều em học sinh đang đứng ở trước một ngôi đền cổ,130,129,130,1,0.091191,7345,0
+1668,10719,3,ở phía trước ngôi đền cổ có sự xuất hiện của nhiều em học sinh,147,146,147,1,0.069184,7345,0
+1669,10719,4,có nhiều em học sinh đang đứng ở một ngôi đền cổ,123,122,123,1,0.093189,7345,0
+1670,10719,5,đây là khung cảnh xuất hiện ở phía trước của một ngôi đền cổ,290,289,290,1,0.017564,7345,0
+1671,10748,1,có một cô gái xuất hiện ở khu vực ban công của một toà nhà,100,100,100,0,0.139271,845,0
+1672,10748,2,có một khu phố cổ xuất hiện ở trong khung cảnh phía dưới,229,229,229,0,0.056248,7345,0
+1673,10748,3,ở phía sau lưng của cô gái là những ngôi nhà lợp mái ngói,17,17,17,0,0.132021,4057,0
+1674,10748,4,ở phía sau lưng của cô gái có sự xuất hiện của một con phố cổ,221,221,221,0,0.049412,1524,0
+1675,10748,5,có một vài người đang đi bộ ở trên con phố cổ,251,251,251,0,0.078363,1524,0
+1676,10766,1,có một người đàn ông đeo kính đang chụp ảnh tự sướng,42,42,42,0,0.145023,9632,0
+1677,10766,2,có nhiều người đang xuất hiện ở trong bức ảnh,215,215,215,0,0.145990,2645,0
+1678,10766,3,xung quanh người đàn ông đang cầm điện thoại có nhiều người,31,31,31,0,0.177818,418,0
+1679,10766,4,có một nam thanh niên đang cầm điện thoại để chụp ảnh tự sướng,292,292,292,0,0.019622,10521,0
+1680,10766,5,có một chiếc điện thoại ở trên tay của chàng thanh niên đeo kính,322,322,322,0,0.023298,10521,0
+1681,10803,1,đây là khung cảnh xuất hiện ở bên trong một con ngõ,323,318,324,6,0.023900,8615,0
+1682,10803,2,đây là khung cảnh chụp bên trong của một con hẻm,365,322,375,53,0.000000,8615,0
+1683,10803,3,có nhiều xe máy đang được dựng ở hai bên con hẻm,105,100,106,6,0.134836,3670,0
+1684,10803,4,có nhiều người đang xuất hiện bên trong con phố,95,90,96,6,0.217360,4035,0
+1685,10803,5,ở bên trong con phố có sự xuất hiện của nhiều người,113,108,114,6,0.190715,4035,0
+1686,10809,1,có nhiều thùng sơn xuất hiện ở trong cửa hàng,78,77,78,1,0.203538,3002,0
+1687,10809,2,có nhiều hộp sơn được bày bán ở trên các kệ hàng,37,36,37,1,0.270936,3172,0
+1688,10809,3,cửa hàng này bán chủ yếu là các loại sơn,104,103,104,1,0.037924,3172,0
+1689,10809,4,đây là khung cảnh xuất hiện bên trong một cửa hàng sơn,141,140,141,1,0.111210,4126,0
+1690,10809,5,đây là bức ảnh chụp ở bên trong một cửa hàng bán sơn,235,234,235,1,0.060349,8624,0
+1691,10830,1,có một nồi lầu và những món ăn kèm xuất hiện ở trên bàn,3,2,3,1,0.377331,5904,0
+1692,10830,2,có một nồi lẩu và những món ăn được bày ra ở trên bàn,2,1,2,1,0.648818,5257,0
+1693,10830,3,ở trên bàn có sự xuất hiện của một nồi lẩu và những món ăn kèm,3,2,3,1,0.359863,5904,0
+1694,10830,4,ở trên bàn đang có sự xuất hiện của nhiều món ăn,3,2,3,1,0.691694,5904,0
+1695,10830,5,đây là khung cảnh một bàn ăn lẩu nhìn từ phía trên cao,5,4,5,1,0.221741,1223,0
+1696,10857,1,có hai người phụ nữ đang mua bán hàng hoá ở trong chợ,41,41,41,0,0.337351,945,0
+1697,10857,2,người phụ nữ mặc áo hoa đang đưa một túi đựng trứng cho người phụ nữ mặc váy xanh,12,12,12,0,0.320394,110,0
+1698,10857,3,người phụ nữ mặc váy xanh đang cầm trên tay những cái túi ni lông,30,30,30,0,0.166259,4671,0
+1699,10857,4,có một cái rổ đựng gia cầm xuất hiện ở sạp hàng của người phụ nữ mặc áo hoa,11,11,11,0,0.272176,3930,0
+1700,10857,5,người phụ nữ mặc váy xanh đang nhận lấy túi trứng từ người phụ nữ mặc áo hoa,13,13,13,0,0.302364,110,0
+1701,10866,1,có một vài người đang mua hàng ở bên trong siêu thị,161,156,163,7,0.151402,475,0
+1702,10866,2,có nhiều mặt hàng xuất hiện ở bên trong siêu thị,51,46,53,7,0.318255,5840,0
+1703,10866,3,đây là khung cảnh xuất hiện ở bên trong một siêu thị,161,156,163,7,0.093851,5840,0
+1704,10866,4,có một vài người đang đứng ở trước một kệ hàng trong siêu thị,62,57,64,7,0.297190,9999,0
+1705,10866,5,có những chiếc xe đẩy siêu thị xuất hiện ở gần kệ hàng,24,19,26,7,0.332407,3541,0
+1706,10867,1,có một người phụ nữ đang ngồi trên chiếc xe lăn,3,3,3,0,0.707356,2473,0
+1707,10867,2,có một người đàn ông đang xuất hiện ở gần người phụ nữ,27,27,27,0,0.341859,6148,0
+1708,10867,3,người đàn ông chạy xe máy đang dừng lại bên cạnh người phụ nữ,5,5,5,0,0.334142,5738,0
+1709,10867,4,trên chiếc xe của người phụ nữ có sự xuất hiện của những cái túi lớn,10,10,10,0,0.293771,9570,0
+1710,10867,5,có những tờ tiền xuất hiện ở trên tay người phụ nữ mặc áo xanh,43,43,43,0,0.222575,7233,0
+1711,10881,1,có một người đàn ông đang đứng ở trước những rổ hoa hồng,70,70,70,0,0.155683,6148,0
+1712,10881,2,có nhiều túi hoa xuất hiện ở trước mặt người đàn ông,293,293,293,0,0.040137,3002,0
+1713,10881,3,ở phía trước của người đàn ông có sự xuất hiện của những rổ hoa hồng,260,260,260,0,0.030906,9987,0
+1714,10881,4,có những rổ hoa xuất hiện ở phía trước của người đàn ông,260,260,260,0,0.037118,9987,0
+1715,10881,5,có nhiều túi hoa hồng được đặt trên những chiếc rổ đen trước mặt người đàn ông,311,311,311,0,0.027137,9987,0
+1716,10921,1,có một người đàn ông đang ngồi trước một ngôi nhà cổ,127,127,127,0,0.122361,6396,0
+1717,10921,2,có một chiếc quạt xuất hiện ở sau lưng của người đàn ông,209,209,209,0,0.082461,5738,0
+1718,10921,3,có những chiếc đèn lồng được treo ở trên trần nhà,126,126,126,0,0.071008,5573,0
+1719,10921,4,có những chiếc đèn lồng được trang trí ở trên trần nhà,136,136,136,0,0.067866,5573,0
+1720,10921,5,ở trên trần nhà có sự xuất hiện của những chiếc đèn lồng,190,190,190,0,0.073172,5573,0
+1721,10923,1,có một bức tranh được vẽ ở trên bức tường,158,158,158,0,0.076329,1407,0
+1722,10923,2,có hai chậu cây đang được đặt ở trên vỉa hè,7,7,7,0,0.388793,1033,0
+1723,10923,3,ở trên vỉa hè có sự xuất hiện của hai chậu cây,8,8,8,0,0.386606,1033,0
+1724,10923,4,có hai đứa trẻ đang nô đùa trong bức tranh trên tường,201,201,201,0,0.047377,3432,0
+1725,10923,5,ngôi nhà có cánh cửa gỗ đang trong trạng thái đóng cửa,255,255,255,0,0.021611,9548,0
+1726,10954,1,có hai tô phở cùng một đĩa quẩy xuất hiện ở trên bàn,6,5,6,1,0.261160,5878,0
+1727,10954,2,có một người đang cầm trên tay một cái thìa,338,337,338,1,0.042144,10578,0
+1728,10954,3,có một cái muỗng xuất hiện ở trên tay của một người,211,210,211,1,0.114874,10578,0
+1729,10954,4,có một đĩa quẩy được đặt ở bên cạnh hai bát phở,3,2,3,1,0.375414,351,0
+1730,10954,5,có hai bát phở được bày ra ở trên bàn,5,4,5,1,0.477917,351,0
+1731,10958,1,có nhiều người đang xuất hiện ở bên cạnh hàng rào,213,213,213,0,0.117419,3002,0
+1732,10958,2,có một hàng rào chắn xuất hiện ở trên đường,26,26,26,0,0.234213,2839,0
+1733,10958,3,có nhiều người đang xuất hiện xung quanh chiếc rào chắn,203,203,203,0,0.070079,2839,0
+1734,10958,4,ở xung quanh chiếc rào chắn có sự xuất hiện của nhiều người,234,234,234,0,0.063984,1409,0
+1735,10958,5,ở trên đường có nhiều người đang đứng quanh một cái hàng rào chắn,29,29,29,0,0.250426,2839,0
+1736,10979,1,có nhiều người đang di chuyển ở trên con đường,50,49,50,1,0.555772,4789,0
+1737,10979,2,có một chiếc ô tô xuất hiện ở phía sau cô gái cầm điện thoại,309,308,309,1,0.027921,10521,0
+1738,10979,3,có một cô gái mặc áo khoác trắng đang đi bên cạnh cô gái cầm điện thoại,150,149,150,1,0.065071,5569,0
+1739,10979,4,có một vài phương tiện giao thông đang di chuyển trên đường,65,64,65,1,0.264438,3865,0
+1740,10979,5,có những cửa hàng xuất hiện ở bên kia đường,215,214,215,1,0.104142,3002,0
+1741,10993,1,đây là khung cảnh xuất hiện ở trên bãi cát bên bờ biển,1,1,1,0,0.518019,10993,0
+1742,10993,2,có những chiếc thúng xuất hiện ở trên bãi cát,4,4,4,0,0.395569,9904,0
+1743,10993,3,ở trên bãi cát có sự xuất hiện của những chiếc thúng,4,4,4,0,0.378332,9904,0
+1744,10993,4,có sự xuất hiện của một dãy núi ở phía xa xa của bãi cát,1,1,1,0,0.252777,10993,0
+1745,10993,5,có những chiếc thúng xuất hiện ở trên bờ biển,6,6,6,0,0.324013,9904,0
+1746,10994,1,có những chiếc xe máy xuất hiện ở gần những cột biển báo,245,245,245,0,0.025347,5669,0
+1747,10994,2,có một chiếc xe màu đỏ xuất hiện ở cạnh biển báo trên vỉa hè,289,289,289,0,0.042137,1033,0
+1748,10994,3,ở trên vỉa hè có sự xuất hiện của những chiếc xe máy,204,204,204,0,0.081275,1033,0
+1749,10994,4,có những cái cột biên báo xuất hiện ở trên vỉa hè,263,263,263,0,0.022749,1033,0
+1750,10994,5,ở trên vỉa hè có sự xuất hiện của những cái cột biển báo,172,172,172,0,0.064290,1033,0
+1751,11008,1,có một nhóm các em học sinh đang đứng về hai phía với cô giáo,150,150,150,0,0.042400,9869,0
+1752,11008,2,có một người phụ nữ mặc áo khoác đỏ đang đứng ở giữa các em học sinh,142,142,142,0,0.091116,5102,0
+1753,11008,3,có một nhóm người đang đứng trước một bức tượng hình người,1,1,1,0,0.680491,11008,0
+1754,11008,4,có một bức tượng hình người xuất hiện ở phía sau lưng của nhóm học sinh,2,2,2,0,0.460650,5223,0
+1755,11008,5,ở phía trước bức tượng tưởng niệm có sự xuất hiện của các em học sinh,1,1,1,0,0.406908,11008,0
+1756,11022,1,có nhiều hàng hoá được bày bán ở trong siêu thị,35,29,36,7,0.416175,48,0
+1757,11022,2,có nhiều mặt hàng xuất hiện ở bên trong siêu thị,52,46,53,7,0.318255,5840,0
+1758,11022,3,ở trong siêu thị có sự xuất hiện của nhiều loại hàng hoá,8,2,9,7,0.649822,11646,0
+1759,11022,4,có một người đàn ông đang đứng bên cạnh quầy hàng,152,146,153,7,0.139839,4651,0
+1760,11022,5,đây là khung cảnh xuất hiện ở trong một siêu thị,129,123,130,7,0.096436,5840,0
+1761,11026,1,có một cô gái mặc áo dài trắng đang cầm trên tay một chùm hoa,7,7,7,0,0.493814,8604,0
+1762,11026,2,có một chùm hoa xuất hiện ở trên tay của một cô gái,6,6,6,0,0.313763,2083,0
+1763,11026,3,có hai cô gái đang đứng dưới một cái ô,45,45,45,0,0.199168,1225,0
+1764,11026,4,có một nhóm các cô gái đang chụp ảnh bên những cây hoa đào,1,1,1,0,0.440339,11026,0
+1765,11026,5,có nhiều cây hoa đào xuất hiện ở bên đường,25,25,25,0,0.266826,11537,0
+1766,11030,1,có một vài nhóm người đang xuất hiện trong một khu di tích,46,41,47,6,0.368452,5604,0
+1767,11030,2,ở bên trong khu di tích có sự xuất hiện của những khách tham quan,8,3,9,6,0.351540,5604,0
+1768,11030,3,có một nhóm người đang di chuyển ở bên một ngôi nhà,141,136,142,6,0.193158,10958,0
+1769,11030,4,có một chiến sĩ đang thực hiện nhiệm vụ canh gác ngôi nhà,48,43,49,6,0.051430,7345,0
+1770,11030,5,có một nhóm người đang xuất hiện ở một bên của căn nhà,19,14,20,6,0.389565,9869,0
+1771,11035,1,có nhiều người đang xuất hiện ở trước một toà nhà,84,82,84,2,0.218489,3002,0
+1772,11035,2,có một vài mô hình cây thông xuất hiện ở phía trước toà nhà,287,285,287,2,0.033638,10692,0
+1773,11035,3,ở phía trước của toà nhà được trang trí bằng những mô hình cây thông,186,184,186,2,0.016571,4813,0
+1774,11035,4,ở trên con phố có sự xuất hiện của nhiều người,3,1,3,2,0.637621,1460,0
+1775,11035,5,đây là khung cảnh xuất hiện ở một con phố vào dịp giáng sinh,6,4,6,2,0.241743,966,0
+1776,11041,1,đây là khung cảnh xuất hiện ở phía bên ngoài của một căn nhà,36,35,36,1,0.189745,5687,0
+1777,11041,2,có nhiều cây xanh xuất hiện ở xung quanh căn nhà,42,41,42,1,0.201011,10436,0
+1778,11041,3,ở xung quanh căn nhà có sự xuất hiện của nhiều cây xanh,49,48,49,1,0.189167,10436,0
+1779,11041,4,ở xung quanh căn nhà có sự xuất hiện của những bãi cỏ xanh,27,26,27,1,0.159884,5687,0
+1780,11041,5,có sự xuất hiện của các bãi cỏ xanh ở xung quanh ngôi nhà,18,17,18,1,0.157836,10993,0
+1781,11060,1,có một cô gái đang bơi lội ở trên biển,7,7,7,0,0.240092,91,0
+1782,11060,2,ở trên biển có sự xuất hiện của một cô gái,7,7,7,0,0.362074,1602,0
+1783,11060,3,ở trên biển có một cô gái đang mỉm cười,7,7,7,0,0.294691,91,0
+1784,11060,4,có một cô gái đang mỉm cười khi nổi lên mặt nước,18,18,18,0,0.140367,3140,0
+1785,11060,5,có một người phụ nữ đang bơi ở trên biển,88,88,88,0,0.166870,1602,0
+1786,11064,1,có một nam thanh niên mặc áo dài đỏ đang đi bộ trên đường,17,17,17,0,0.293061,10377,0
+1787,11064,2,có một nam thanh niên mặc áo dài đang sải bước bên bờ sông,15,15,15,0,0.234963,2884,0
+1788,11064,3,ở bên bờ sông có sự xuất hiện của một nam thanh niên mặc áo dài màu đỏ,16,16,16,0,0.262548,2884,0
+1789,11064,4,có một cây cầu bắc qua sông xuất hiện ở phía sau của chàng trai,191,191,191,0,0.042452,2202,0
+1790,11064,5,ở phía sau lưng của chàng trai có sự xuất hiện của một cây cầu,186,186,186,0,0.047470,9536,0
+1791,11072,1,có một người đàn ông và một người phụ nữ đang ngồi ăn ở bên bàn,1,1,1,0,0.724237,11072,0
+1792,11072,2,có một người đàn ông mặc áo đen đang ngồi ăn cùng với người đàn bà mặc áo đỏ,10,10,10,0,0.385270,4651,0
+1793,11072,3,có những bức ảnh được treo ở trên bức tường,329,329,329,0,0.014310,1407,0
+1794,11072,4,ở trên bức tường của quán có sự xuất hiện của một bức ảnh,267,267,267,0,0.053455,1407,0
+1795,11072,5,đối diện với người phụ nữ là một người đàn ông mặc áo đen,36,36,36,0,0.240135,4651,0
+1796,11431,1,có một cô gái đang chạy bộ ở trên đường,75,71,75,4,0.214535,91,0
+1797,11431,2,có một cô gái đang trong chuyển động chạy bộ,77,73,77,4,0.180963,91,0
+1798,11431,3,ở trên đường có sự xuất hiện của một cô gái đang chạy bộ,96,92,96,4,0.192781,91,0
+1799,11431,4,ở hai bên của lối đi có sự xuất hiện của những bãi cỏ và nhiều cây xanh,354,350,354,4,0.008334,3855,0
+1800,11431,5,có những bãi cỏ và nhiều cây xanh xuất hiện ở hai bên đường,354,350,354,4,0.009865,387,0
+1801,11433,1,có một người phụ nữ đang lựa hoa quả bên quầy hàng,147,140,147,7,0.117084,7335,0
+1802,11433,2,có một cái túi xuất hiện ở trên tay của người phụ nữ mặc áo sọc đen trắng,161,154,161,7,0.117447,9570,0
+1803,11433,3,có nhiều mặt hàng hoa quả được bày bán ở trên kệ hàng,31,24,31,7,0.447616,8624,0
+1804,11433,4,đây là khung cảnh xuất hiện ở một quầy hàng hoa quả của một siêu thị,59,52,59,7,0.165467,5840,0
+1805,11433,5,có nhiều mặt hàng trái cây được bày bán ở trong khu vực này,98,91,98,7,0.170090,8624,0
+1806,11435,1,có nhiều người đang xuất hiện ở bên trong khu chợ,16,14,16,2,0.949896,10609,0
+1807,11435,2,có nhiều người đang di chuyển ở bên trong khu chợ,21,19,21,2,0.702097,273,0
+1808,11435,3,đây là khung cảnh xuất hiện ở một khu chợ đang trong trạng thái đông đúc,4,2,4,2,0.383527,10312,0
+1809,11435,4,có đông người đang xuất hiện ở trong khu chợ,3,1,3,2,0.762187,4544,0
+1810,11435,5,đây là bức ảnh chụp ở bên trong một khu chợ có đông người,17,15,17,2,0.442438,10339,0
+1811,11448,1,có những sợi dây màu đỏ được căng ở trong khu vực vui chơi,343,340,343,3,0.008098,4932,0
+1812,11448,2,đây là khung cảnh xuất hiện ở trong một khu công viên,328,325,328,3,0.016183,10312,0
+1813,11448,3,có những trò chơi đang bị niêm phong ở trong công viên,312,309,312,3,0.018077,845,0
+1814,11448,4,có những trò chơi đang bị buộc những sợi dây màu đỏ trắng,225,222,225,3,0.017301,10377,0
+1815,11448,5,ở trong công viên có sự xuất hiện của các sợi dây căng giữa các trò chơi,325,322,325,3,0.006818,4639,0
+1816,11458,1,có nhiều người đang xuất hiện ở trên phố đi bộ,22,21,22,1,0.328495,3785,0
+1817,11458,2,ở trên phố đi bộ có sự xuất hiện của nhiều người,30,29,30,1,0.272963,3785,0
+1818,11458,3,có nhiều người đang ngồi ở trên phố đi bộ vào buổi tối,76,75,76,1,0.144741,3785,0
+1819,11458,4,đây là khung cảnh xuất hiện ở trên một khu phố đi bộ vào buổi tối,7,6,7,1,0.191252,8615,0
+1820,11458,5,ở trên khu phố vào buổi tối có sự xuất hiện của nhiều người,20,19,20,1,0.312118,1409,0
+1821,11498,1,có một người đàn ông đang chạm tay vào những sản phẩm trên quầy,229,228,229,1,0.060981,7233,0
+1822,11498,2,có một em bé mặc áo nâu đang ngồi chiếc xe đẩy siêu thị,17,16,17,1,0.278678,100,0
+1823,11498,3,có hai em bé đang ngồi ở trên một chiếc xe đẩy siêu thị phía sau người đàn ông,25,24,25,1,0.306807,3541,0
+1824,11498,4,có hai hình nhân xuất hiện ở trên quầy hàng,157,156,157,1,0.112355,5223,0
+1825,11498,5,ở trên quầy hàng quần áo có sự xuất hiện của hai cái hình nhân,189,188,189,1,0.087706,7441,0
+1826,11508,1,có nhiều người đang xuất hiện ở bên trong khu chợ,13,8,13,5,0.957215,10609,0
+1827,11508,2,có nhiều sạp hàng bán đồ trang trí giáng sinh ở hai bên đường,85,79,85,6,0.137113,966,0
+1828,11508,3,ở hai bên đường có những cửa hàng bán đồ trang trí giáng sinh,154,148,154,6,0.088533,966,0
+1829,11508,4,có nhiều người đang di chuyển ở bên trong khu chợ,17,12,17,5,0.719577,273,0
+1830,11508,5,có những cửa hàng bán đồ trang trí giáng sinh xuất hiện ở hai bên đường,73,67,73,6,0.160121,966,0
+1831,11510,1,đây là hình ảnh chụp khu vực bày bán hoa quả của siêu thị,89,88,89,1,0.137356,8605,0
+1832,11510,2,đây là khung cảnh xuất hiện ở quầy hàng hoa quả của siêu thị,15,14,15,1,0.295021,5840,0
+1833,11510,3,ở trong khu vực này có sự xuất hiện của nhiều loại trái cây,26,25,26,1,0.357087,5557,0
+1834,11510,4,có nhiều loại quả được bày bán ở trong siêu thị,21,20,21,1,0.472620,1015,0
+1835,11510,5,có nhiều loại trái cây xuất hiện ở trên các quầy hàng,4,3,4,1,0.510484,4639,0
+1836,11537,1,có một người phụ nữ đang dắt chiếc xe đạp chở rau củ quả trên phố,75,75,75,0,0.172157,5944,0
+1837,11537,2,ở trên phố có sự xuất hiện của một người phụ nữ bán trái cây,129,129,129,0,0.162083,10407,0
+1838,11537,3,có nhiều người đang xuất hiện ở bên trong con phố,98,98,98,0,0.234184,4035,0
+1839,11537,4,có nhiều loại trái cây xuất hiện ở trên chiếc xe đạp của người phụ nữ đội nón lá,8,8,8,0,0.317990,3474,0
+1840,11537,5,có một nhóm người đang đứng nói chuyện ở bên đường,166,166,166,0,0.121266,10958,0
+1841,11564,1,có một người phụ nữ đang ngồi xổm bên những cái xô,363,362,363,1,0.008726,5346,0
+1842,11564,2,có những cái xô xuất hiện ở trước mặt người phụ nữ ngồi xổm,134,133,134,1,0.092141,5346,0
+1843,11564,3,có những chiếc xe máy đang được dựng ở bên đường,151,150,151,1,0.114817,3670,0
+1844,11564,4,ở bên đường có sự xuất hiện của những chiếc xe máy,312,311,312,1,0.035493,340,0
+1845,11564,5,có nhiều xe máy xuất hiện ở trong con ngõ,150,149,150,1,0.132166,5669,0
+1846,11584,1,có nhiều người đang xuất hiện phía trước gian hàng,87,85,87,2,0.203916,3002,0
+1847,11584,2,ở phía trước gian hàng có sự xuất hiện của nhiều người,81,79,81,2,0.205044,3002,0
+1848,11584,3,có nhiều sản phẩm được bày bán ở trong quầy hàng,11,9,11,2,0.528467,47,0
+1849,11584,4,có một nhóm người đang đứng ở một gian hàng tạp hoá,29,27,29,2,0.303229,9899,0
+1850,11584,5,ở trong gian hàng có sự xuất hiện của nhiều loại hàng hoá,15,13,15,2,0.641912,9899,0
+1851,11601,1,đây là khung cảnh xuất hiện ở hai kệ hàng trong siêu thị,34,34,34,0,0.224019,5840,0
+1852,11601,2,có nhiều mặt hàng được bày bán ở trong siêu thị,24,24,24,0,0.482099,8624,0
+1853,11601,3,ở trong siêu thị có bày bán nhiều mặt hàng,24,24,24,0,0.423642,8624,0
+1854,11601,4,có nhiều bịch hàng xuất hiện ở quầy hàng bên phải,48,48,48,0,0.236670,10452,0
+1855,11601,5,phần gạch lát nền của siêu thị thì có màu trắng,274,274,274,0,0.007677,9999,0
+1856,11610,1,có một vài người đang di chuyển ở trên đường,16,10,16,6,0.834025,182,0
+1857,11610,2,đây là khung cảnh xuất hiện ở một con phố lúc vừa mưa xong,268,262,268,6,0.015481,10921,0
+1858,11610,3,có một người đàn ông mặc áo xám đang nhìn mọi người ở trên đường,38,32,38,6,0.268899,4651,0
+1859,11610,4,có một người đàn ông mặc áo xám đang chụp ảnh ở trên đường,53,47,53,6,0.281811,9632,0
+1860,11610,5,ở trên đường có sự xuất hiện của một người đàn ông đang thực hiện động tác chụp ảnh,52,46,52,6,0.199683,9632,0
+1861,11646,1,có nhiều người đang mua hàng ở trong siêu thị,12,12,12,0,0.569994,2215,0
+1862,11646,2,có nhiều người xuất hiện ở bên trong siêu thị,11,11,11,0,0.669284,5840,0
+1863,11646,3,ở trong siêu thị có sự xuất hiện của nhiều khách mua hàng,11,11,11,0,0.517898,2215,0
+1864,11646,4,có nhiều mặt hàng được bày bán ở trong siêu thị,23,23,23,0,0.511712,8624,0
+1865,11646,5,đây là khung cảnh xuất hiện ở phía trước của một siêu thị,3,3,3,0,0.366731,5840,0
+1866,11656,1,có những cột đá xuất hiện ở trong căn phòng,239,239,239,0,0.029682,9923,0
+1867,11656,2,ở trong phòng có sự xuất hiện của những cột đá,245,245,245,0,0.029951,9923,0
+1868,11656,3,có những bức tượng xuất hiện ở trên những cái cột đá,183,183,183,0,0.060910,11008,0
+1869,11656,4,ở trên các cột đá có sự xuất hiện của những bức tượng,190,190,190,0,0.061669,11008,0
+1870,11656,5,có những bức tượng được trưng bày ở trên cột đá,157,157,157,0,0.061599,17,0
+1871,11672,1,có hai cô gái đang đứng ở trước một quầy hàng trái cây,56,56,56,0,0.223998,4356,0
+1872,11672,2,có hai cô gái đang đứng ở bên quầy hàng trái cây,49,49,49,0,0.228746,4356,0
+1873,11672,3,có nhiều hộp hoa quả xuất hiện ở trước mặt hai cô gái,328,328,328,0,0.016483,11537,0
+1874,11672,4,có nhiều hộp hoa quả xuất hiện ở trên quầy hàng,159,159,159,0,0.121596,11537,0
+1875,11672,5,có những hộp trái cây xuất hiện trên tay của cô gái mặc áo trắng,99,99,99,0,0.126834,3930,0
