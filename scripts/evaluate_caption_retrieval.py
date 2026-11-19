@@ -24,12 +24,16 @@ def build_and_evaluate(name, predictions_path, train_rows, val_rows, index_path,
     index = CaptionSearchIndex.build(train_rows, load_predictions(predictions_path), val_rows, metadata)
     index.save(index_path)
     rows = rank_queries(index, [(image_id, text) for image_id, _, text in queries])
-    # Independent check: the public search function must give the same rank for every usable query.
+    # Demo search returns the positive-score prefix of the full evaluation ranking.
     for (image_id, _, text), row in zip(queries, rows):
         if row["zero_query"]:
             continue
-        ids = [hit["image_id"] for hit in index.search(text, k=len(index.records))]
-        if ids.index(image_id) + 1 != row["rank"]:
+        matches = index.search(text, k=len(index.records))
+        match_ranks = {hit["image_id"]: rank for rank, hit in enumerate(matches, 1)}
+        returned_rank = match_ranks.get(image_id)
+        if returned_rank is None and row["correct_score"] == 0 and row["rank"] > len(matches):
+            continue
+        if returned_rank != row["rank"]:
             raise AssertionError(f"{name}: search() and rank_queries disagree for image {image_id}: {text!r}")
     with rank_path.open("w", encoding="utf-8", newline="") as stream:
         writer = csv.writer(stream)
