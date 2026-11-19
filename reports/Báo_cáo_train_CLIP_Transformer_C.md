@@ -7,7 +7,7 @@ Nhánh `clip-transformer-training`. C là mô hình B với đặc trưng vùng 
 - **Ngân sách (giống B):** tối đa 20 epoch, batch 32, learning rate 0,0003, weight decay 0,01, seed 42, dừng sớm sau 4 epoch không tăng CIDEr val, chọn checkpoint theo CIDEr val cao nhất, sinh greedy tối đa 40 token.
 - **Hai nơi train:** RTX 2050 4 GB (máy này) và Kaggle Tesla T4 (kernel `pengunins/ktvic-c-b-kaggle-seeds-20261119`, torch 2.11.0+cu130, cùng image với lần chạy B Kaggle trước). Mục 2 là RTX; phần "Kaggle T4" ở cuối mục 2 là Kaggle.
 - **RTX:** B so sánh là lần train cùng máy, cùng seed và cùng cài đặt (`runs/train30/B`, CIDEr val 70,47; giới hạn 30 epoch nhưng dừng sớm ở epoch 11 nên giống hệt ngân sách 20 epoch).
-- **Lệnh:** `python -m scripts.train_caption_model --model B --config configs/clip_transformer.yaml --feature-prefix clip_vit_b32_7x7 --output runs/clip_transformer/c_seed42 --epochs 20 --seed 42`. Cần thêm tùy chọn `--feature-prefix` (đã sửa ở `scripts/train_caption_model.py` và `src/data/cached_caption_dataset.py`, mặc định vẫn là cache ResNet-50 nên B không đổi).
+- **Lệnh train:** `python -m scripts.train_caption_model --model B --config configs/clip_transformer.yaml --feature-prefix clip_vit_b32_7x7 --output runs/clip_transformer/c_seed42 --epochs 20 --seed 42`. Sau khi train, chạy `python -m scripts.export_caption_results --run-dir runs/clip_transformer/c_seed42` để xuất điểm và caption của checkpoint tốt nhất.
 - **Lần chạy bị ngắt sau epoch 1** do môi trường (không có lỗi trong log). Tôi chạy tiếp từ `last.pt` bằng `--resume`; trọng số, optimizer và trạng thái ngẫu nhiên được khôi phục từ checkpoint, nên đây là một lần train liên tục về mặt thuật toán. Log đủ 9 epoch ở `reports/clip_transformer/log_c_seed42.txt`.
 - **Chỉ dùng val.** Không dùng test để chọn epoch hay sửa mô hình.
 
@@ -37,7 +37,7 @@ Nhánh `clip-transformer-training`. C là mô hình B với đặc trưng vùng 
 | Cache đặc trưng 3 tập | 826 MiB | 310 MiB |
 | Lập cache tập val (375 ảnh) | 9 giây | 10 giây |
 
-Encoder CLIP đóng băng nên không tốn thêm tham số train hay VRAM khi train; chi phí duy nhất là chạy encoder một lần để lập cache (cùng cỡ với ResNet-50) và khi suy luận trên ảnh mới. Cache nhỏ hơn 2,7 lần vì 768 chiều thay cho 2.048.
+Trainer đọc đặc trưng đã lưu của cả hai encoder. Cache C có kích thước bằng khoảng 38% cache B do số chiều giảm từ 2.048 xuống 768. Thời gian lập cache trong bảng đo trên val. Chi phí suy luận ảnh mới chưa được đo.
 
 ### Năm seed
 
@@ -67,9 +67,9 @@ Trung bình ± độ lệch chuẩn của BLEU-1/2/3/4: B 62,46±0,91 / 47,99±0
 | 42 | 72,42 | 78,73 | +6,31 | 6 / 4 |
 | **Trung bình ± độ lệch chuẩn** | **72,22 ± 2,36** | **79,50 ± 2,19** | **+7,28** | |
 
-- **B seed 42 tái lập đúng:** file dự đoán val của B seed 42 trong kernel này giống từng byte lần chạy Kaggle trước (CIDEr 72,42).
+- **B seed 42:** điểm val lưu từ kernel này trùng với điểm chấm lại file dự đoán của lần chạy Kaggle trước (CIDEr 72,42 và cả bốn chỉ số BLEU). Tác giả ghi nhận hai file dự đoán giống từng byte. Repo lưu metric của kernel mới.
 - **BLEU-1/2/3/4 trung bình:** B 63,54 / 48,97 / 37,22 / 28,78; C 65,22 / 51,30 / 40,10 / 31,47 (C − B: +1,68 / +2,33 / +2,88 / +2,69).
-- **Tách hoàn toàn:** CIDEr thấp nhất của C (76,70) cao hơn CIDEr cao nhất của B (75,98), nhưng chỉ hơn 0,72 điểm. BLEU-3 và BLEU-4 cũng tách hoàn toàn; BLEU-1 và BLEU-2 thì các seed chồng lấn (C thấp nhất 63,02 và 49,25, B cao nhất 64,76 và 49,83). Xác suất tách hoàn toàn CIDEr nếu không có khác biệt là 1/252 (0,4%), thống kê t kiểu Welch 5,1.
+- **Khoảng điểm giữa các seed:** CIDEr thấp nhất của C (76,70) cao hơn CIDEr cao nhất của B (75,98) 0,72 điểm. Khoảng điểm BLEU-3 và BLEU-4 cũng tách nhau. Khoảng điểm BLEU-1 và BLEU-2 chồng lấn (C thấp nhất là 63,02 và 49,25, B cao nhất là 64,76 và 49,83).
 - **Seed 42 chi tiết** (`reports/clip_transformer/so_sanh_B_C_kaggle.json`, hình `reports/assets/b_vs_c_val_kaggle.jpg`): B 72,42 → C 78,73 (+6,31); BLEU-1/2/3/4 +2,14 / +2,59 / +3,26 / +3,35. 365 trong 375 caption khác nhau; C hơn B ở 206 ảnh, B hơn C ở 159, bằng nhau 10. Khoảng tin cậy 95% khi lấy mẫu lại theo ảnh của chênh lệch CIDEr từng ảnh: −1,07 đến +14,06 (chứa 0).
 - **Chi phí (T4):** thời gian train trung bình một lần B 212,7 giây, C 204,9 giây; seed 42: 21,3 so với 19,2 giây mỗi epoch, VRAM đỉnh 471 so với 452 MiB.
 - **Dao động giữa seed trên Kaggle lớn hơn trên RTX** (độ lệch chuẩn CIDEr 2,2 đến 2,4 so với 0,9 đến 1,5), nên mức tăng ở từng seed trải rộng hơn (+4,5 đến +9,5).
@@ -92,14 +92,12 @@ Hình [reports/assets/b_vs_c_val.jpg](assets/b_vs_c_val.jpg) cho sáu ảnh val:
 ## 4. Nhận xét về tác động khi đổi encoder
 
 1. **C cao hơn B ở cả năm chỉ số:** BLEU tăng 2,8 đến 4,3 điểm và CIDEr tăng 8,65 điểm (70,47 → 79,12). C hơn B ở 221 ảnh, B hơn C ở 149 ảnh, 5 ảnh bằng nhau.
-2. **Mức tăng lặp lại ở cả 5 seed.** C cao hơn B ở mọi seed, từ +8,0 đến +11,2 CIDEr (trung bình +9,38; thống kê t kiểu Welch khoảng 12). CIDEr thấp nhất của C (79,12) vẫn cao hơn CIDEr cao nhất của B (72,84); BLEU-1 đến BLEU-4 cũng tách hoàn toàn như vậy. Với 5 lần train mỗi bên, xác suất tách hoàn toàn như thế nếu hai mô hình không khác nhau là 1/252, khoảng 0,4% (kiểm định hoán vị chính xác, một phía). Trong lần seed 42, CIDEr của C ở mọi epoch từ 4 đến 9 (73,3 đến 79,1) cũng cao hơn CIDEr cao nhất của B ở bất kỳ epoch nào (70,47).
-3. **Kết quả lặp lại trên Kaggle T4.** Trong kernel Kaggle chung cho C và B, C cũng cao hơn B ở cả 5 seed (+4,5 đến +9,5 CIDEr, trung bình +7,28 so với +9,38 trên RTX) và CIDEr thấp nhất của C vẫn cao hơn cao nhất của B, nhưng biên chỉ 0,72 điểm do B Kaggle dao động mạnh hơn (độ lệch chuẩn 2,36). Gộp hai nơi: 10 cặp C−B cùng seed đều dương, nhỏ nhất +4,48. Mức tăng trên Kaggle nhỏ hơn trên RTX nhưng cùng hướng, nên không phụ thuộc vào máy train.
-4. **Điều các seed chưa trả lời được.** (a) Năm seed chỉ cho biết dao động do khởi tạo và thứ tự dữ liệu; tất cả đều đo trên cùng 375 ảnh val. (b) Ở cấp từng ảnh nhiễu rất lớn: khi lấy mẫu lại theo ảnh (seed 42), chênh lệch CIDEr trung bình từng ảnh là +8,66 với khoảng tin cậy 95% từ −1,02 đến +18,34, chứa 0, vì CIDEr từng ảnh rất lệch (một vài ảnh tới ±400 đến ±500). (c) Val loss thấp nhất của seed 42 chỉ hơn 0,012 (0,6%), nên mức tăng hiện ở BLEU/CIDEr nhiều hơn ở độ khớp từng từ.
-5. **Cách C khác B:** C hay chọn câu mô tả cảnh chung phổ biến trong tham chiếu (nhiều người, quán ăn, khu chợ) và đúng hơn ở các ảnh đông người hoặc có nhiều xe; số câu khác nhau (304 so với 299 trên 375 ảnh) và độ dài (12,10 so với 12,08 từ) gần như không đổi. Đây là nhận xét từ vài ví dụ, chưa kiểm chứng thống kê.
-6. **Chi phí gần như không đổi (cả hai nơi):** thời gian mỗi epoch, VRAM và kích thước checkpoint tương đương; cache nhỏ hơn 2,7 lần. C chọn epoch 5 (B chọn epoch 7 theo CIDEr); val loss của cả hai bắt đầu tăng sau epoch 4 đến 5, tức là quá khớp từ khoảng epoch đó.
+2. **Mức tăng trên RTX lặp lại ở cả 5 seed.** CIDEr tăng từ +8,03 đến +11,23 điểm theo cặp cùng seed, trung bình +9,38. CIDEr thấp nhất của C (79,12) cao hơn CIDEr cao nhất của B (72,84). Khoảng điểm BLEU-1 đến BLEU-4 cũng tách nhau trong các lượt này.
+3. **Kết quả cùng chiều trên Kaggle T4.** CIDEr cũng tăng ở cả 5 cặp seed, trung bình +7,28. Mức tăng quan sát được khác nhau giữa hai môi trường đã chạy.
+4. **Dao động theo ảnh.** Ở seed 42 trên RTX, chênh lệch CIDEr trung bình từng ảnh là +8,66. Khi lấy mẫu lại các điểm từng ảnh đã tính trên toàn bộ val, khoảng tin cậy 95% từ −1,02 đến +18,34 chứa 0. Các lượt train theo seed đều dùng cùng một tập val.
+5. **Ví dụ caption.** Ở các ảnh minh họa, C mô tả đúng cảnh có nhiều xe hoặc nhiều người và có thể nhầm chi tiết vật thể như quyển sách ở ID 5799. Trên cả val, C sinh 304 câu khác nhau, B sinh 299 câu khác nhau. Độ dài trung bình của C và B lần lượt là 12,10 và 12,08 âm tiết.
 
 ## 5. Giới hạn
-- Tất cả đo trên cùng một tập val 375 ảnh; chưa có số trên test.
-- Chỉ đo trên val bằng BLEU/CIDEr; chưa chấm lỗi bằng người và chưa chạy test cho C.
-- Đặc trưng CLIP chỉ dùng 49 vùng 7 × 7 ở lớp cuối, giống số vùng của ResNet-50; kết quả không nói được về cách dùng CLIP khác (cả CLS, fine-tune).
-- Thời gian train mỗi lần chạy phụ thuộc số epoch dừng sớm (C 9 đến 12 epoch, B 10 đến 12 epoch); không so tổng thời gian giữa hai mô hình theo từng seed.
+- Tất cả điểm đo trên cùng 375 ảnh val bằng BLEU/CIDEr. C chưa được chấm lỗi bởi người hoặc đánh giá trên test.
+- So sánh đo tác động của việc thay toàn bộ đầu vào ResNet-50 bằng 49 vùng từ CLIP đóng băng, gồm tiền xử lý theo từng encoder và đổi kích thước lớp chiếu vùng.
+- Thời gian train cả lượt phụ thuộc số epoch trước khi dừng sớm. Trên RTX, C chạy 9–12 epoch và B chạy 10–12 epoch. Trên T4, các khoảng tương ứng là 8–13 và 8–12 epoch.

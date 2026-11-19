@@ -196,7 +196,5 @@
     8.65
   ],
   "cider_mean_difference": 9.38,
-  "welch_t_cider": 12.2,
-  "every_c_seed_above_every_b_seed": true,
-  "exact_permutation_p_one_sided": 0.003968253968253968
+  "every_c_seed_above_every_b_seed": true
 }
