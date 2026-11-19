@@ -8,7 +8,8 @@ CUTOFFS = (1, 5, 10)
 def rank_queries(index, queries):
     """Rank the whole candidate pool for each (image_id, text) query.
 
-    rank follows CaptionSearchIndex.search exactly: score descending, image_id ascending for ties.
+    Usable queries follow CaptionSearchIndex.search: score descending, image_id ascending for ties.
+    Queries with no vocabulary tokens have no rank and still count toward the recall denominator.
     rank_best/rank_worst bound the rank if the images tied with the answer were ordered in its favour
     or against it, so a result that depends on the tie rule is visible.
     """
@@ -19,6 +20,10 @@ def rank_queries(index, queries):
     vectors = index.vectorize([text for _, text in queries], index.vocabulary, index.idf)
     rows = []
     for (image_id, _), vector in zip(queries, vectors):
+        if not vector.any():
+            rows.append({"rank": None, "rank_best": None, "rank_worst": None, "tied_with_answer": 0,
+                         "correct_score": None, "top1_image_id": None, "zero_query": True})
+            continue
         scores = index.vectors @ vector  # same product as CaptionSearchIndex.search
         answer = positions[image_id]
         order = np.lexsort((index.image_ids, -scores))
@@ -28,24 +33,25 @@ def rank_queries(index, queries):
         rows.append({"rank": int(np.flatnonzero(order == answer)[0]) + 1, "rank_best": greater + 1,
                      "rank_worst": greater + 1 + tied, "tied_with_answer": tied,
                      "correct_score": float(correct), "top1_image_id": int(index.image_ids[order[0]]),
-                     "zero_query": bool(not vector.any())})
+                     "zero_query": False})
     return rows
 
 
 def recall_table(rows, pool_size, cutoffs=CUTOFFS):
-    """Recall@k for the search rule and for the best/worst tie ordering, plus random chance k / pool size."""
+    """Summarize recall over all queries and median rank over queries with search results."""
     total = len(rows)
     if total == 0:
         raise ValueError("No queries")
+    ranked_rows = [row for row in rows if row["rank"] is not None]
     result = {"queries": total, "candidate_images": pool_size,
               "queries_with_zero_vector": sum(row["zero_query"] for row in rows),
               "queries_tied_with_other_images": sum(row["tied_with_answer"] > 0 for row in rows),
-              "median_rank": float(np.median([row["rank"] for row in rows])),
+              "median_rank": float(np.median([row["rank"] for row in ranked_rows])) if ranked_rows else None,
               "recall": {}}
     for k in cutoffs:
-        entry = {name: sum(row[key] <= k for row in rows) / total
+        entry = {name: sum(row[key] <= k for row in ranked_rows) / total
                  for name, key in (("search_rule", "rank"), ("best_case", "rank_best"), ("worst_case", "rank_worst"))}
-        entry["hits_search_rule"] = sum(row["rank"] <= k for row in rows)
+        entry["hits_search_rule"] = sum(row["rank"] <= k for row in ranked_rows)
         entry["chance"] = min(k, pool_size) / pool_size
         result["recall"][f"R@{k}"] = entry
     return result
@@ -53,7 +59,9 @@ def recall_table(rows, pool_size, cutoffs=CUTOFFS):
 
 def paired_bootstrap(image_ids, ranks_a, ranks_b, cutoffs=CUTOFFS, resamples=2000, seed=0):
     """A minus B Recall@k with a 95% interval from resampling images (their five queries stay together)."""
-    image_ids, ranks_a, ranks_b = np.asarray(image_ids), np.asarray(ranks_a), np.asarray(ranks_b)
+    image_ids = np.asarray(image_ids)
+    ranks_a = np.array([np.inf if rank is None else rank for rank in ranks_a])
+    ranks_b = np.array([np.inf if rank is None else rank for rank in ranks_b])
     unique, inverse = np.unique(image_ids, return_inverse=True)
     generator = np.random.default_rng(seed)
     draws = generator.integers(0, len(unique), size=(resamples, len(unique)))

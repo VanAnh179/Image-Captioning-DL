@@ -36,8 +36,9 @@ def build_and_evaluate(name, predictions_path, train_rows, val_rows, index_path,
         writer.writerow(["query_number", "image_id", "reference_number", "query", "rank", "rank_best", "rank_worst",
                          "tied_with_answer", "correct_score", "top1_image_id", "zero_query"])
         for number, ((image_id, reference, text), row) in enumerate(zip(queries, rows), 1):
+            score = f"{row['correct_score']:.6f}" if row["correct_score"] is not None else ""
             writer.writerow([number, image_id, reference, text, row["rank"], row["rank_best"], row["rank_worst"],
-                             row["tied_with_answer"], f"{row['correct_score']:.6f}", row["top1_image_id"],
+                             row["tied_with_answer"], score, row["top1_image_id"],
                              int(row["zero_query"])])
     table = recall_table(rows, len(index.records))
     table["distinct_generated_captions"] = len({record["caption"] for record in index.records})
@@ -51,7 +52,7 @@ def main():
     parser.add_argument("--predictions-a", type=Path, required=True)
     parser.add_argument("--predictions-b", type=Path, required=True)
     parser.add_argument("--processed-dir", type=Path, default=Path("data/processed/ktvic"))
-    parser.add_argument("--index-dir", type=Path, default=Path("artifacts/retrieval"))
+    parser.add_argument("--index-dir", type=Path, default=Path("artifacts/retrieval/recall_eval"))
     parser.add_argument("--output-dir", type=Path, default=Path("reports/retrieval_recall"))
     args = parser.parse_args()
     train_path, val_path = args.processed_dir / "train_manifest.jsonl", args.processed_dir / "val_manifest.jsonl"

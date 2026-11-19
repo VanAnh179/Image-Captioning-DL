@@ -34,10 +34,22 @@ class RecallEvalTests(unittest.TestCase):
             ids = [hit["image_id"] for hit in index.search(text, k=3)]
             self.assertEqual(row["rank"], ids.index(image_id) + 1)
 
-    def test_query_without_vocabulary_tokens_is_kept_and_flagged(self):
-        row = rank_queries(toy_index(), [(20, "xyz")])[0]
-        self.assertTrue(row["zero_query"])
-        self.assertEqual((row["rank"], row["rank_best"], row["rank_worst"]), (2, 1, 3))
+    def test_query_without_vocabulary_tokens_is_counted_as_a_miss(self):
+        rows = rank_queries(toy_index(), [(10, "xyz"), (10, "a b")])
+        unranked = rows[0]
+        self.assertTrue(unranked["zero_query"])
+        for field in ("rank", "rank_best", "rank_worst", "correct_score", "top1_image_id"):
+            self.assertIsNone(unranked[field])
+        table = recall_table(rows, 3)
+        self.assertEqual(table["queries"], 2)
+        self.assertEqual(table["median_rank"], 1)
+        self.assertEqual(table["recall"]["R@10"]["search_rule"], 0.5)
+
+    def test_paired_bootstrap_counts_unranked_queries_as_misses(self):
+        result = paired_bootstrap([1, 2, 3], [1, None, None], [None, 2, None], resamples=50)
+        self.assertEqual((result["queries_a_better"], result["queries_b_better"], result["queries_equal_rank"]), (1, 1, 1))
+        self.assertAlmostEqual(result["R@1"]["difference"], 1 / 3)
+        self.assertEqual(result["R@10"]["difference"], 0)
 
     def test_recall_table(self):
         index = toy_index()

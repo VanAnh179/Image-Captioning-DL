@@ -8,7 +8,7 @@ Nhánh `retrieval-recall-eval`. Đo trên val bằng chỉ mục TF-IDF có sẵ
 - **Truy vấn:** từng câu tham chiếu của mỗi ảnh val, 375 × 5 = **1.875 truy vấn**. Đáp án là ID của ảnh gốc câu đó mô tả.
 - **Hai chỉ mục:** mỗi chỉ mục lập từ caption tự sinh của một mô hình trên 375 ảnh val. IDF học từ caption train (16.895 câu, từ vựng 1.712 âm tiết), vector L2-normalised, xếp hạng theo cosine giảm dần, hòa điểm thì ID ảnh tăng dần, đúng như hàm `search`.
 - **Nguồn caption:** A = `runs/train30/A` (CIDEr val 81,39, epoch 5) và B = `runs/train30/B` (CIDEr val 70,47, epoch 7). Cùng máy RTX 2050, seed 42, cùng cache ResNet-50 và cùng cách sinh greedy tối đa 40 token.
-- **Chạy lại:** `python -m scripts.evaluate_caption_retrieval --predictions-a runs/train30/A/val_predictions.json --predictions-b runs/train30/B/val_predictions.json`.
+- **Chạy lại:** `python -m scripts.evaluate_caption_retrieval --predictions-a runs/train30/A/val_predictions.json --predictions-b runs/train30/B/val_predictions.json`. Có thể chỉ định `--output-dir` để lưu lượt chạy mới ở thư mục riêng.
 
 ## 2. Kết quả
 
@@ -45,11 +45,12 @@ A nhỉnh hơn B ở cả ba ngưỡng, nhưng khoảng tin cậy đều chứa 
 
 - `reports/retrieval_recall/ranks_A.csv`, `ranks_B.csv`: mỗi dòng một truy vấn (1.875 dòng) gồm ID ảnh đúng, số thứ tự câu tham chiếu, nội dung truy vấn, hạng ảnh đúng theo quy tắc `search`, hạng tốt nhất và xấu nhất khi hòa điểm, số ảnh cùng điểm, điểm của ảnh đúng, ID ảnh xếp hạng 1.
 - `reports/retrieval_recall/recall_summary.json`: toàn bộ số ở bảng trên, hash file dự đoán (A `36f32680…`, B `81ad0993…`).
-- Hai chỉ mục lưu ở `artifacts/retrieval/ktvic_a_val.npz` và `ktvic_b_val.npz` (ngoài Git).
-- **Đã kiểm:** với cả 3.750 lượt (1.875 × 2), thứ hạng tính hàng loạt trùng khít với thứ hạng lấy từ `CaptionSearchIndex.search(k=375)`; không có truy vấn nào có vector rỗng (không truy vấn nào bị bỏ); 6 bài kiểm thử mới ở `tests/test_recall_eval.py` và 9 bài của `tests/test_caption_search.py` đều qua.
+- Lệnh tạo hai chỉ mục `ktvic_a_val.npz` và `ktvic_b_val.npz` trong `artifacts/retrieval/recall_eval/` theo mặc định. Truy vấn có vector rỗng xuất hạng trống, được tính là không tìm thấy ảnh đúng và vẫn nằm trong tổng số truy vấn.
+- **Lượt gốc.** Tác giả đối chiếu 3.750 hạng với `CaptionSearchIndex.search(k=375)`. Cả hai file CSV ghi 0 truy vấn có vector rỗng.
+- **Lượt rà soát.** Đã tính lại các bảng từ hai CSV và chạy lại toàn bộ B từ file dự đoán đúng SHA-256. Recall của B khớp ở cả ba ngưỡng. Với OpenBLAS một luồng, 3 hạng chênh một bậc và 4 dòng khác chỉ chênh thông tin hòa điểm. Chỉ mục A đang chờ file dự đoán gốc để dựng lại. [Chi tiết rà soát](Rà_soát_Recall_tìm_ảnh.md)
 
 ## 5. Giới hạn
 
-- A và B lấy từ lần train trên RTX 2050, seed 42, **không phải** bản Kaggle: file `val_predictions.json` của A trên Kaggle không có trong máy này (file trong thư mục Tải xuống thực chất là của A0). Số trên không thay được kết quả của hai bản Kaggle.
+- Kết quả áp dụng cho hai checkpoint RTX 2050, seed 42 đã nêu ở mục thiết lập.
 - Mỗi mô hình một lần train, một seed. Chưa đo dao động giữa các seed của kết quả tìm ảnh, nên chưa biết chênh lệch A và B có lớn hơn dao động đó không.
 - Chỉ mục chỉ có một caption cho mỗi ảnh. Truy vấn lấy từ chính tập tham chiếu dùng để chấm BLEU/CIDEr nên không phải truy vấn người dùng thật.
