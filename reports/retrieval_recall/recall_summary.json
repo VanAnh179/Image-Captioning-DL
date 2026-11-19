@@ -1,0 +1,94 @@
+{
+  "candidate_images": 375,
+  "queries": 1875,
+  "models": {
+    "A": {
+      "queries": 1875,
+      "candidate_images": 375,
+      "queries_with_zero_vector": 0,
+      "queries_tied_with_other_images": 702,
+      "median_rank": 48.0,
+      "recall": {
+        "R@1": {
+          "search_rule": 0.046933333333333334,
+          "best_case": 0.06133333333333333,
+          "worst_case": 0.042133333333333335,
+          "hits_search_rule": 88,
+          "chance": 0.0026666666666666666
+        },
+        "R@5": {
+          "search_rule": 0.1648,
+          "best_case": 0.17546666666666666,
+          "worst_case": 0.15626666666666666,
+          "hits_search_rule": 309,
+          "chance": 0.013333333333333334
+        },
+        "R@10": {
+          "search_rule": 0.2432,
+          "best_case": 0.24906666666666666,
+          "worst_case": 0.23253333333333334,
+          "hits_search_rule": 456,
+          "chance": 0.02666666666666667
+        }
+      },
+      "distinct_generated_captions": 285,
+      "predictions_sha256": "36f3268037362d4afe41d6115c46b5fe402d4f459f8c144d52340fdb7273615e",
+      "index_vocabulary_size": 1712
+    },
+    "B": {
+      "queries": 1875,
+      "candidate_images": 375,
+      "queries_with_zero_vector": 0,
+      "queries_tied_with_other_images": 605,
+      "median_rank": 64.0,
+      "recall": {
+        "R@1": {
+          "search_rule": 0.04373333333333333,
+          "best_case": 0.056,
+          "worst_case": 0.038933333333333334,
+          "hits_search_rule": 82,
+          "chance": 0.0026666666666666666
+        },
+        "R@5": {
+          "search_rule": 0.14293333333333333,
+          "best_case": 0.1568,
+          "worst_case": 0.13173333333333334,
+          "hits_search_rule": 268,
+          "chance": 0.013333333333333334
+        },
+        "R@10": {
+          "search_rule": 0.21386666666666668,
+          "best_case": 0.22453333333333333,
+          "worst_case": 0.2016,
+          "hits_search_rule": 401,
+          "chance": 0.02666666666666667
+        }
+      },
+      "distinct_generated_captions": 299,
+      "predictions_sha256": "81ad0993fb8dbb9fe1283b438f38c86dfd153801c21ad50e32c7538347b99fa8",
+      "index_vocabulary_size": 1712
+    }
+  },
+  "a_minus_b": {
+    "image_resamples": 2000,
+    "seed": 0,
+    "queries_a_better": 970,
+    "queries_b_better": 865,
+    "queries_equal_rank": 40,
+    "R@1": {
+      "difference": 0.0032,
+      "ci95_low": -0.013333333333333334,
+      "ci95_high": 0.020266666666666665
+    },
+    "R@5": {
+      "difference": 0.021866666666666666,
+      "ci95_low": -0.0096,
+      "ci95_high": 0.055466666666666664
+    },
+    "R@10": {
+      "difference": 0.029333333333333333,
+      "ci95_low": -0.007479999999999999,
+      "ci95_high": 0.0688
+    }
+  }
+}

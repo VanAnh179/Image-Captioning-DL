@@ -53,6 +53,12 @@
 !/reports/Báo_cáo_đối_chứng_A0.md
 !/reports/Báo_cáo_tìm_ảnh_TF_IDF.md
 !/reports/Đề_xuất_phiếu_chấm_lỗi_caption.md
+!/reports/Báo_cáo_Recall_tìm_ảnh_A_và_B.md
+!/reports/Rà_soát_Recall_tìm_ảnh.md
+!/reports/retrieval_recall/
+!/reports/retrieval_recall/ranks_A.csv
+!/reports/retrieval_recall/ranks_B.csv
+!/reports/retrieval_recall/recall_summary.json
 !/reports/assets/
 !/reports/assets/caption_error_val_examples.jpg
 !/reports/assets/a_vs_a0_val.jpg
