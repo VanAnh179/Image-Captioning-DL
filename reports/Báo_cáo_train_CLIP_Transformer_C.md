@@ -99,8 +99,6 @@ Hình [reports/assets/b_vs_c_val.jpg](assets/b_vs_c_val.jpg) cho sáu ảnh val:
 6. **Chi phí gần như không đổi (cả hai nơi):** thời gian mỗi epoch, VRAM và kích thước checkpoint tương đương; cache nhỏ hơn 2,7 lần. C chọn epoch 5 (B chọn epoch 7 theo CIDEr); val loss của cả hai bắt đầu tăng sau epoch 4 đến 5, tức là quá khớp từ khoảng epoch đó.
 
 ## 5. Giới hạn
-
-- Mỗi seed một lần train cho mỗi mô hình, năm seed (1, 2, 3, 4, 42), ở hai nơi (RTX 2050 và Kaggle T4). B Kaggle seed 42 (72,42) khác B RTX seed 42 (70,47) nên số tuyệt đối thay đổi theo máy; chỉ so B với C trong cùng một nơi.
 - Tất cả đo trên cùng một tập val 375 ảnh; chưa có số trên test.
 - Chỉ đo trên val bằng BLEU/CIDEr; chưa chấm lỗi bằng người và chưa chạy test cho C.
 - Đặc trưng CLIP chỉ dùng 49 vùng 7 × 7 ở lớp cuối, giống số vùng của ResNet-50; kết quả không nói được về cách dùng CLIP khác (cả CLS, fine-tune).
