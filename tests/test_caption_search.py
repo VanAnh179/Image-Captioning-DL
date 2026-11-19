@@ -4,7 +4,7 @@ from pathlib import Path
 
 import numpy as np
 
-from src.retrieval.caption_search import CaptionSearchIndex
+from src.retrieval.caption_search import CaptionSearchIndex, SearchInputError
 
 
 class CaptionSearchTests(unittest.TestCase):
@@ -25,21 +25,29 @@ class CaptionSearchTests(unittest.TestCase):
 
     def test_search_ranks_correct_caption_and_breaks_ties_by_numeric_id(self):
         result = self.index.search("MÈO!!!", image_root="data/raw/ktvic")
-        self.assertEqual([r["image_id"] for r in result], [2, 1])
+        self.assertEqual([r["image_id"] for r in result], [2])
         self.assertAlmostEqual(result[0]["score"], 1.0)
         self.assertTrue(Path(result[0]["image_path"]).is_absolute())
         tied = CaptionSearchIndex.build(self.train, [(2, "mèo"), (1, "mèo")], self.candidates)
         self.assertEqual([r["image_id"] for r in tied.search("mèo")], [1, 2])
+        self.assertEqual([r["image_id"] for r in tied.search("mèo", k=1)], [1])
 
     def test_empty_unknown_queries_and_invalid_predictions_are_rejected(self):
-        for query in ("   ,.!", "không xuất hiện"):
-            with self.assertRaises(ValueError):
+        for query, code in (("", "empty_query"), ("   ,.! ", "empty_query"),
+                            ("không xuất hiện", "unknown_terms")):
+            with self.assertRaises(SearchInputError) as error:
                 self.index.search(query)
+            self.assertEqual(error.exception.code, code)
         with self.assertRaises(ValueError):
             self.index.search("mèo", k=0)
         for bad in ([(1, "mèo")], [(1, "mèo"), (1, "chó"), (2, "mèo")], [(1, "mèo"), (99, "chó")]):
             with self.assertRaises(ValueError):
                 CaptionSearchIndex.build(self.train, bad, self.candidates)
+
+    def test_known_query_without_candidate_overlap_returns_no_images(self):
+        self.assertIn("a", self.index.vocabulary)
+        self.assertEqual(self.index.search("a"), [])
+        self.assertEqual(self.index.search("xyz mèo"), self.index.search("mèo"))
 
     def test_save_and_reload_preserve_ranking_without_pickle(self):
         with tempfile.TemporaryDirectory() as folder:

@@ -5,7 +5,7 @@ import json
 import sys
 from pathlib import Path
 
-from src.retrieval.caption_search import CaptionSearchIndex
+from src.retrieval.caption_search import CaptionSearchIndex, SearchInputError
 
 
 def main():
@@ -16,7 +16,11 @@ def main():
     parser.add_argument("--image-root", type=Path, default=Path("data/raw/ktvic"))
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
-    results = CaptionSearchIndex.load(args.index).search(args.query, args.top_k, args.image_root)
+    index = CaptionSearchIndex.load(args.index)
+    try:
+        results = index.search(args.query, args.top_k, args.image_root)
+    except SearchInputError as error:
+        parser.error(str(error))
     text = json.dumps(results, ensure_ascii=False, indent=2)
     print(text)
     if args.output:
@@ -26,4 +30,5 @@ def main():
 
 if __name__ == "__main__":
     sys.stdout.reconfigure(encoding="utf-8")
+    sys.stderr.reconfigure(encoding="utf-8")
     main()
