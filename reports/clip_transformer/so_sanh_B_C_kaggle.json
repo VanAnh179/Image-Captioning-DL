@@ -1,0 +1,159 @@
+{
+  "images": 375,
+  "scores": {
+    "B": {
+      "BLEU-1": 64.15,
+      "BLEU-2": 49.8,
+      "BLEU-3": 37.87,
+      "BLEU-4": 29.13,
+      "CIDEr": 72.42
+    },
+    "C": {
+      "BLEU-1": 66.29,
+      "BLEU-2": 52.39,
+      "BLEU-3": 41.13,
+      "BLEU-4": 32.48,
+      "CIDEr": 78.73
+    }
+  },
+  "c_minus_b": {
+    "BLEU-1": 2.14,
+    "BLEU-2": 2.59,
+    "BLEU-3": 3.26,
+    "BLEU-4": 3.35,
+    "CIDEr": 6.31
+  },
+  "changed_captions": 365,
+  "images_c_better": 206,
+  "images_b_better": 159,
+  "images_equal": 10,
+  "mean_per_image_cider_difference_c_minus_b": {
+    "mean": 6.310154951817723,
+    "ci95_low": -1.0678980801443674,
+    "ci95_high": 14.061671765509947,
+    "resamples": 2000
+  },
+  "cost": {
+    "B": {
+      "parameters": 15447220,
+      "epochs_run": 10,
+      "best_epoch": 6,
+      "train_seconds_total": 213.2,
+      "train_seconds_per_epoch": 21.3,
+      "peak_vram_allocated_mib_train": 471.3,
+      "best_checkpoint_mib": 177.0,
+      "feature_cache_mib_all_splits": 825.8,
+      "device": "cuda"
+    },
+    "C": {
+      "parameters": 14791860,
+      "epochs_run": 8,
+      "best_epoch": 4,
+      "train_seconds_total": 153.5,
+      "train_seconds_per_epoch": 19.2,
+      "peak_vram_allocated_mib_train": 452.2,
+      "best_checkpoint_mib": 169.5,
+      "feature_cache_mib_all_splits": 310.0,
+      "device": "cuda"
+    }
+  },
+  "examples": [
+    {
+      "image_id": 5862,
+      "image_path": "train-images/00000005862.jpg",
+      "caption_b": "có một người phụ nữ đang cầm một chiếc túi trên tay",
+      "caption_c": "có một người phụ nữ đang đứng bên quầy hàng rau củ quả",
+      "references": [
+        "có một người phụ nữ đang cầm những sản phẩm ở trên tay",
+        "có một người phụ nữ đang đứng bên quầy hàng rau củ quả",
+        "có một quầy hàng rau củ quả xuất hiện ở bên người phụ nữ",
+        "có một người phụ nữ đang cạnh quầy hàng rau củ quả",
+        "ở cạnh quầy hàng rau củ quả có sự xuất hiện của một người phụ nữ"
+      ],
+      "cider_b": 104.74878016775055,
+      "cider_c": 507.24949574370476,
+      "delta_c_minus_b": 402.5007155759542
+    },
+    {
+      "image_id": 2083,
+      "image_path": "train-images/00000002083.jpg",
+      "caption_b": "có một người đàn ông đang ngồi ở trên một cái ghế",
+      "caption_c": "có một người phụ nữ đang chèo thuyền trên một chiếc thuyền",
+      "references": [
+        "một người phụ nữ đội nón lá đang chèo thuyền bằng hai tay",
+        "người phụ nữ mặc áo hồng đang ngồi và chèo thuyền",
+        "có một người phụ nữ mặc áo màu hồng đang chèo thuyền",
+        "có một số người đang chèo thuyền ở trong bức ảnh",
+        "có một vài người phụ nữ đang chèo thuyền trong ảnh"
+      ],
+      "cider_b": 10.735165536553499,
+      "cider_c": 324.9019195304473,
+      "delta_c_minus_b": 314.1667539938938
+    },
+    {
+      "image_id": 5662,
+      "image_path": "train-images/00000005662.jpg",
+      "caption_b": "có một cô gái mặc áo dài đang đứng ở phía sau lưng của một khu di tích",
+      "caption_c": "có một cô gái đang đứng ở bên một cái hồ nước",
+      "references": [
+        "có một chàng trai đang đứng ở bên một cái hồ",
+        "có một chàng trai đang đứng bên bờ của một cái hồ",
+        "có một cái hồ nước ở bên cạnh chàng trai mặc áo vàng",
+        "có một chàng trai mặc áo vàng đang đứng bên bờ hồ",
+        "có một chàng trai mặc áo vàng đang đứng ở bên rìa một hồ nước"
+      ],
+      "cider_b": 15.601693588972292,
+      "cider_c": 296.00344049420085,
+      "delta_c_minus_b": 280.40174690522855
+    },
+    {
+      "image_id": 5904,
+      "image_path": "train-images/00000005904.jpg",
+      "caption_b": "có nhiều món ăn xuất hiện ở trong quầy hàng",
+      "caption_c": "có một vài chiếc bàn màu xanh lá cây xuất hiện ở trong bức ảnh",
+      "references": [
+        "có nhiều món ăn đang được bày ra ở trên bàn",
+        "ở trên bàn có sự xuất hiện của nhiều món ăn",
+        "có nhiều món ăn xuất hiện ở trong bức ảnh",
+        "có nhiều món ăn được trưng bày ở trong bức ảnh",
+        "trong bức ảnh có sự xuất hiện của nhiều món ăn"
+      ],
+      "cider_b": 443.2260674142869,
+      "cider_c": 70.24292313034974,
+      "delta_c_minus_b": -372.9831442839371
+    },
+    {
+      "image_id": 6158,
+      "image_path": "train-images/00000006158.jpg",
+      "caption_b": "có một cô gái mặc áo dài đang di chuyển ở trên đường ray tàu hoả",
+      "caption_c": "có nhiều người đang xuất hiện ở bên trong khu chợ",
+      "references": [
+        "có một cô gái đeo túi xách đang tạo dáng trên đường ray",
+        "có một cô gái đeo túi xách xuất hiện ở trên đường ray",
+        "có nhiều người đang xuất hiện ở trên đường ray tàu hoả",
+        "ở trên đường ray tàu hoả có một cô gái đang tạo dáng",
+        "ở trên đường ray tàu hoả có một cô gái cầm theo một cái túi xách"
+      ],
+      "cider_b": 376.244719762307,
+      "cider_c": 30.170887039351896,
+      "delta_c_minus_b": -346.0738327229551
+    },
+    {
+      "image_id": 2789,
+      "image_path": "train-images/00000002789.jpg",
+      "caption_b": "có một người đàn ông đang đứng ở trong khu chợ",
+      "caption_c": "có một người đàn ông đang đứng bên một quầy hàng rau củ quả",
+      "references": [
+        "một người đàn ông đang đứng ở giữa khu chợ",
+        "có nhiều mặt hàng đang xếp ngổn ngang trong khu chợ",
+        "có một vài người đang xuất hiện ở trong khu chợ",
+        "có một vài người đang ở trong khu chợ này",
+        "có nhiều thùng hàng hoá ở xung quanh người đàn ông trong tư thế đứng"
+      ],
+      "cider_b": 288.2682076775322,
+      "cider_c": 36.42170228593419,
+      "delta_c_minus_b": -251.846505391598
+    }
+  ],
+  "selection": "three largest per-image CIDEr gains for each model among changed captions; illustrative, not representative"
+}

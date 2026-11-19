@@ -8,7 +8,7 @@ import torch
 from torch.nn.utils.rnn import pad_sequence
 from torch.utils.data import Dataset
 
-from src.data.region_features import RegionFeatureStore, read_manifest
+from src.data.region_features import CACHE_PREFIX, FEATURE_DIM, NUM_REGIONS, RegionFeatureStore, read_manifest
 from src.data.vietnamese_caption_batch import BOS, EOS, PAD
 
 
@@ -24,10 +24,11 @@ class CachedCaptionDataset(Dataset):
             raise ValueError("Caption dataset must contain at least one pair")
 
     @classmethod
-    def load(cls, processed, features, split, vocabulary):
+    def load(cls, processed, features, split, vocabulary, prefix=CACHE_PREFIX,
+             feature_dim=FEATURE_DIM, num_regions=NUM_REGIONS):
         manifest = Path(processed) / f"{split}_manifest.jsonl"
         rows = read_manifest(manifest)
-        store = RegionFeatureStore.load(features, split)
+        store = RegionFeatureStore.load(features, split, prefix, feature_dim, num_regions)
         ids = json.loads((Path(processed) / f"{split}_ids.json").read_text(encoding="utf-8"))
         if [row["image_id"] for row in rows] != ids or store.image_ids.tolist() != ids:
             raise ValueError(f"{split}: manifest, split IDs and feature cache disagree")

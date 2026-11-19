@@ -10,6 +10,7 @@ import yaml
 
 from src.data.cached_caption_dataset import CachedCaptionDataset
 from src.data.paths import resolve_processed_dir
+from src.data.region_features import CACHE_PREFIX, FEATURE_DIM, NUM_REGIONS
 from src.data.vietnamese_caption_batch import CaptionVocabulary
 from src.training.caption_trainer import fit
 
@@ -32,6 +33,8 @@ def main():
     parser.add_argument("--dropout", type=float, help="Override model dropout, e.g. 0 for an overfit check")
     parser.add_argument("--processed-dir", type=Path)
     parser.add_argument("--features", type=Path, default=Path("artifacts/features/ktvic"))
+    parser.add_argument("--feature-prefix", default=CACHE_PREFIX,
+                        help="Feature cache prefix, e.g. clip_vit_b32_7x7 together with configs/clip_transformer.yaml")
     parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     args = parser.parse_args()
     processed = args.processed_dir or resolve_processed_dir()
@@ -43,7 +46,9 @@ def main():
         config["dropout"] = args.dropout
     if config["vocab_size"] != len(vocabulary.tokens):
         parser.error("Model vocab_size differs from the saved vocabulary")
-    train_data = CachedCaptionDataset.load(processed, args.features, "train", vocabulary)
+    shape = {"prefix": args.feature_prefix, "feature_dim": config.get("feature_dim", FEATURE_DIM),
+             "num_regions": config.get("num_regions", NUM_REGIONS)}
+    train_data = CachedCaptionDataset.load(processed, args.features, "train", vocabulary, **shape)
     if args.overfit_pairs:
         if not 1 <= args.overfit_pairs <= len(train_data.rows):
             parser.error("overfit-pairs must be between 1 and the number of training images")
@@ -51,7 +56,7 @@ def main():
         train_data = CachedCaptionDataset(rows, vocabulary, train_data.store, first_caption_only=True)
         val_data = train_data
     else:
-        val_data = CachedCaptionDataset.load(processed, args.features, "val", vocabulary)
+        val_data = CachedCaptionDataset.load(processed, args.features, "val", vocabulary, **shape)
     settings = {"batch_size": args.batch_size, "learning_rate": args.learning_rate,
                 "weight_decay": args.weight_decay, "selection_metric": args.selection_metric,
                 "max_len": args.max_len, "seed": args.seed,

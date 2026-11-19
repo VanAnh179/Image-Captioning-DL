@@ -1,0 +1,10 @@
+epoch 1/20 train=2.798285 val=2.194467 cider=36.900000 best_epoch=1
+epoch 2/20 train=1.994143 val=1.978418 cider=60.160000 best_epoch=2
+epoch 3/20 train=1.753970 val=1.905042 cider=61.930000 best_epoch=3
+epoch 4/20 train=1.590034 val=1.888355 cider=76.180000 best_epoch=4
+epoch 5/20 train=1.460195 val=1.885920 cider=79.120000 best_epoch=5
+epoch 6/20 train=1.347438 val=1.893899 cider=75.760000 best_epoch=5
+epoch 7/20 train=1.245068 val=1.920674 cider=77.600000 best_epoch=5
+epoch 8/20 train=1.156887 val=1.964949 cider=73.740000 best_epoch=5
+epoch 9/20 train=1.076510 val=1.994637 cider=73.260000 best_epoch=5
+Early stopping after 4 epochs without improvement
