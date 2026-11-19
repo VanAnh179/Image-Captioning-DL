@@ -1,0 +1,335 @@
+[
+  {
+    "epoch": 1,
+    "train": {
+      "loss": 2.798285180522748,
+      "tokens": 232446,
+      "batches": 528,
+      "seconds": 75.11319629999343,
+      "peak_allocated_mib": 403.30029296875,
+      "peak_reserved_mib": 470.0
+    },
+    "validation": {
+      "loss": 2.194466615007757,
+      "tokens": 25639,
+      "batches": 59,
+      "seconds": 2.284702700038906,
+      "peak_allocated_mib": 283.95263671875,
+      "peak_reserved_mib": 470.0
+    },
+    "caption_seconds": 11.180159499985166,
+    "scores": {
+      "num_images": 375,
+      "num_references": 1875,
+      "scale": "x100; BLEU 0-100, CIDEr-D 0-1000",
+      "scores": {
+        "BLEU-1": 57.4,
+        "BLEU-2": 40.61,
+        "BLEU-3": 28.6,
+        "BLEU-4": 20.66,
+        "CIDEr": 36.9
+      },
+      "libraries": {
+        "pycocoevalcap": "1.2",
+        "numpy": "2.4.6"
+      }
+    },
+    "selection_value": 36.9
+  },
+  {
+    "epoch": 2,
+    "train": {
+      "loss": 1.9941433999035894,
+      "tokens": 232446,
+      "batches": 528,
+      "seconds": 32.621241699999985,
+      "peak_allocated_mib": 400.02490234375,
+      "peak_reserved_mib": 470.0
+    },
+    "validation": {
+      "loss": 1.978418399202521,
+      "tokens": 25639,
+      "batches": 59,
+      "seconds": 0.9293687999999918,
+      "peak_allocated_mib": 282.62060546875,
+      "peak_reserved_mib": 470.0
+    },
+    "caption_seconds": 2.8193881999999917,
+    "scores": {
+      "num_images": 375,
+      "num_references": 1875,
+      "scale": "x100; BLEU 0-100, CIDEr-D 0-1000",
+      "scores": {
+        "BLEU-1": 62.49,
+        "BLEU-2": 48.38,
+        "BLEU-3": 36.64,
+        "BLEU-4": 27.91,
+        "CIDEr": 60.16
+      },
+      "libraries": {
+        "pycocoevalcap": "1.2",
+        "numpy": "2.4.6"
+      }
+    },
+    "selection_value": 60.16
+  },
+  {
+    "epoch": 3,
+    "train": {
+      "loss": 1.7539697251080242,
+      "tokens": 232446,
+      "batches": 528,
+      "seconds": 28.81959649999999,
+      "peak_allocated_mib": 401.32177734375,
+      "peak_reserved_mib": 470.0
+    },
+    "validation": {
+      "loss": 1.9050418733504333,
+      "tokens": 25639,
+      "batches": 59,
+      "seconds": 0.9773110999999801,
+      "peak_allocated_mib": 283.74169921875,
+      "peak_reserved_mib": 470.0
+    },
+    "caption_seconds": 2.8366273999999976,
+    "scores": {
+      "num_images": 375,
+      "num_references": 1875,
+      "scale": "x100; BLEU 0-100, CIDEr-D 0-1000",
+      "scores": {
+        "BLEU-1": 62.11,
+        "BLEU-2": 47.56,
+        "BLEU-3": 35.8,
+        "BLEU-4": 27.43,
+        "CIDEr": 61.93
+      },
+      "libraries": {
+        "pycocoevalcap": "1.2",
+        "numpy": "2.4.6"
+      }
+    },
+    "selection_value": 61.93
+  },
+  {
+    "epoch": 4,
+    "train": {
+      "loss": 1.5900339042443041,
+      "tokens": 232446,
+      "batches": 528,
+      "seconds": 36.71251839999999,
+      "peak_allocated_mib": 402.021484375,
+      "peak_reserved_mib": 470.0
+    },
+    "validation": {
+      "loss": 1.8883547112668257,
+      "tokens": 25639,
+      "batches": 59,
+      "seconds": 1.6624896000000149,
+      "peak_allocated_mib": 284.927734375,
+      "peak_reserved_mib": 470.0
+    },
+    "caption_seconds": 5.877191699999969,
+    "scores": {
+      "num_images": 375,
+      "num_references": 1875,
+      "scale": "x100; BLEU 0-100, CIDEr-D 0-1000",
+      "scores": {
+        "BLEU-1": 65.33,
+        "BLEU-2": 50.92,
+        "BLEU-3": 39.15,
+        "BLEU-4": 30.37,
+        "CIDEr": 76.18
+      },
+      "libraries": {
+        "pycocoevalcap": "1.2",
+        "numpy": "2.4.6"
+      }
+    },
+    "selection_value": 76.18
+  },
+  {
+    "epoch": 5,
+    "train": {
+      "loss": 1.4601948814879582,
+      "tokens": 232446,
+      "batches": 528,
+      "seconds": 35.384684100000015,
+      "peak_allocated_mib": 401.04833984375,
+      "peak_reserved_mib": 470.0
+    },
+    "validation": {
+      "loss": 1.8859199698059963,
+      "tokens": 25639,
+      "batches": 59,
+      "seconds": 1.1011211000000003,
+      "peak_allocated_mib": 285.04052734375,
+      "peak_reserved_mib": 470.0
+    },
+    "caption_seconds": 3.08793780000002,
+    "scores": {
+      "num_images": 375,
+      "num_references": 1875,
+      "scale": "x100; BLEU 0-100, CIDEr-D 0-1000",
+      "scores": {
+        "BLEU-1": 65.61,
+        "BLEU-2": 51.62,
+        "BLEU-3": 39.94,
+        "BLEU-4": 31.13,
+        "CIDEr": 79.12
+      },
+      "libraries": {
+        "pycocoevalcap": "1.2",
+        "numpy": "2.4.6"
+      }
+    },
+    "selection_value": 79.12
+  },
+  {
+    "epoch": 6,
+    "train": {
+      "loss": 1.3474381224829886,
+      "tokens": 232446,
+      "batches": 528,
+      "seconds": 29.976251600000012,
+      "peak_allocated_mib": 401.63427734375,
+      "peak_reserved_mib": 470.0
+    },
+    "validation": {
+      "loss": 1.8938994809512653,
+      "tokens": 25639,
+      "batches": 59,
+      "seconds": 0.9891875000000141,
+      "peak_allocated_mib": 284.73291015625,
+      "peak_reserved_mib": 470.0
+    },
+    "caption_seconds": 2.679832900000008,
+    "scores": {
+      "num_images": 375,
+      "num_references": 1875,
+      "scale": "x100; BLEU 0-100, CIDEr-D 0-1000",
+      "scores": {
+        "BLEU-1": 64.91,
+        "BLEU-2": 50.62,
+        "BLEU-3": 39.13,
+        "BLEU-4": 30.49,
+        "CIDEr": 75.76
+      },
+      "libraries": {
+        "pycocoevalcap": "1.2",
+        "numpy": "2.4.6"
+      }
+    },
+    "selection_value": 75.76
+  },
+  {
+    "epoch": 7,
+    "train": {
+      "loss": 1.2450675258149433,
+      "tokens": 232446,
+      "batches": 528,
+      "seconds": 32.50072940000001,
+      "peak_allocated_mib": 399.66552734375,
+      "peak_reserved_mib": 470.0
+    },
+    "validation": {
+      "loss": 1.9206744752476463,
+      "tokens": 25639,
+      "batches": 59,
+      "seconds": 0.9634505000000217,
+      "peak_allocated_mib": 284.23779296875,
+      "peak_reserved_mib": 470.0
+    },
+    "caption_seconds": 3.2812693000000195,
+    "scores": {
+      "num_images": 375,
+      "num_references": 1875,
+      "scale": "x100; BLEU 0-100, CIDEr-D 0-1000",
+      "scores": {
+        "BLEU-1": 63.82,
+        "BLEU-2": 50.01,
+        "BLEU-3": 38.98,
+        "BLEU-4": 30.71,
+        "CIDEr": 77.6
+      },
+      "libraries": {
+        "pycocoevalcap": "1.2",
+        "numpy": "2.4.6"
+      }
+    },
+    "selection_value": 77.6
+  },
+  {
+    "epoch": 8,
+    "train": {
+      "loss": 1.1568870458275258,
+      "tokens": 232446,
+      "batches": 528,
+      "seconds": 31.2819839,
+      "peak_allocated_mib": 400.12109375,
+      "peak_reserved_mib": 470.0
+    },
+    "validation": {
+      "loss": 1.9649493090192038,
+      "tokens": 25639,
+      "batches": 59,
+      "seconds": 1.0122225000000071,
+      "peak_allocated_mib": 284.53759765625,
+      "peak_reserved_mib": 470.0
+    },
+    "caption_seconds": 2.9592279000000303,
+    "scores": {
+      "num_images": 375,
+      "num_references": 1875,
+      "scale": "x100; BLEU 0-100, CIDEr-D 0-1000",
+      "scores": {
+        "BLEU-1": 62.65,
+        "BLEU-2": 48.3,
+        "BLEU-3": 36.98,
+        "BLEU-4": 28.56,
+        "CIDEr": 73.74
+      },
+      "libraries": {
+        "pycocoevalcap": "1.2",
+        "numpy": "2.4.6"
+      }
+    },
+    "selection_value": 73.74
+  },
+  {
+    "epoch": 9,
+    "train": {
+      "loss": 1.076509907199213,
+      "tokens": 232446,
+      "batches": 528,
+      "seconds": 28.609291799999994,
+      "peak_allocated_mib": 400.53271484375,
+      "peak_reserved_mib": 470.0
+    },
+    "validation": {
+      "loss": 1.9946372136761346,
+      "tokens": 25639,
+      "batches": 59,
+      "seconds": 0.9309758999999644,
+      "peak_allocated_mib": 282.59716796875,
+      "peak_reserved_mib": 470.0
+    },
+    "caption_seconds": 2.953268200000025,
+    "scores": {
+      "num_images": 375,
+      "num_references": 1875,
+      "scale": "x100; BLEU 0-100, CIDEr-D 0-1000",
+      "scores": {
+        "BLEU-1": 62.61,
+        "BLEU-2": 48.4,
+        "BLEU-3": 36.98,
+        "BLEU-4": 28.64,
+        "CIDEr": 73.26
+      },
+      "libraries": {
+        "pycocoevalcap": "1.2",
+        "numpy": "2.4.6"
+      }
+    },
+    "selection_value": 73.26
+  }
+]

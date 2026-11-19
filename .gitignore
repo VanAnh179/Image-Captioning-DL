@@ -14,6 +14,16 @@
 !/reports/clip_encoder/clip_pipeline_check.json
 !/reports/clip_encoder/clip_features_check.json
 !/reports/clip_encoder/tf32_effect_on_B.json
+!/reports/Báo_cáo_train_CLIP_Transformer_C.md
+!/reports/clip_transformer/
+!/reports/clip_transformer/so_sanh_B_C.json
+!/reports/clip_transformer/c_seed42_metrics.json
+!/reports/clip_transformer/c_seed42_history.json
+!/reports/clip_transformer/c_seed42_val_predictions.json
+!/reports/clip_transformer/log_c_seed42.txt
+!/reports/clip_transformer/b_seed42_metrics.json
+!/reports/clip_transformer/b_seed42_val_predictions.json
+!/reports/assets/b_vs_c_val.jpg
 !/reports/Báo_cáo_đối_chứng_A0.md
 !/reports/Báo_cáo_tìm_ảnh_TF_IDF.md
 !/reports/Đề_xuất_phiếu_chấm_lỗi_caption.md
