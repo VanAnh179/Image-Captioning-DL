@@ -47,7 +47,7 @@ A nhỉnh hơn B ở cả ba ngưỡng, nhưng khoảng tin cậy đều chứa 
 - `reports/retrieval_recall/recall_summary.json`: toàn bộ số ở bảng trên, hash file dự đoán (A `36f32680…`, B `81ad0993…`).
 - Lệnh tạo hai chỉ mục `ktvic_a_val.npz` và `ktvic_b_val.npz` trong `artifacts/retrieval/recall_eval/` theo mặc định. Truy vấn có vector rỗng xuất hạng trống, được tính là không tìm thấy ảnh đúng và vẫn nằm trong tổng số truy vấn.
 - **Lượt gốc.** Tác giả đối chiếu 3.750 hạng với `CaptionSearchIndex.search(k=375)`. Cả hai file CSV ghi 0 truy vấn có vector rỗng.
-- **Lượt rà soát.** Đã tính lại các bảng từ hai CSV và chạy lại toàn bộ B từ file dự đoán đúng SHA-256. Recall của B khớp ở cả ba ngưỡng. Với OpenBLAS một luồng, 3 hạng chênh một bậc và 4 dòng khác chỉ chênh thông tin hòa điểm. Chỉ mục A đang chờ file dự đoán gốc để dựng lại. [Chi tiết rà soát](Rà_soát_Recall_tìm_ảnh.md)
+- **Lượt rà soát.** Đã dựng lại cả hai chỉ mục từ file dự đoán đúng SHA-256. Recall@1/5/10 của A và B đều khớp số công bố. Một số hạng hoặc biên hòa điểm thay đổi ở các điểm cosine sát nhau. [Chi tiết rà soát](Rà_soát_Recall_tìm_ảnh.md)
 
 ## 5. Giới hạn
 
