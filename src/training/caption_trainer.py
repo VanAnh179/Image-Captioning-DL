@@ -154,19 +154,13 @@ def generate_tokens(model, regions, max_len):
 
 
 @torch.no_grad()
-def predict_captions(model, dataset, batch_size, device, max_len):
-    """Generate one caption per image in manifest order."""
+def evaluate_captions(model, dataset, batch_size, device, max_len):
     predictions = []
     for start in range(0, len(dataset.rows), batch_size):
         ids = [row["image_id"] for row in dataset.rows[start:start + batch_size]]
         regions = dataset.store.get_batch(ids).to(device)
         tokens = generate_tokens(model, regions, max_len)
         predictions.extend((image_id, dataset.vocabulary.decode(sentence)) for image_id, sentence in zip(ids, tokens.tolist()))
-    return predictions
-
-
-def evaluate_captions(model, dataset, batch_size, device, max_len):
-    predictions = predict_captions(model, dataset, batch_size, device, max_len)
     references = {row["image_id"]: row["captions"] for row in dataset.rows}
     result = score_captions(predictions, references, allow_empty=True)
     return result, [{"image_id": image_id, "caption": caption} for image_id, caption in predictions]

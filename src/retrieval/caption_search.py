@@ -12,14 +12,6 @@ from src.data.vietnamese_caption_batch import normalize_caption
 from src.evaluation.caption_scorer import validate
 
 
-class SearchInputError(ValueError):
-    """Invalid search input with a stable code for callers such as the UI."""
-
-    def __init__(self, code, message):
-        super().__init__(message)
-        self.code = code
-
-
 class CaptionSearchIndex:
     def __init__(self, vocabulary, idf, vectors, records, metadata):
         self.vocabulary = list(vocabulary)
@@ -77,19 +69,16 @@ class CaptionSearchIndex:
         return cls(vocabulary, idf, vectors, records, details)
 
     def search(self, query, k=5, image_root=None):
-        """Return up to k positive matches with image_id, image_path, caption and score."""
-        if not isinstance(query, str):
-            raise SearchInputError("invalid_query", "Câu truy vấn phải là văn bản.")
-        if not normalize_caption(query):
-            raise SearchInputError("empty_query", "Hãy nhập một câu mô tả có nội dung.")
+        """Return up to k records with image_id, image_path, generated caption and score."""
+        if not isinstance(query, str) or not normalize_caption(query):
+            raise ValueError("Hãy nhập một câu mô tả có nội dung.")
         if not isinstance(k, int) or k <= 0:
-            raise SearchInputError("invalid_top_k", "k phải là số nguyên dương.")
+            raise ValueError("k phải là số nguyên dương.")
         vector = self.vectorize([query], self.vocabulary, self.idf)[0]
         if not np.any(vector):
-            raise SearchInputError("unknown_terms", "Chưa nhận ra từ nào trong câu. Hãy thử mô tả lại.")
+            raise ValueError("Câu truy vấn không có từ trong từ vựng train. Hãy mô tả lại.")
         scores = self.vectors @ vector
-        matches = np.flatnonzero(scores > 0)
-        order = matches[np.lexsort((self.image_ids[matches], -scores[matches]))[:k]]
+        order = np.lexsort((self.image_ids, -scores))[:k]
         results = []
         for position in order:
             record = dict(self.records[int(position)])

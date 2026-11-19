@@ -8,8 +8,7 @@ CUTOFFS = (1, 5, 10)
 def rank_queries(index, queries):
     """Rank the whole candidate pool for each (image_id, text) query.
 
-    Usable queries rank all candidates by score descending, image_id ascending for ties.
-    The demo shows the positive-score portion of this ranking.
+    Usable queries follow CaptionSearchIndex.search: score descending, image_id ascending for ties.
     Queries with no vocabulary tokens have no rank and still count toward the recall denominator.
     rank_best/rank_worst bound the rank if the images tied with the answer were ordered in its favour
     or against it, so a result that depends on the tie rule is visible.

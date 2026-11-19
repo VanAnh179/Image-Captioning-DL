@@ -1,10 +1,7 @@
-import tempfile
 import unittest
-from pathlib import Path
 
 import numpy as np
 
-from scripts.evaluate_caption_retrieval import build_and_evaluate
 from src.retrieval.caption_search import CaptionSearchIndex
 from src.retrieval.recall_eval import paired_bootstrap, rank_queries, recall_table
 
@@ -36,20 +33,6 @@ class RecallEvalTests(unittest.TestCase):
             row = rank_queries(index, [(image_id, text)])[0]
             ids = [hit["image_id"] for hit in index.search(text, k=3)]
             self.assertEqual(row["rank"], ids.index(image_id) + 1)
-
-    def test_evaluator_keeps_zero_score_answer_outside_demo_results(self):
-        train = [{"captions": ["a b"]}]
-        val = [{"image_id": 10, "image_path": "10.jpg", "captions": ["b"]},
-               {"image_id": 20, "image_path": "20.jpg", "captions": ["a"]}]
-        with tempfile.TemporaryDirectory() as directory:
-            root = Path(directory)
-            predictions = root / "predictions.json"
-            predictions.write_text('{"10": "a", "20": "b"}', encoding="utf-8")
-            table, rows = build_and_evaluate("A", predictions, train, val, root / "index.npz",
-                                             root / "ranks.csv", [(10, 1, "b")], {})
-            self.assertEqual(rows[0]["rank"], 2)
-            self.assertEqual(rows[0]["correct_score"], 0.0)
-            self.assertEqual(table["recall"]["R@1"]["hits_search_rule"], 0)
 
     def test_query_without_vocabulary_tokens_is_counted_as_a_miss(self):
         rows = rank_queries(toy_index(), [(10, "xyz"), (10, "a b")])
