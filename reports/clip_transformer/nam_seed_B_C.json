@@ -1,0 +1,202 @@
+{
+  "seeds": [
+    1,
+    2,
+    3,
+    4,
+    42
+  ],
+  "B": {
+    "runs": [
+      {
+        "seed": 1,
+        "best_epoch": 6,
+        "last_epoch": 10,
+        "train_seconds": 430.4,
+        "BLEU-1": 63.31,
+        "BLEU-2": 48.7,
+        "BLEU-3": 36.93,
+        "BLEU-4": 28.4,
+        "CIDEr": 72.84
+      },
+      {
+        "seed": 2,
+        "best_epoch": 7,
+        "last_epoch": 11,
+        "train_seconds": 474.8,
+        "BLEU-1": 61.78,
+        "BLEU-2": 47.24,
+        "BLEU-3": 36.01,
+        "BLEU-4": 28.04,
+        "CIDEr": 71.64
+      },
+      {
+        "seed": 3,
+        "best_epoch": 6,
+        "last_epoch": 10,
+        "train_seconds": 449.8,
+        "BLEU-1": 62.18,
+        "BLEU-2": 47.82,
+        "BLEU-3": 36.8,
+        "BLEU-4": 29.1,
+        "CIDEr": 71.52
+      },
+      {
+        "seed": 4,
+        "best_epoch": 8,
+        "last_epoch": 12,
+        "train_seconds": 428.7,
+        "BLEU-1": 63.54,
+        "BLEU-2": 48.88,
+        "BLEU-3": 37.39,
+        "BLEU-4": 29.01,
+        "CIDEr": 70.75
+      },
+      {
+        "seed": 42,
+        "best_epoch": 7,
+        "last_epoch": 11,
+        "train_seconds": 411.9,
+        "BLEU-1": 61.51,
+        "BLEU-2": 47.29,
+        "BLEU-3": 36.14,
+        "BLEU-4": 28.3,
+        "CIDEr": 70.47
+      }
+    ],
+    "summary": {
+      "BLEU-1": {
+        "mean": 62.46,
+        "sd": 0.91,
+        "min": 61.51,
+        "max": 63.54
+      },
+      "BLEU-2": {
+        "mean": 47.99,
+        "sd": 0.77,
+        "min": 47.24,
+        "max": 48.88
+      },
+      "BLEU-3": {
+        "mean": 36.65,
+        "sd": 0.57,
+        "min": 36.01,
+        "max": 37.39
+      },
+      "BLEU-4": {
+        "mean": 28.57,
+        "sd": 0.46,
+        "min": 28.04,
+        "max": 29.1
+      },
+      "CIDEr": {
+        "mean": 71.44,
+        "sd": 0.93,
+        "min": 70.47,
+        "max": 72.84
+      }
+    }
+  },
+  "C": {
+    "runs": [
+      {
+        "seed": 1,
+        "best_epoch": 5,
+        "last_epoch": 9,
+        "train_seconds": 249.3,
+        "BLEU-1": 64.99,
+        "BLEU-2": 51.14,
+        "BLEU-3": 39.83,
+        "BLEU-4": 31.15,
+        "CIDEr": 80.87
+      },
+      {
+        "seed": 2,
+        "best_epoch": 5,
+        "last_epoch": 9,
+        "train_seconds": 252.8,
+        "BLEU-1": 66.98,
+        "BLEU-2": 53.38,
+        "BLEU-3": 41.98,
+        "BLEU-4": 33.24,
+        "CIDEr": 82.87
+      },
+      {
+        "seed": 3,
+        "best_epoch": 6,
+        "last_epoch": 10,
+        "train_seconds": 302.7,
+        "BLEU-1": 65.43,
+        "BLEU-2": 51.74,
+        "BLEU-3": 40.61,
+        "BLEU-4": 32.11,
+        "CIDEr": 79.84
+      },
+      {
+        "seed": 4,
+        "best_epoch": 8,
+        "last_epoch": 12,
+        "train_seconds": 359.8,
+        "BLEU-1": 64.04,
+        "BLEU-2": 49.58,
+        "BLEU-3": 38.45,
+        "BLEU-4": 30.35,
+        "CIDEr": 81.44
+      },
+      {
+        "seed": 42,
+        "best_epoch": 5,
+        "last_epoch": 9,
+        "train_seconds": 331.0,
+        "BLEU-1": 65.61,
+        "BLEU-2": 51.62,
+        "BLEU-3": 39.94,
+        "BLEU-4": 31.13,
+        "CIDEr": 79.12
+      }
+    ],
+    "summary": {
+      "BLEU-1": {
+        "mean": 65.41,
+        "sd": 1.07,
+        "min": 64.04,
+        "max": 66.98
+      },
+      "BLEU-2": {
+        "mean": 51.49,
+        "sd": 1.36,
+        "min": 49.58,
+        "max": 53.38
+      },
+      "BLEU-3": {
+        "mean": 40.16,
+        "sd": 1.28,
+        "min": 38.45,
+        "max": 41.98
+      },
+      "BLEU-4": {
+        "mean": 31.6,
+        "sd": 1.11,
+        "min": 30.35,
+        "max": 33.24
+      },
+      "CIDEr": {
+        "mean": 80.83,
+        "sd": 1.45,
+        "min": 79.12,
+        "max": 82.87
+      }
+    }
+  },
+  "cider_c_minus_b_same_seed": [
+    8.03,
+    11.23,
+    8.32,
+    10.69,
+    8.65
+  ],
+  "cider_mean_difference": 9.38,
+  "welch_t_cider": 12.2,
+  "every_c_seed_above_every_b_seed": true,
+  "exact_permutation_p_one_sided": 0.003968253968253968
+}

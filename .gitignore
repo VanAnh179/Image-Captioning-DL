@@ -17,6 +17,15 @@
 !/reports/Báo_cáo_train_CLIP_Transformer_C.md
 !/reports/clip_transformer/
 !/reports/clip_transformer/so_sanh_B_C.json
+!/reports/clip_transformer/nam_seed_B_C.json
+!/reports/clip_transformer/b_seed1_metrics.json
+!/reports/clip_transformer/b_seed2_metrics.json
+!/reports/clip_transformer/b_seed3_metrics.json
+!/reports/clip_transformer/b_seed4_metrics.json
+!/reports/clip_transformer/c_seed1_metrics.json
+!/reports/clip_transformer/c_seed2_metrics.json
+!/reports/clip_transformer/c_seed3_metrics.json
+!/reports/clip_transformer/c_seed4_metrics.json
 !/reports/clip_transformer/c_seed42_metrics.json
 !/reports/clip_transformer/c_seed42_history.json
 !/reports/clip_transformer/c_seed42_val_predictions.json

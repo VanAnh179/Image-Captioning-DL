@@ -38,6 +38,21 @@ Nhánh `clip-transformer-training`. C là mô hình B với đặc trưng vùng 
 
 Encoder CLIP đóng băng nên không tốn thêm tham số train hay VRAM khi train; chi phí duy nhất là chạy encoder một lần để lập cache (cùng cỡ với ResNet-50) và khi suy luận trên ảnh mới. Cache nhỏ hơn 2,7 lần vì 768 chiều thay cho 2.048.
 
+### Năm seed
+
+Sau lần train seed 42, tôi train thêm C với seed 1, 2, 3, 4, cùng ngân sách và đúng các seed đã dùng cho B (mỗi seed một lần train, cùng máy), để so sánh với dao động giữa các seed.
+
+| Seed | B CIDEr | C CIDEr | C − B | Epoch tốt nhất B / C |
+|---:|---:|---:|---:|---:|
+| 1 | 72,84 | 80,87 | +8,03 | 6 / 5 |
+| 2 | 71,64 | 82,87 | +11,23 | 7 / 5 |
+| 3 | 71,52 | 79,84 | +8,32 | 6 / 6 |
+| 4 | 70,75 | 81,44 | +10,69 | 8 / 8 |
+| 42 | 70,47 | 79,12 | +8,65 | 7 / 5 |
+| **Trung bình ± độ lệch chuẩn** | **71,44 ± 0,93** | **80,83 ± 1,45** | **+9,38** | |
+
+Trung bình ± độ lệch chuẩn của BLEU-1/2/3/4: B 62,46±0,91 / 47,99±0,77 / 36,65±0,57 / 28,57±0,46; C 65,41±1,07 / 51,49±1,36 / 40,16±1,28 / 31,60±1,11. Chi tiết ở `reports/clip_transformer/nam_seed_B_C.json`.
+
 ## 3. Ví dụ
 
 Hình [reports/assets/b_vs_c_val.jpg](assets/b_vs_c_val.jpg) cho sáu ảnh val: ba ảnh C có điểm CIDEr cao hơn B nhiều nhất và ba ảnh B hơn C nhiều nhất, trong số 370 ảnh hai mô hình sinh câu khác nhau. Đây là ví dụ minh họa chọn theo chênh lệch lớn, không đại diện cho cả tập. Chi tiết trong `reports/clip_transformer/so_sanh_B_C.json`.
@@ -56,22 +71,25 @@ Hình [reports/assets/b_vs_c_val.jpg](assets/b_vs_c_val.jpg) cho sáu ảnh val:
 ## 4. Nhận xét về tác động khi đổi encoder
 
 1. **C cao hơn B ở cả năm chỉ số:** BLEU tăng 2,8 đến 4,3 điểm và CIDEr tăng 8,65 điểm (70,47 → 79,12). C hơn B ở 221 ảnh, B hơn C ở 149 ảnh, 5 ảnh bằng nhau.
-2. **Khoảng cách lớn so với dao động giữa các seed của B.** Năm seed của B cho CIDEr trung bình 71,44, độ lệch chuẩn 0,93, cao nhất 72,84. C seed 42 (79,12) cao hơn mức cao nhất đó 6,3 điểm. CIDEr của C ở mọi epoch từ 4 đến 9 (73,3 đến 79,1) đều cao hơn CIDEr cao nhất của B ở bất kỳ epoch nào (70,47).
-3. **Nhưng chưa phải bằng chứng chắc chắn.** (a) Mới có một lần train của C. (b) Khi lấy mẫu lại theo ảnh, chênh lệch CIDEr trung bình từng ảnh là +8,66 với khoảng tin cậy 95% từ −1,02 đến +18,34, chứa 0, vì CIDEr từng ảnh rất lệch (một vài ảnh tới ±400 đến ±500). (c) Val loss chỉ thấp hơn 0,012 (0,6%), nên phần lớn mức tăng hiện ở BLEU/CIDEr chứ không ở độ khớp từng từ.
+2. **Mức tăng lặp lại ở cả 5 seed.** C cao hơn B ở mọi seed, từ +8,0 đến +11,2 CIDEr (trung bình +9,38; thống kê t kiểu Welch khoảng 12). CIDEr thấp nhất của C (79,12) vẫn cao hơn CIDEr cao nhất của B (72,84); BLEU-1 đến BLEU-4 cũng tách hoàn toàn như vậy. Với 5 lần train mỗi bên, xác suất tách hoàn toàn như thế nếu hai mô hình không khác nhau là 1/252, khoảng 0,4% (kiểm định hoán vị chính xác, một phía). Trong lần seed 42, CIDEr của C ở mọi epoch từ 4 đến 9 (73,3 đến 79,1) cũng cao hơn CIDEr cao nhất của B ở bất kỳ epoch nào (70,47).
+3. **Điều các seed chưa trả lời được.** (a) Năm seed chỉ cho biết dao động do khởi tạo và thứ tự dữ liệu; tất cả đều đo trên cùng 375 ảnh val. (b) Ở cấp từng ảnh nhiễu rất lớn: khi lấy mẫu lại theo ảnh (seed 42), chênh lệch CIDEr trung bình từng ảnh là +8,66 với khoảng tin cậy 95% từ −1,02 đến +18,34, chứa 0, vì CIDEr từng ảnh rất lệch (một vài ảnh tới ±400 đến ±500). (c) Val loss thấp nhất của seed 42 chỉ hơn 0,012 (0,6%), nên mức tăng hiện ở BLEU/CIDEr nhiều hơn ở độ khớp từng từ.
 4. **Cách C khác B:** C hay chọn câu mô tả cảnh chung phổ biến trong tham chiếu (nhiều người, quán ăn, khu chợ) và đúng hơn ở các ảnh đông người hoặc có nhiều xe; số câu khác nhau (304 so với 299 trên 375 ảnh) và độ dài (12,10 so với 12,08 từ) gần như không đổi. Đây là nhận xét từ vài ví dụ, chưa kiểm chứng thống kê.
 5. **Chi phí gần như không đổi:** thời gian mỗi epoch, VRAM và kích thước checkpoint tương đương; cache nhỏ hơn 2,7 lần. C chọn epoch 5 (B chọn epoch 7 theo CIDEr); val loss của cả hai bắt đầu tăng sau epoch 4 đến 5, tức là quá khớp từ khoảng epoch đó.
 
 ## 5. Giới hạn
 
-- Một lần train của C (seed 42), một lần train của B cùng seed, một máy (RTX 2050). Kết quả Kaggle của B (72,42) khác bản RTX (70,47) và chưa có bản C trên Kaggle.
+- Mỗi seed một lần train cho mỗi mô hình, năm seed (1, 2, 3, 4, 42), một máy (RTX 2050). Kết quả Kaggle của B (72,42) khác bản RTX (70,47) và chưa có bản C trên Kaggle.
+- Tất cả đo trên cùng một tập val 375 ảnh; chưa có số trên test.
 - Chỉ đo trên val bằng BLEU/CIDEr; chưa chấm lỗi bằng người và chưa chạy test cho C.
 - Đặc trưng CLIP chỉ dùng 49 vùng 7 × 7 ở lớp cuối, giống số vùng của ResNet-50; kết quả không nói được về cách dùng CLIP khác (cả CLS, fine-tune).
-- Muốn khẳng định mức tăng cần thêm vài seed cho C (mỗi seed khoảng 6 phút train).
+- Thời gian train mỗi lần chạy phụ thuộc số epoch dừng sớm (C 9 đến 12 epoch, B 10 đến 12 epoch); không so tổng thời gian giữa hai mô hình theo từng seed.
 
 ## 6. File
 
 - `reports/clip_transformer/so_sanh_B_C.json`: bảng điểm, chi phí, đếm ảnh, ví dụ.
-- `reports/clip_transformer/c_seed42_metrics.json`, `c_seed42_history.json`, `c_seed42_val_predictions.json`, `log_c_seed42.txt`: kết quả train của C.
+- `reports/clip_transformer/nam_seed_B_C.json`: điểm của B và C ở 5 seed, trung bình, độ lệch chuẩn, kiểm định.
+- `reports/clip_transformer/c_seed42_metrics.json`, `c_seed42_history.json`, `c_seed42_val_predictions.json`, `log_c_seed42.txt`: kết quả train của C seed 42; `c_seed{1,2,3,4}_metrics.json` và `b_seed{1,2,3,4}_metrics.json`: điểm của các seed còn lại.
 - `reports/clip_transformer/b_seed42_metrics.json`, `b_seed42_val_predictions.json`: B dùng để so sánh.
 - Checkpoint tốt nhất của C ở `runs/clip_transformer/c_seed42/best.pt` (170 MiB, ngoài Git).
-- Mã: `scripts/compare_b_c.py` (bảng và hình), `scripts/train_caption_model.py`.
+- Checkpoint của các seed còn lại ở `runs/clip_transformer/c_seed{1,2,3,4}/` (ngoài Git).
+- Mã: `scripts/compare_b_c.py` (bảng và hình seed 42), `scripts/summarize_seeds_b_c.py` (5 seed), `scripts/train_caption_model.py`.
