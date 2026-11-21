@@ -1,0 +1,34 @@
+{
+  "checkpoint_sha256": "c0a10c18c4ada5a674ea8d3919315c4ed2431eb63283d97408e053068fae0ab7",
+  "model_name": "A0",
+  "selected_epoch": 6,
+  "val_scores": {
+    "BLEU-1": 63.59,
+    "BLEU-2": 49.55,
+    "BLEU-3": 38.35,
+    "BLEU-4": 30.13,
+    "CIDEr": 77.95
+  },
+  "seed": 42,
+  "train_seconds_to_selected_epoch": 174.8,
+  "train_device": "cuda",
+  "train_torch": "2.11.0+cu130",
+  "epoch": 6,
+  "config": {
+    "vocab_size": 1716,
+    "d_model": 512,
+    "hidden_size": 1120,
+    "attention_size": 512,
+    "dropout": 0.1,
+    "attention_mode": "uniform"
+  },
+  "batch_size": 32,
+  "max_len": 40,
+  "feature_prefix": "resnet50_7x7",
+  "parameters": 15477236,
+  "generation_seconds": 0.82,
+  "generation_repeat_identical": true,
+  "generation_device": "cuda",
+  "generation_gpu": "NVIDIA GeForce RTX 2050",
+  "torch": "2.11.0+cu128"
+}

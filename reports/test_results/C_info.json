@@ -1,0 +1,37 @@
+{
+  "checkpoint_sha256": "5a0fd307fffe504cacbbeec39455ec97a101a9d7e43565c415644f0353a7f9f3",
+  "model_name": "B",
+  "selected_epoch": 4,
+  "val_scores": {
+    "BLEU-1": 66.29,
+    "BLEU-2": 52.39,
+    "BLEU-3": 41.13,
+    "BLEU-4": 32.48,
+    "CIDEr": 78.73
+  },
+  "seed": 42,
+  "train_seconds_to_selected_epoch": 77.0,
+  "train_device": "cuda",
+  "train_torch": "2.11.0+cu130",
+  "epoch": 4,
+  "config": {
+    "vocab_size": 1716,
+    "d_model": 512,
+    "num_heads": 8,
+    "num_layers": 3,
+    "d_ff": 2048,
+    "dropout": 0.1,
+    "max_len": 64,
+    "feature_dim": 768,
+    "num_regions": 49
+  },
+  "batch_size": 32,
+  "max_len": 40,
+  "feature_prefix": "clip_vit_b32_7x7",
+  "parameters": 14791860,
+  "generation_seconds": 3.92,
+  "generation_repeat_identical": true,
+  "generation_device": "cuda",
+  "generation_gpu": "NVIDIA GeForce RTX 2050",
+  "torch": "2.11.0+cu128"
+}
