@@ -43,7 +43,7 @@ A nhỉnh hơn B ở cả ba ngưỡng, nhưng khoảng tin cậy đều chứa 
 
 ## 4. File kết quả và kiểm tra
 
-- `reports/retrieval_recall/ranks_A.csv`, `ranks_B.csv`: mỗi dòng một truy vấn (1.875 dòng) gồm ID ảnh đúng, số thứ tự câu tham chiếu, nội dung truy vấn, hạng ảnh đúng theo quy tắc `search`, hạng tốt nhất và xấu nhất khi hòa điểm, số ảnh cùng điểm, điểm của ảnh đúng, ID ảnh xếp hạng 1.
+- `reports/retrieval_recall/ranks_A.csv`, `ranks_B.csv`: mỗi dòng một truy vấn (1.875 dòng) gồm ID ảnh đúng, số thứ tự câu tham chiếu, nội dung truy vấn, hạng ảnh đúng trong toàn bộ kho, hạng tốt nhất và xấu nhất khi hòa điểm, số ảnh cùng điểm, điểm của ảnh đúng, ID ảnh xếp hạng 1. Bảng đánh giá vẫn xếp các ảnh điểm 0. Demo chỉ hiển thị ảnh có điểm dương.
 - `reports/retrieval_recall/recall_summary.json`: toàn bộ số ở bảng trên, hash file dự đoán (A `36f32680…`, B `81ad0993…`).
 - Lệnh tạo hai chỉ mục `ktvic_a_val.npz` và `ktvic_b_val.npz` trong `artifacts/retrieval/recall_eval/` theo mặc định. Truy vấn có vector rỗng xuất hạng trống, được tính là không tìm thấy ảnh đúng và vẫn nằm trong tổng số truy vấn.
 - **Lượt gốc.** Tác giả đối chiếu 3.750 hạng với `CaptionSearchIndex.search(k=375)`. Cả hai file CSV ghi 0 truy vấn có vector rỗng.
