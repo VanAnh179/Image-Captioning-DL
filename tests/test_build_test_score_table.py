@@ -17,12 +17,12 @@ class TestScoreTableTests(unittest.TestCase):
 
     def test_markdown_row_has_scores_parameters_and_times(self):
         scores = {"BLEU-1": 60.0, "BLEU-2": 45.5, "BLEU-3": 34.25, "BLEU-4": 26.0, "CIDEr": 70.5}
-        info = {"val_scores": {"CIDEr": 72.42}, "parameters": 15447220, "selected_epoch": 6, "epochs_run": 10,
-                "train_seconds": 212.3, "generation_seconds": 8.04}
+        info = {"val_scores": {"CIDEr": 72.42}, "parameters": 15447220, "selected_epoch": 6,
+                "train_seconds_to_selected_epoch": 212.3, "generation_seconds": 8.04}
         text = markdown_table([{"model": "B", "info": info, "test_scores": scores}], 558, 2790)
         self.assertIn("558 ảnh, 2.790 câu tham chiếu", text)
         row = text.splitlines()[-1]
-        for expected in ("| B |", "ResNet-50", "**70,50**", "72,42", "15.447.220", "6 / 10", "212,3", "8,0"):
+        for expected in ("| B |", "ResNet-50", "**70,50**", "72,42", "15.447.220", "| 6 |", "212,3", "8,0"):
             self.assertIn(expected, row)
 
 

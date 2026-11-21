@@ -55,10 +55,12 @@ def generate_predictions(checkpoint_path, split, device, processed=None, feature
     model = build_model(checkpoint["model_name"], config).to(device)
     model.load_state_dict(checkpoint["model_state"])
     use_cuda = torch.device(device).type == "cuda"
+    # The first pass warms up CUDA and is not timed; the second pass is the reported time and must repeat the captions.
+    predictions = predict_captions(model, dataset, settings["batch_size"], device, settings["max_len"])
     if use_cuda:
         torch.cuda.synchronize()
     started = time.perf_counter()
-    predictions = predict_captions(model, dataset, settings["batch_size"], device, settings["max_len"])
+    repeated = predict_captions(model, dataset, settings["batch_size"], device, settings["max_len"])
     if use_cuda:
         torch.cuda.synchronize()
     seconds = time.perf_counter() - started
@@ -66,7 +68,8 @@ def generate_predictions(checkpoint_path, split, device, processed=None, feature
     info = {"model_name": checkpoint["model_name"], "epoch": checkpoint["epoch"], "config": config,
             "batch_size": settings["batch_size"], "max_len": settings["max_len"], "feature_prefix": prefix,
             "parameters": sum(parameter.numel() for parameter in model.parameters()),
-            "generation_seconds": round(seconds, 2), "generation_device": str(device),
+            "generation_seconds": round(seconds, 2), "generation_repeat_identical": predictions == repeated,
+            "generation_device": str(device),
             "generation_gpu": torch.cuda.get_device_name(0) if use_cuda else None, "torch": str(torch.__version__)}
     return records, info
 

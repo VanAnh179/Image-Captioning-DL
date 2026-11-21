@@ -46,9 +46,9 @@ def training_info(checkpoint_path):
     checkpoint = load_checkpoint(checkpoint_path)
     history = checkpoint["history"]
     return {"checkpoint_sha256": sha256_of(checkpoint_path), "model_name": checkpoint["model_name"],
-            "selected_epoch": checkpoint["epoch"], "epochs_run": len(history),
+            "selected_epoch": checkpoint["epoch"],
             "val_scores": checkpoint["validation_scores"]["scores"], "seed": checkpoint["settings"]["seed"],
-            "train_seconds": round(sum(row["train"]["seconds"] for row in history), 1),
+            "train_seconds_to_selected_epoch": round(sum(row["train"]["seconds"] for row in history), 1),
             "train_device": checkpoint["device"], "train_torch": checkpoint["torch"]}
 
 
@@ -68,14 +68,14 @@ def markdown_table(rows, images, references):
     lines = [f"Tập test: {images} ảnh, {vi(references, 0)} câu tham chiếu (5 câu mỗi ảnh). Điểm nhân 100 "
              "(BLEU-1..4 và CIDEr-D, `pycocoevalcap`).", "",
              "| Mô hình | Encoder | BLEU-1 | BLEU-2 | BLEU-3 | BLEU-4 | CIDEr | CIDEr val | Tham số học được | "
-             "Epoch chọn / đã chạy | Thời gian train (giây) | Thời gian sinh test (giây) |",
+             "Epoch chọn | Train tới epoch chọn (giây) | Sinh 558 caption test (giây) |",
              "|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|"]
     for row in rows:
         info, scores = row["info"], row["test_scores"]
         lines.append(
             f"| {row['model']} | {ENCODERS[row['model']]} | " + " | ".join(vi(scores[m]) for m in METRICS[:4])
             + f" | **{vi(scores['CIDEr'])}** | {vi(info['val_scores']['CIDEr'])} | {vi(info['parameters'], 0)} | "
-            f"{info['selected_epoch']} / {info['epochs_run']} | {vi(info['train_seconds'], 1)} | "
+            f"{info['selected_epoch']} | {vi(info['train_seconds_to_selected_epoch'], 1)} | "
             f"{vi(info['generation_seconds'], 1)} |")
     return "\n".join(lines) + "\n"
 
