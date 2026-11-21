@@ -13,6 +13,20 @@ from src.data.vietnamese_caption_batch import CaptionVocabulary
 from src.training.caption_trainer import build_model, load_checkpoint, predict_captions
 
 
+def resolve_feature_prefix(config, explicit=None):
+    """Feature cache prefix for the checkpoint's regions. An explicit prefix always wins."""
+    if explicit:
+        return explicit
+    feature_dim = config.get("feature_dim", FEATURE_DIM)
+    if feature_dim == FEATURE_DIM:
+        return CACHE_PREFIX
+    from src.data.clip_features import CLIP_CACHE_PREFIX, CLIP_FEATURE_DIM  # imports transformers, only needed for C
+
+    if feature_dim == CLIP_FEATURE_DIM:
+        return CLIP_CACHE_PREFIX
+    raise ValueError(f"Cannot infer the feature cache for feature_dim={feature_dim}; pass --feature-prefix.")
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--checkpoint", type=Path, required=True)
@@ -20,8 +34,9 @@ def main():
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--processed-dir", type=Path)
     parser.add_argument("--features", type=Path, default=Path("artifacts/features/ktvic"))
-    parser.add_argument("--feature-prefix", default=CACHE_PREFIX,
-                        help="Feature cache prefix. Use clip_vit_b32_7x7 for C.")
+    parser.add_argument("--feature-prefix", default=None,
+                        help="Feature cache prefix. Default: inferred from the checkpoint "
+                             "(resnet50_7x7 for A, B and A0; clip_vit_b32_7x7 for C).")
     parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     args = parser.parse_args()
 
@@ -31,8 +46,12 @@ def main():
     vocabulary = CaptionVocabulary.load(processed / "caption_vocabulary.json")
     if checkpoint["vocabulary"] != vocabulary.tokens:
         parser.error("The checkpoint vocabulary differs from the processed vocabulary.")
+    try:
+        prefix = resolve_feature_prefix(config, args.feature_prefix)
+    except ValueError as error:
+        parser.error(str(error))
     dataset = CachedCaptionDataset.load(
-        processed, args.features, args.split, vocabulary, prefix=args.feature_prefix,
+        processed, args.features, args.split, vocabulary, prefix=prefix,
         feature_dim=config.get("feature_dim", FEATURE_DIM), num_regions=config.get("num_regions", NUM_REGIONS),
     )
     model = build_model(checkpoint["model_name"], config).to(args.device)
