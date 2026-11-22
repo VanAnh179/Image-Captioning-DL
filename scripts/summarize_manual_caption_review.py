@@ -1,13 +1,12 @@
 """Manual caption-error review on the 40 test images: parse sheets, compare two graders, tabulate by model.
 
-Check the Linh Khanh side alone (needs only her submitted Markdown sheet and the saved predictions):
+Check the Linh Khanh side alone using the submitted Markdown sheet and saved predictions:
   python -m scripts.summarize_manual_caption_review --linh-sheet <sheet.md>
-Add the second grader's locked labels and the agreed resolution to get the agreement on the 10 shared images and
-the table over all 40 images. Both JSON files are lists of rows
-  {"image_id": 245, "item_id": "it-...", "caption": "...", "VT": 0, "HD": 0, "QH": 0, "SL": 0, "BD": 0, "LT": 0}
-for the labels and {"item_id": {"QH": 1, "BD": 0}} for the resolution:
+For all 40 images, use the original Vanh labels beside their items.json and the locked final labels:
   python -m scripts.summarize_manual_caption_review --linh-sheet <sheet.md> --vanh-labels <vanh.json> \
-      --resolution <resolution.json> --example-ids 3091 297 756 66
+      --locked-labels <labels_test_locked.json> --example-ids 3091 297 756 66
+Flat label lists and a separate --resolution file ({"item_id": {"QH": 1, "BD": 0}}) are also supported.
+After labels are locked, --blind-key can provide exact item-to-model identities for identical captions.
 Flags are 0 (no error found), 1 (error) or "?" (unclear, never turned into 0).
 """
 
@@ -15,6 +14,7 @@ import argparse
 import hashlib
 import json
 import re
+from collections import Counter, defaultdict
 from pathlib import Path
 
 from src.data.region_features import read_manifest
@@ -48,30 +48,68 @@ def parse_sheet(path):
     return rows
 
 
+def load_label_rows(path):
+    """Read flat rows or locked annotations, joining captions from the original items when needed."""
+    document = json.loads(path.read_text(encoding="utf-8"))
+    if isinstance(document, list):
+        return document
+    rows = document["annotations"]
+    captions = {}
+    if any("caption" not in row for row in rows):
+        items = json.loads(path.with_name("items.json").read_text(encoding="utf-8"))
+        if items["batch"] != document["batch"]:
+            raise ValueError("Locked labels and items.json belong to different batches")
+        for image in items["images"]:
+            for item in image["items"]:
+                if item["item_id"] in captions:
+                    raise ValueError(f"Repeated item in items.json: {item['item_id']}")
+                captions[item["item_id"]] = (image["image_id"], item["caption"])
+    result = []
+    for row in rows:
+        image_id, item_id = row["image_id"], row["item_id"]
+        caption = row.get("caption")
+        if caption is None:
+            if item_id not in captions or captions[item_id][0] != image_id:
+                raise ValueError(f"Item {item_id} does not match image {image_id} in items.json")
+            caption = captions[item_id][1]
+        flags = {name: int(value) if value in ("0", "1") else value for name, value in row["labels"].items()}
+        result.append({"image_id": image_id, "item_id": item_id, "caption": caption, **flags})
+    return result
+
+
 def check_rows(rows, image_ids, name):
     """Exactly three captions for each listed image, unique item IDs, every flag 0, 1 or "?"."""
     if len({row["item_id"] for row in rows}) != len(rows):
         raise ValueError(f"{name}: item_id repeated")
-    if sorted({row["image_id"] for row in rows}) != sorted(image_ids) or len(rows) != 3 * len(image_ids):
+    if Counter(row["image_id"] for row in rows) != Counter({image_id: 3 for image_id in image_ids}):
         raise ValueError(f"{name}: need exactly three captions for each of {len(image_ids)} images")
     for row in rows:
         if any(row[flag] not in (0, 1, "?") for flag in FLAGS):
             raise ValueError(f"{name}: {row['item_id']} has a flag that is not 0, 1 or ?")
 
 
-def attribute_models(rows, predictions):
-    """Give each blind item the model whose saved prediction for that image has the same caption.
-
-    Models that wrote the same caption cannot be told apart and carry the same flags, so one is used per item.
-    """
+def attribute_models(rows, predictions, blind_key=None):
+    """Resolve models from the key or match captions when identical captions have identical flags."""
+    by_image = defaultdict(list)
+    for row in rows:
+        by_image[row["image_id"]].append(row)
     owner = {}
-    for image_id in sorted({row["image_id"] for row in rows}):
+    for image_id, image_rows in sorted(by_image.items()):
         pending = {name: predictions[name][image_id] for name in GENERATORS}
-        for row in (r for r in rows if r["image_id"] == image_id):
-            name = next((n for n, caption in pending.items() if caption == row["caption"]), None)
-            if name is None:
-                raise ValueError(f"Image {image_id}: caption of {row['item_id']} is not a saved prediction")
-            owner[row["item_id"]] = name
+        signature_by_caption = {}
+        for row in image_rows:
+            item_id, caption = row["item_id"], row["caption"]
+            if blind_key is None:
+                signature = tuple(row[f] for f in FLAGS)
+                if signature_by_caption.setdefault(caption, signature) != signature:
+                    raise ValueError(f"Image {image_id}: identical captions have different flags; pass --blind-key")
+                name = next((n for n, text in pending.items() if text == caption), None)
+            else:
+                item = blind_key.get(item_id, {})
+                name = item.get("model") if item.get("image_id") == image_id else None
+            if name is None or pending.get(name) != caption:
+                raise ValueError(f"Image {image_id}: item {item_id} does not match a saved prediction")
+            owner[item_id] = name
             del pending[name]
     return owner
 
@@ -106,6 +144,26 @@ def merge_final(linh_rows, vanh_rows, shared_ids, resolution):
     for row in linh_rows:
         final.append({**row, **resolution.get(row["item_id"], {})} if row["image_id"] in shared_ids else dict(row))
     return sorted(final, key=lambda row: (row["image_id"], row["item_id"]))
+
+
+def locked_resolution(linh_rows, vanh_rows, shared_ids, locked_rows):
+    """Check the locked table against both originals and read decisions for disputed cells only."""
+    baseline = merge_final(linh_rows, vanh_rows, shared_ids, {})
+    check_rows(locked_rows, sorted({row["image_id"] for row in baseline}), "Locked table")
+    by_item = {row["item_id"]: row for row in locked_rows}
+    vanh = {row["item_id"]: row for row in vanh_rows}
+    resolution = {}
+    for row in baseline:
+        item_id, image_id = row["item_id"], row["image_id"]
+        locked = by_item.get(item_id)
+        if locked is None or (locked["image_id"], locked["caption"]) != (image_id, row["caption"]):
+            raise ValueError(f"Locked table changes the identity or caption of {item_id}")
+        for flag in FLAGS:
+            if image_id in shared_ids and row[flag] != vanh[item_id][flag]:
+                resolution.setdefault(item_id, {})[flag] = locked[flag]
+            elif row[flag] != locked[flag]:
+                raise ValueError(f"Locked table changes an undisputed label at {item_id} {flag}")
+    return resolution
 
 
 def error_table(rows, owner):
@@ -157,13 +215,18 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--linh-sheet", type=Path, required=True)
     parser.add_argument("--vanh-labels", type=Path)
-    parser.add_argument("--resolution", type=Path)
+    decisions = parser.add_mutually_exclusive_group()
+    decisions.add_argument("--resolution", type=Path)
+    decisions.add_argument("--locked-labels", type=Path)
+    parser.add_argument("--blind-key", type=Path, help="Use the private item-to-model key after locking labels")
     parser.add_argument("--selection", type=Path, default=Path("artifacts/manual_caption_review/selection.json"))
     parser.add_argument("--predictions-dir", type=Path, default=Path("reports/test_results"))
     parser.add_argument("--manifest", type=Path, default=Path("data/processed/ktvic/test_manifest.jsonl"))
     parser.add_argument("--example-ids", type=int, nargs="*", default=[])
     parser.add_argument("--output-dir", type=Path, default=Path("reports/manual_caption_review"))
     args = parser.parse_args()
+    if (args.resolution or args.locked_labels) and not args.vanh_labels:
+        parser.error("Adjudication requires --vanh-labels")
 
     selection = json.loads(args.selection.read_text(encoding="utf-8"))
     shared = set(selection["overlap_ids"])
@@ -179,18 +242,29 @@ def main():
                "linh_rows_all_zero": sum(all(r[f] == 0 for f in FLAGS) for r in linh)}
     rows = linh
     if args.vanh_labels:
-        vanh = json.loads(args.vanh_labels.read_text(encoding="utf-8"))
+        vanh = load_label_rows(args.vanh_labels)
         check_rows(vanh, selection["vanh_ids"], "Vanh")
-        resolution = json.loads(args.resolution.read_text(encoding="utf-8")) if args.resolution else {}
         shared_linh = [r for r in linh if r["image_id"] in shared]
         by_vanh = {r["item_id"]: r for r in vanh}
         for row in shared_linh:  # the two graders must have seen the same blind item
-            if row["item_id"] not in by_vanh or by_vanh[row["item_id"]]["caption"] != row["caption"]:
+            matching = by_vanh.get(row["item_id"])
+            if matching is None or (matching["image_id"], matching["caption"]) != (row["image_id"], row["caption"]):
                 raise ValueError(f"Shared item {row['item_id']} differs between the two sheets")
         summary["agreement_shared"] = agreement(shared_linh, [by_vanh[r["item_id"]] for r in shared_linh])
+        if args.locked_labels:
+            resolution = locked_resolution(linh, vanh, shared, load_label_rows(args.locked_labels))
+        elif args.resolution:
+            resolution = json.loads(args.resolution.read_text(encoding="utf-8"))
+        else:
+            shared_agreement = summary["agreement_shared"]
+            if shared_agreement["different"] or shared_agreement["one_unclear"]:
+                raise ValueError("The shared labels disagree; supply --resolution or --locked-labels")
+            resolution = {}
         rows = merge_final(linh, vanh, shared, resolution)
+        check_rows(rows, selection["selected_ids"], "Final table")
         summary["resolution_cells"] = sum(len(v) for v in resolution.values())
-    owner = attribute_models(rows, predictions)
+    blind_key = json.loads(args.blind_key.read_text(encoding="utf-8"))["items"] if args.blind_key else None
+    owner = attribute_models(rows, predictions, blind_key)
     summary["table"] = error_table(rows, owner)
     summary["table_images"] = len({r["image_id"] for r in rows})
     if args.example_ids:

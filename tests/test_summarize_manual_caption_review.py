@@ -1,9 +1,11 @@
+import json
 import tempfile
 import unittest
 from pathlib import Path
 
 from scripts.summarize_manual_caption_review import (FLAGS, agreement, attribute_models, check_rows, error_table,
-                                                     merge_final, parse_sheet, table_markdown)
+                                                     load_label_rows, locked_resolution, merge_final, parse_sheet,
+                                                     table_markdown)
 
 
 def row(image_id, item_id, caption, **flags):
@@ -14,6 +16,18 @@ PREDICTIONS = {"A": {1: "a1", 2: "a2"}, "B": {1: "b1", 2: "same"}, "A0": {1: "c1
 
 
 class ManualReviewTests(unittest.TestCase):
+    def test_original_locked_labels_join_their_items_by_id(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            labels = root / "labels.json"
+            labels.write_text(json.dumps({"batch": "review", "annotations": [
+                {"item_id": "it-1", "image_id": 1, "labels": {f: "?" if f == "HD" else "0" for f in FLAGS}}
+            ]}), encoding="utf-8")
+            (root / "items.json").write_text(json.dumps({"batch": "review", "images": [
+                {"image_id": 1, "items": [{"item_id": "it-1", "caption": "a1"}]}
+            ]}), encoding="utf-8")
+            self.assertEqual(load_label_rows(labels), [row(1, "it-1", "a1", HD="?")])
+
     def test_sheet_rows_are_parsed_with_question_marks_kept(self):
         text = ("## Ảnh 7\n\n| item_id | Caption | VT | HD | QH | SL | BD | LT | Căn cứ |\n|---|---|:-:|:-:|:-:|:-:|:-:|:-:|---|\n"
                 "| it-0a1b | có một cái cây | 1 | ? | 0 | 0 | 0 | 0 | “cây” → không có |\n")
@@ -48,6 +62,14 @@ class ManualReviewTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             attribute_models([row(1, "it-1", "not saved"), row(1, "it-2", "a1"), row(1, "it-3", "b1")], PREDICTIONS)
 
+    def test_blind_key_is_required_if_identical_captions_have_different_flags(self):
+        rows = [row(2, "it-1", "same", HD=1), row(2, "it-2", "same"), row(2, "it-3", "a2")]
+        with self.assertRaisesRegex(ValueError, "pass --blind-key"):
+            attribute_models(rows, PREDICTIONS)
+        models = {"it-1": "A0", "it-2": "B", "it-3": "A"}
+        key = {item: {"model": model, "image_id": 2} for item, model in models.items()}
+        self.assertEqual(attribute_models(rows, PREDICTIONS, key), models)
+
     def test_agreement_counts_only_clear_cells_and_lists_differences(self):
         first = [row(1, "it-1", "a", VT=1, HD="?", QH="?", BD=1)]
         second = [row(1, "it-1", "a", VT=1, HD="?", QH=0, BD=0)]
@@ -62,6 +84,15 @@ class ManualReviewTests(unittest.TestCase):
         final = merge_final(linh, vanh, {1}, {"it-1": {"QH": 1, "BD": 0}})
         self.assertEqual([(r["image_id"], r["QH"], r["BD"], r["VT"]) for r in final],
                          [(1, 1, 0, 0), (2, 0, 0, 1), (3, 0, 0, 0)])
+
+    def test_locked_table_provides_decisions_for_all_disputed_cells(self):
+        linh = [row(1, "it-1", "a", BD=1), row(1, "it-2", "b", HD=1), row(1, "it-3", "c")]
+        vanh = [row(1, "it-1", "a", QH=1), row(1, "it-2", "b"), row(1, "it-3", "c")]
+        locked = [vanh[0], *linh[1:]]
+        resolution = locked_resolution(linh, vanh, {1}, locked)
+        self.assertEqual(resolution, {"it-1": {"QH": 1, "BD": 0}, "it-2": {"HD": 1}})
+        with self.assertRaisesRegex(ValueError, "undisputed"):
+            locked_resolution(linh, vanh, {1}, [*locked[:2], row(1, "it-3", "c", VT=1)])
 
     def test_error_table_keeps_unclear_out_of_the_denominator(self):
         rows = [row(1, "it-1", "c1", VT=1), row(1, "it-2", "a1", HD="?"), row(1, "it-3", "b1", BD=1, LT="?")]
