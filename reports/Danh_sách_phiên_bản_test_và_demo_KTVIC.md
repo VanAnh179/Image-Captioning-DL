@@ -1,28 +1,28 @@
 # Danh sách phiên bản chạy test và demo KTVIC
 
-Vanh và Linh Khánh dùng danh sách này cho bảng A/B/A0/C và demo. Mã chạy được ghim tại commit `a6575d5864fae9274fbfb6aacf9c53eaf112cb56`. Cả bốn checkpoint đã được xác minh SHA-256, nạp lại và sinh khớp 375/375 caption val mỗi mô hình.
+Vanh và Linh Khánh dùng danh sách này cho bảng A/B/A0/C và demo. Bảng so sánh chính dùng cả bốn lượt train Kaggle T4 đã bàn giao. Mã lập lại bảng từ file dự đoán nằm tại commit `8661e2519c7e821b2f8939b9f8dda43b0fe6136e`.
 
 ## Checkpoint chọn trên val
 
-Tất cả dùng seed 42 và chọn epoch có CIDEr val cao nhất trong lượt tương ứng. A, B và A0 dùng bộ checkpoint Kaggle T4 đã bàn giao cho phiếu chấm lỗi. Chọn C RTX 2050 vì đã có file checkpoint để xác minh và sinh lại toàn bộ val. Bảng test phản ánh các checkpoint đã ghim. Khi phân tích tác động đổi encoder, dùng kết quả B/C ghép theo seed trên cùng môi trường ở val. [Đối chiếu phiếu chấm lỗi](https://github.com/VanAnh179/Image-Captioning-DL/blob/63ea9c6/reports/%C4%90%E1%BB%81_xu%E1%BA%A5t_phi%E1%BA%BFu_ch%E1%BA%A5m_l%E1%BB%97i_caption.md) · [Thực nghiệm B/C](Báo_cáo_train_CLIP_Transformer_C.md)
+Tất cả dùng seed 42 và chọn epoch có CIDEr val cao nhất trong lượt tương ứng. A, B và A0 dùng bộ checkpoint Kaggle T4 đã bàn giao cho phiếu chấm lỗi. C dùng lượt Kaggle T4 để so với B cùng môi trường train. Khi phân tích tác động đổi encoder qua nhiều seed, dùng các cặp B/C cùng môi trường trên val. [Đối chiếu phiếu chấm lỗi](https://github.com/VanAnh179/Image-Captioning-DL/blob/63ea9c6/reports/%C4%90%E1%BB%81_xu%E1%BA%A5t_phi%E1%BA%BFu_ch%E1%BA%A5m_l%E1%BB%97i_caption.md) · [Thực nghiệm B/C](Báo_cáo_train_CLIP_Transformer_C.md)
 
 | Mô hình | Epoch | CIDEr val | Đường dẫn `best.pt` tính từ gốc repo |
 |---|---:|---:|---|
 | A · ResNet-50 + LSTM attention, 512/1120/512 | 5 | 76,96 | `runs/kaggle_matched_inspection/project/runs/a_baseline_matched/best.pt` |
 | B · ResNet-50 + Transformer | 6 | 72,42 | `artifacts/checkpoints/ktvic/B_kaggle_seed42/best.pt` |
 | A0 · A với attention đều 1/49 | 6 | 77,95 | `runs/a0_kaggle/project/runs/a0_uniform/best.pt` |
-| C · CLIP ViT-B/32 + Transformer, RTX 2050 | 5 | 79,12 | `artifacts/checkpoints/ktvic/C_rtx2050_seed42/best.pt` |
+| C · CLIP ViT-B/32 + Transformer, Kaggle T4 | 4 | 78,73 | Đặt `results/c_kaggle_seed42/best.pt` từ lượt Kaggle vào `artifacts/checkpoints/ktvic/C_kaggle_seed42/best.pt` |
 
-SHA-256 của checkpoint đã kiểm bằng `Get-FileHash`.
+SHA-256 của A/B/A0 đã kiểm từ checkpoint trên máy. SHA-256 của C lấy từ metadata bàn giao `C_info.json`.
 
 ```text
 A   a80ea2a8b5bb3687952f3a638e036614d67ac9dd28ad447d7c31c478a38dcc63
 B   90598b48a2ef6b04913eb366d47e9d17ef8635c2977002645c29ad345ce174fd
 A0  c0a10c18c4ada5a674ea8d3919315c4ed2431eb63283d97408e053068fae0ab7
-C   a26189adea07f5dab7a4163f4ef0867e2db326612f9a2473527f1a9abc227f3a
+C   5a0fd307fffe504cacbbeec39455ec97a101a9d7e43565c415644f0353a7f9f3
 ```
 
-File val sinh lại của C có SHA-256 `1965c30d2d9a3e5ac7b495c3d2fc1e8afcfa427356aa1cf45c35157ec3116e4e`, khớp file bàn giao. [Dự đoán C trên val](clip_transformer/c_seed42_val_predictions.json) · [Metric C](clip_transformer/c_seed42_metrics.json)
+Đã chấm lại dự đoán val của C Kaggle và khớp CIDEr **78,73**. Máy rà soát có file dự đoán val và test của lượt này. Cần checkpoint gốc để sinh lại caption C Kaggle. Kết quả với C RTX 2050 epoch 5 được lưu riêng tại `reports/test_results/with_c_rtx2050/`. [Dự đoán C Kaggle trên val](clip_transformer/kaggle_c_seed42_val_predictions.json) · [Metric C Kaggle](clip_transformer/kaggle_c_seed42_metrics.json)
 
 ## Split, sinh câu và chấm
 
@@ -40,7 +40,7 @@ Dùng gói `artifacts/handoff/ktvic_processed_d796bc1.zip` hoặc chuẩn bị l
 - **Sinh.** Giải mã greedy, batch 32, bắt đầu BOS, bỏ PAD/BOS khỏi lựa chọn, dừng ở EOS hoặc tối đa 40 token. Lệnh đọc cấu hình, trọng số và từ vựng của checkpoint, xuất một caption mỗi ID theo thứ tự manifest. Dùng cùng bản cache và môi trường cho cả hai người. [Phiên bản thư viện](../requirements.txt)
 - **Chấm.** Chấm BLEU-1…4 và CIDEr-D nhân 100 với đủ năm câu tham chiếu của mỗi ID. Dùng `pycocoevalcap==1.2`, `numpy==2.4.4`. Chấm trên cả 558 ID test, cùng manifest cho cả bốn mô hình.
 
-Chạy hai lệnh sau cho mỗi hàng checkpoint, thay tên mô hình và đường dẫn tương ứng. Với C thêm `--feature-prefix clip_vit_b32_7x7` vào lệnh sinh.
+Để tạo lại bảng chính từ `reports/test_results/`, chạy `python -m scripts.build_test_score_table`. Thời gian sinh trong bảng lấy từ lượt bàn giao đo cả bốn mô hình trên cùng RTX 2050. Khi cần sinh mới và đã có checkpoint, chạy hai lệnh sau cho mỗi hàng. Với C, có thể chỉ định `--feature-prefix clip_vit_b32_7x7`.
 
 ```sh
 python -m scripts.generate_caption_predictions --split test --checkpoint "<best.pt>" --device cuda --output "runs/experiment_version_lock/<model>_test_predictions.json"
@@ -61,5 +61,5 @@ python -m scripts.search_images --query "có nhiều xe máy đang dựng bên l
 
 ## Kiểm tra bàn giao
 
-- Dùng Python 3.13.7, PyTorch 2.11.0+cu128 trên RTX 3060 để sinh lại A/B/A0/C. Điểm BLEU và CIDEr val của cả bốn khớp kết quả lưu. Cả 72 kiểm thử đạt. Lượt rà soát này dùng val để đo chất lượng.
+- A/B/A0 đã được nạp lại và sinh khớp 375/375 caption val mỗi mô hình. Chấm lại từ file dự đoán test trên 558 ảnh và 2.790 tham chiếu cho CIDEr A/B/A0/C lần lượt là **78,67 / 68,66 / 78,48 / 75,98**. Cả năm chỉ số của mỗi mô hình khớp bảng Kaggle đã bàn giao.
 - Lượt Recall RTX 2050 ban đầu đã được chạy lại đủ A và B với file A đúng SHA-256. Sửa bước đối chiếu của lệnh Recall để chấp nhận ảnh điểm 0 nằm sau các kết quả demo. Hai CSV hạng và JSON tổng hợp khớp từng byte với lượt rà soát trước. Chỉ mục demo vẫn dùng A Kaggle.
