@@ -295,3 +295,27 @@ A và B sinh cùng một câu. Phiếu Linh Khánh chấm HD cho “đang di chu
 - Bản gốc Linh Khánh và 25 ảnh từ bản xuất nằm ở `artifacts/manual_caption_review/linh_khanh/submitted/`. Bản JSON nhập nhãn nằm ở `linh_khanh/labels_linh_khanh_submitted.json` tính từ thư mục chấm. Phiếu gốc Codex nằm ở `vanh/labels_vanh_locked.json`.
 - Phiếu Markdown đủ 120 dòng, bản JSON đã khóa, bảng đối chiếu 30 mục chung và tổng hợp theo mô hình nằm ở `artifacts/manual_caption_review/final/`. Đã kiểm tra hash của ba checkpoint và ba tập prediction. Các file gốc, ảnh đầy đủ và bảng khóa nằm ngoài Git.
 - B dùng checkpoint `artifacts/checkpoints/ktvic/B_kaggle_seed42/best.pt`, epoch 6 với CIDEr val 72,42. Caption val trích từ checkpoint nằm ở `runs/transformer_b_kaggle_seed42/val_predictions.json`. JSON gửi kèm thuộc lượt RTX 2050, CIDEr val 70,47, và được lưu tại `runs/transformer_b_rtx2050_seed42/val_predictions.json`.
+
+## 8. Phiếu Vanh và attention theo từ
+
+Phần Vanh đã chấm và khóa **25/40 ảnh**, gồm **15 ảnh riêng và 10 ảnh chấm chung** với Linh Khánh. Phiếu gốc có 75 caption A/B/A0, gồm **35 caption có lỗi, 15 chưa rõ và 25 chưa thấy lỗi**. Trong `artifacts/manual_caption_review/vanh/`, mở `Phiếu_chấm_test_Vanh.md` cạnh thư mục `images/` để xem phiếu có đủ ảnh. Dùng `labels_vanh_locked.json` để tính lại. Hash của phiếu Markdown khớp nhãn gốc. Hình attention được thêm sau khi chốt nhãn.
+
+![Ảnh gốc và attention 7×7 của A và A0 cho các từ quầy, đứng, ảnh và chụp](assets/caption_test_attention_examples.jpg)
+
+| Ảnh và nhận xét trong phiếu | Caption A | Caption A0 |
+|---|---|---|
+| **756** · ảnh chấm chung, A được ghi 0 ở cả sáu mục | có một người phụ nữ mặc áo đen đang đứng bên một quầy hàng bán bánh kẹo | có một người phụ nữ mặc áo xanh đang đứng bên một quầy hàng |
+| **3091** · phần Vanh, A sai hành động | có một nhóm người đang chụp ảnh tập thể dục ở trên đường | có một nhóm người đang chụp ảnh tập thể dục |
+
+Dùng checkpoint A epoch 5 và A0 epoch 6 đã khóa. A và A0 đều sinh lại khớp **25/25 caption** trong bảng kết quả test. Mỗi bản đồ chứa 49 trọng số ở đúng bước phát token, dùng chung thang màu. Ô viền vàng là vùng có trọng số lớn nhất của A. Đếm bước và tọa độ từ 1, hàng từ trên xuống và cột từ trái sang phải.
+
+| Ảnh | Token đang xét | Bước | Ô lớn nhất của A (hàng, cột) | Trọng số |
+|---|---|---:|---|---:|
+| 756 | **quầy** · danh từ | 13 | (5, 3) | 20,14% |
+| 756 | **đứng** · động từ | 10 | (5, 2) | 10,90% |
+| 3091 | **ảnh** · danh từ | 7 | (6, 4) | 7,44% |
+| 3091 | **chụp** · động từ | 6 | (6, 4) | 11,05% |
+
+Ở ảnh 756, ô lớn nhất dịch từ sát người phụ nữ khi sinh “đứng” sang phía kệ khi sinh “quầy”. Ở ảnh 3091, A dồn trọng số vào vùng thấp gần nhóm người khi sinh “chụp ảnh”. Phần chấm tay ghi lỗi hành động vì nhóm người đang dùng dụng cụ tập ngoài trời. A0 cũng sinh “chụp ảnh” ở ảnh này dù chia đều trọng số cho 49 vùng. Các bản đồ mô tả phân bố trọng số ở từng bước sinh trên hai ảnh.
+
+Kiểm tra toàn bộ 25 ảnh, sai số lớn nhất của tổng trọng số so với 1 ở A là **2,38 × 10⁻⁷**. Mọi ô A0 bằng **1/49 ≈ 2,04%**. Tensor theo bước được xuất bằng `scripts.generate_lstm_captions --split test` với danh sách `vanh_ids`, cache ResNet-50 test và tối đa 40 token. [Lưới số, bước sinh và hash checkpoint](caption_test_attention/ban_do_theo_tu.json) · [Danh sách checkpoint](Danh_sách_phiên_bản_test_và_demo_KTVIC.md)
