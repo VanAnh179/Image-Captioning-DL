@@ -1,6 +1,6 @@
 import unittest
 
-from scripts.build_test_score_table import check_manifest_order, markdown_table, vi
+from scripts.build_test_score_table import check_manifest_order, check_model_variant, markdown_table, vi
 
 
 class TestScoreTableTests(unittest.TestCase):
@@ -14,6 +14,11 @@ class TestScoreTableTests(unittest.TestCase):
         for pairs in ([(2, "b"), (1, "a")], [(1, "a")], [(1, "a"), (2, "b"), (3, "c")]):
             with self.assertRaises(ValueError):
                 check_manifest_order(pairs, [1, 2], "A")
+
+    def test_there_are_distinct_b_and_c_feature_caches(self):
+        check_model_variant({"model_name": "B", "feature_prefix": "clip_vit_b32_7x7"}, "C")
+        with self.assertRaisesRegex(ValueError, "C: expected"):
+            check_model_variant({"model_name": "B", "feature_prefix": "resnet50_7x7"}, "C")
 
     def test_markdown_row_has_scores_parameters_and_times(self):
         scores = {"BLEU-1": 60.0, "BLEU-2": 45.5, "BLEU-3": 34.25, "BLEU-4": 26.0, "CIDEr": 70.5}

@@ -67,7 +67,7 @@ def generate_predictions(checkpoint_path, split, device, processed=None, feature
     records = [{"image_id": image_id, "caption": caption} for image_id, caption in predictions]
     info = {"model_name": checkpoint["model_name"], "epoch": checkpoint["epoch"], "config": config,
             "batch_size": settings["batch_size"], "max_len": settings["max_len"], "feature_prefix": prefix,
-            "parameters": sum(parameter.numel() for parameter in model.parameters()),
+            "parameters": sum(parameter.numel() for parameter in model.parameters() if parameter.requires_grad),
             "generation_seconds": round(seconds, 2), "generation_repeat_identical": predictions == repeated,
             "generation_device": str(device),
             "generation_gpu": torch.cuda.get_device_name(0) if use_cuda else None, "torch": str(torch.__version__)}
