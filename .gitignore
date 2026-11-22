@@ -59,9 +59,13 @@
 !/reports/retrieval_recall/ranks_A.csv
 !/reports/retrieval_recall/ranks_B.csv
 !/reports/retrieval_recall/recall_summary.json
+!/reports/Báo_cáo_Recall_tìm_ảnh_trên_test.md
+!/reports/retrieval_test/
+!/reports/retrieval_test/ca_minh_hoa.json
 !/reports/assets/
 !/reports/assets/caption_error_val_examples.jpg
 !/reports/assets/caption_error_test_examples.jpg
+!/reports/assets/retrieval_test_cases.jpg
 !/reports/assets/a_vs_a0_val.jpg
 !/requirements.txt
 !/environment.yml

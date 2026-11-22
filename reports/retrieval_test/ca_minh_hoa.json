@@ -1,0 +1,188 @@
+{
+  "split": "test",
+  "candidate_images": 558,
+  "cases": [
+    {
+      "case": "found",
+      "model": "A",
+      "query_number": 2231,
+      "reference_number": 1,
+      "query": "đây là một bức ảnh chụp một tấm bản đồ",
+      "ground_truth": {
+        "image_id": 5546,
+        "image_path": "public-test-images/00000005546.jpg",
+        "caption": "có một tấm bản đồ xuất hiện ở trong bức ảnh",
+        "rank": 1,
+        "score": 0.7822406109849905
+      },
+      "tie_rank_range": [
+        1,
+        1
+      ],
+      "top_results": [
+        {
+          "image_id": 5546,
+          "image_path": "public-test-images/00000005546.jpg",
+          "caption": "có một tấm bản đồ xuất hiện ở trong bức ảnh",
+          "score": 0.7822406109849905,
+          "rank": 1
+        },
+        {
+          "image_id": 676,
+          "image_path": "public-test-images/00000000676.jpg",
+          "caption": "có một nhóm người đang chụp ảnh ở bên một bức tường",
+          "score": 0.388736051986334,
+          "rank": 2
+        },
+        {
+          "image_id": 10836,
+          "image_path": "public-test-images/00000010836.jpg",
+          "caption": "có một nhóm người đang chụp ảnh ở trong một bức tượng",
+          "score": 0.37316775982708483,
+          "rank": 3
+        },
+        {
+          "image_id": 4752,
+          "image_path": "public-test-images/00000004752.jpg",
+          "caption": "có nhiều bức ảnh xuất hiện ở trong bức ảnh",
+          "score": 0.34698838021501854,
+          "rank": 4
+        },
+        {
+          "image_id": 1982,
+          "image_path": "public-test-images/00000001982.jpg",
+          "caption": "có một bức tranh xuất hiện ở trong bức ảnh",
+          "score": 0.319008623765008,
+          "rank": 5
+        }
+      ],
+      "visual_review": "Ảnh 5546 là bản đồ. Caption giữ cụm “tấm bản đồ”, ảnh gốc đứng đầu và không hòa điểm."
+    },
+    {
+      "case": "caption_error",
+      "model": "B",
+      "query_number": 155,
+      "reference_number": 5,
+      "query": "có nhiều loại hàng hoá được bày ra trên các kệ hàng",
+      "ground_truth": {
+        "image_id": 297,
+        "image_path": "public-test-images/00000000297.jpg",
+        "caption": "có một vài người đang đứng ở bên trong siêu thị",
+        "rank": 392,
+        "score": 0.013434957631374577
+      },
+      "tie_rank_range": [
+        392,
+        392
+      ],
+      "top_results": [
+        {
+          "image_id": 4568,
+          "image_path": "public-test-images/00000004568.jpg",
+          "caption": "có nhiều loại quả được bày bán ở trên các kệ hàng",
+          "score": 0.6941440697264144,
+          "rank": 1
+        },
+        {
+          "image_id": 36,
+          "image_path": "public-test-images/00000000036.jpg",
+          "caption": "có nhiều mặt hàng được bày bán ở trên các kệ hàng",
+          "score": 0.6537927274603812,
+          "rank": 2
+        },
+        {
+          "image_id": 324,
+          "image_path": "public-test-images/00000000324.jpg",
+          "caption": "có nhiều mặt hàng được bày bán ở trên các kệ hàng",
+          "score": 0.6537927274603812,
+          "rank": 3
+        },
+        {
+          "image_id": 4339,
+          "image_path": "public-test-images/00000004339.jpg",
+          "caption": "có nhiều mặt hàng được bày bán ở trên các kệ hàng",
+          "score": 0.6537927274603812,
+          "rank": 4
+        },
+        {
+          "image_id": 5154,
+          "image_path": "public-test-images/00000005154.jpg",
+          "caption": "có nhiều mặt hàng được bày bán ở trên các kệ hàng",
+          "score": 0.6537927274603812,
+          "rank": 5
+        }
+      ],
+      "visual_review": "Ảnh 297 có hàng hóa trên kệ. B bỏ chi tiết kệ hàng và thêm người đang đứng trong ảnh; các khuôn mặt thấy được nằm trên biển quảng cáo. Ảnh 4568 có caption nhắc tới các kệ hàng và đứng đầu."
+    },
+    {
+      "case": "multiple_relevant",
+      "model": "A",
+      "query_number": 2504,
+      "reference_number": 4,
+      "query": "ở trên các kệ hàng có sự xuất hiện của nhiều loại hàng hoá",
+      "ground_truth": {
+        "image_id": 8678,
+        "image_path": "public-test-images/00000008678.jpg",
+        "caption": "có nhiều loại hàng hoá xuất hiện ở trên kệ hàng",
+        "rank": 7,
+        "score": 0.8789146912468736
+      },
+      "tie_rank_range": [
+        1,
+        7
+      ],
+      "top_results": [
+        {
+          "image_id": 657,
+          "image_path": "public-test-images/00000000657.jpg",
+          "caption": "có nhiều loại hàng hoá xuất hiện ở trên kệ hàng",
+          "score": 0.8789146912468736,
+          "rank": 1
+        },
+        {
+          "image_id": 1719,
+          "image_path": "public-test-images/00000001719.jpg",
+          "caption": "có nhiều loại hàng hoá xuất hiện ở trên kệ hàng",
+          "score": 0.8789146912468736,
+          "rank": 2
+        },
+        {
+          "image_id": 2424,
+          "image_path": "public-test-images/00000002424.jpg",
+          "caption": "có nhiều loại hàng hoá xuất hiện ở trên kệ hàng",
+          "score": 0.8789146912468736,
+          "rank": 3
+        },
+        {
+          "image_id": 2586,
+          "image_path": "public-test-images/00000002586.jpg",
+          "caption": "có nhiều loại hàng hoá xuất hiện ở trên kệ hàng",
+          "score": 0.8789146912468736,
+          "rank": 4
+        },
+        {
+          "image_id": 4218,
+          "image_path": "public-test-images/00000004218.jpg",
+          "caption": "có nhiều loại hàng hoá xuất hiện ở trên kệ hàng",
+          "score": 0.8789146912468736,
+          "rank": 5
+        },
+        {
+          "image_id": 4424,
+          "image_path": "public-test-images/00000004424.jpg",
+          "caption": "có nhiều loại hàng hoá xuất hiện ở trên kệ hàng",
+          "score": 0.8789146912468736,
+          "rank": 6
+        },
+        {
+          "image_id": 8678,
+          "image_path": "public-test-images/00000008678.jpg",
+          "caption": "có nhiều loại hàng hoá xuất hiện ở trên kệ hàng",
+          "score": 0.8789146912468736,
+          "rank": 7
+        }
+      ],
+      "visual_review": "Ảnh 8678, 657 và 1719 đều có nhiều hàng hóa trên kệ. Bảy ảnh nhận cùng caption của A và cùng điểm cosine. Ảnh gốc xếp thứ 7 theo ID nên trượt R@5."
+    }
+  ]
+}

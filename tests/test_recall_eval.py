@@ -46,7 +46,8 @@ class RecallEvalTests(unittest.TestCase):
             predictions = root / "predictions.json"
             predictions.write_text('{"10": "a", "20": "b"}', encoding="utf-8")
             table, rows = build_and_evaluate("A", predictions, train, val, root / "index.npz",
-                                             root / "ranks.csv", [(10, 1, "b")], {})
+                                             root / "ranks.csv", [(10, 1, "b")], {}, candidate_split="test")
+            self.assertEqual(CaptionSearchIndex.load(root / "index.npz").metadata["candidate_split"], "test")
             self.assertEqual(rows[0]["rank"], 2)
             self.assertEqual(rows[0]["correct_score"], 0.0)
             self.assertEqual(table["recall"]["R@1"]["hits_search_rule"], 0)
