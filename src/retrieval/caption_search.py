@@ -49,7 +49,7 @@ class CaptionSearchIndex:
         return vectors / np.where(norms > 0, norms, 1)
 
     @classmethod
-    def build(cls, train_rows, predictions, candidate_rows, metadata=None):
+    def build(cls, train_rows, predictions, candidate_rows, metadata=None, *, candidate_split="val"):
         references = {row["image_id"]: row["captions"] for row in candidate_rows}
         if len(references) != len(candidate_rows):
             raise ValueError("Candidate manifest contains duplicate IDs")
@@ -69,7 +69,7 @@ class CaptionSearchIndex:
         records = [{"image_id": image_id, "image_path": paths[image_id], "caption": caption}
                    for image_id, caption in chosen.items()]
         vectors = cls.vectorize([row["caption"] for row in records], vocabulary, idf)
-        details = {**(metadata or {}), "format_version": 1, "fit_split": "train", "candidate_split": "val",
+        details = {**(metadata or {}), "format_version": 1, "fit_split": "train", "candidate_split": candidate_split,
                    "train_documents": document_count, "train_images": len(train_rows),
                    "candidate_images": len(records), "vocabulary_size": len(vocabulary),
                    "weighting": "raw TF * (log((1+n_train_documents)/(1+df_train))+1), L2 normalization",
