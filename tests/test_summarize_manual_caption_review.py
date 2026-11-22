@@ -21,6 +21,11 @@ class ManualReviewTests(unittest.TestCase):
             path = Path(directory) / "sheet.md"
             path.write_text(text, encoding="utf-8")
             rows = parse_sheet(path)
+        with tempfile.TemporaryDirectory() as directory:  # the Notion export writes bold headings and "---" separators
+            path = Path(directory) / "notion.md"
+            path.write_text(text.replace("## Ảnh 7", "## **Ảnh 7**").replace("|---|---|:-:|", "| --- | --- | --- |"),
+                            encoding="utf-8")
+            self.assertEqual(parse_sheet(path)[0]["image_id"], 7)
         self.assertEqual(rows, [{"image_id": 7, "item_id": "it-0a1b", "caption": "có một cái cây",
                                  "VT": 1, "HD": "?", "QH": 0, "SL": 0, "BD": 0, "LT": 0}])
 

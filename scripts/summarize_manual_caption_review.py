@@ -37,7 +37,7 @@ def parse_sheet(path):
     """Rows of a submitted Markdown sheet, in the same shape as the JSON label files."""
     rows, image_id = [], None
     for line in Path(path).read_text(encoding="utf-8").splitlines():
-        heading = re.match(r"## Ảnh (\d+)$", line)
+        heading = re.match(r"## \**Ảnh (\d+)\**$", line)
         if heading:
             image_id = int(heading.group(1))
             continue
