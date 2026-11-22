@@ -1,8 +1,8 @@
 # Đề xuất phiếu chấm lỗi caption
 
-**Vanh và Linh Khánh · Cập nhật 18/11/2026 · Đã điền phiếu thử val và chọn 40 ID test.**
+**Vanh và Linh Khánh · Cập nhật 18/11/2026 · Đã đối chiếu và tổng hợp 40 ảnh test.**
 
-Mục tiêu là so sánh lỗi của A, B và A0 trên cùng ảnh. Sáu ảnh val dùng để thử tiêu chí. Kết quả ở mục 3 chỉ thuộc đợt thử val. Đợt chấm 40 ảnh test bắt đầu sau khi có gói caption đã khóa và ẩn tên mô hình.
+Sáu ảnh val dùng để thử tiêu chí ở mục 3. Kết quả của 40 ảnh test nằm ở [mục 7](#7-kết-quả-chấm-test).
 
 ## 1. Quyết định của hai thành viên
 
@@ -17,7 +17,7 @@ Phần Vanh dưới đây được điền theo yêu cầu của Vanh. Các ý k
 | Ẩn mô hình | Trộn caption riêng từng ảnh, mở bảng đối chiếu sau khi khóa phiếu | Đồng ý. Vanh chuẩn bị gói khi có đủ prediction, giữ khóa riêng và ghi rõ giới hạn ẩn danh của người chuẩn bị. | Đồng ý. Người tạo gói (đề xuất Vanh, vì giữ file A và A0) không đưa `blind_key.json` cho người kia; báo cáo ghi rõ người đó có thể đoán được nguồn |
 | Chốt nhãn | Chấm riêng, đối chiếu phần trùng rồi thảo luận bất đồng | Đồng ý. Lưu phiếu gốc, giữ `?` khi chưa rõ. Phần chấm thử val cần Linh Khánh rà lại các ô khác nhau ở mục 3. | Đồng ý. Mức thống nhất tính từ hai phiếu gốc trước thảo luận; ô còn `?` sau thảo luận giữ nguyên, không đổi thành `0` |
 
-Chỉ mở đợt chấm test khi đã đủ output và khóa checkpoint/cách sinh câu của cả ba mô hình trên val. Nếu bỏ A0 hoặc thêm C, sửa phạm vi ở đây trước khi chấm test; giữ nguyên mẫu 40 ảnh.
+Đợt test đã lấy đúng ba checkpoint chọn trên val. A dùng epoch 5 (CIDEr 76,96), B Kaggle dùng epoch 6 (72,42), A0 dùng epoch 6 (77,95). Cả ba dùng seed 42, cùng cache ResNet-50 và cùng từ vựng. Sinh greedy tối đa 40 token; mỗi mô hình sinh đủ 40 caption và kết thúc EOS ở cả 40 ảnh.
 
 ## 2. Sáu loại lỗi và ví dụ
 
@@ -82,7 +82,7 @@ Theo Linh Khánh, nguồn caption là A 512 trên Kaggle (CIDEr val 76,96), B tr
 
 ### Phần Vanh
 
-Codex điền theo yêu cầu của Vanh sau khi xem sáu ảnh gốc. Caption giữ nguyên như bảng trên theo từng `item_id`. Hai caption giống hệt nhau ở ID `9826` vẫn là hai mục riêng. Đã đối chiếu 12 caption A/A0 với file val đã lưu. Caption B lấy nguyên văn từ phiếu Linh Khánh và chưa có file B Kaggle tương ứng để xác minh nguồn.
+Codex điền theo yêu cầu của Vanh sau khi xem sáu ảnh gốc. Caption giữ nguyên như bảng trên theo từng `item_id`. Hai caption giống hệt nhau ở ID `9826` vẫn là hai mục riêng. Cả 18 caption đã được đối chiếu với đầu ra val đúng phiên bản, gồm sáu caption B khớp dữ liệu lưu trong checkpoint B Kaggle.
 
 | image_id | item_id ẩn danh | VT | HD | QH | SL | BD | LT | Cụm sai → bằng chứng/sửa đề xuất |
 |---:|---|:-:|:-:|:-:|:-:|:-:|:-:|---|
@@ -126,7 +126,7 @@ Mẫu dưới đây được lấy theo ID trước khi xem caption test. Đã k
 | Chỉ Vanh | 15 | `1191, 10357, 876, 2291, 2058, 2921, 4658, 1004, 363, 4653, 297, 3091, 2586, 306, 4075` |
 | Chỉ Linh Khánh | 15 | `11487, 749, 709, 1373, 5197, 6310, 5237, 4145, 3051, 2408, 1674, 66, 832, 3417, 2438` |
 
-`test_ids_sha256 = 514e6930ec10bee1a223444593670f07ab6f2374419b160b38e044c465ec9513` (Python `3.13.7`). Tổng hợp ba hàng và sắp tăng dần để lấy `selected_ids`. Danh sách của mỗi người gồm hàng “Cả hai” rồi tới hàng riêng. Các ID và hash được ghi trong phiếu này. Đoạn mã dưới đây xuất cùng nội dung thành `selection.json` khi chuẩn bị gói chấm.
+`test_ids_sha256 = 514e6930ec10bee1a223444593670f07ab6f2374419b160b38e044c465ec9513` (Python `3.13.7`). Tổng hợp ba hàng và sắp tăng dần để lấy `selected_ids`. Danh sách của mỗi người gồm hàng “Cả hai” rồi tới hàng riêng. Đã xuất `artifacts/manual_caption_review/selection.json` và đối chiếu đúng 40 ID, 25 ảnh mỗi người, trùng 10 ảnh.
 
 ```python
 import hashlib, json, platform, random
@@ -165,9 +165,133 @@ out.write_text(json.dumps(record, ensure_ascii=False, indent=2), encoding="utf-8
 ## 6. Cách tổng hợp và bàn giao
 
 - **Theo mô hình:** báo từng loại lỗi dưới dạng `số caption lỗi / số caption đã chốt` và %. Báo thêm tỷ lệ caption có ít nhất một lỗi. Nhiều loại có thể cùng xuất hiện nên tổng tỷ lệ không cần bằng 100%. Một mô hình có tối đa 40 caption riêng biệt; phần chấm trùng chỉ tính một lần sau thống nhất.
-- **Mức thống nhất ban đầu:** trên 10 ảnh trùng × 3 mô hình × 6 loại = **180 ô**; báo số ô hai người điền giống nhau trên số ô cả hai đã điền `0/1`, kèm số ô có `?` và các loại hay bất đồng. Tính từ hai phiếu gốc, trước khi thảo luận.
+- **Mức thống nhất ban đầu:** trên 10 ảnh trùng × 3 mô hình × 6 loại = **180 ô**. Tính từ hai phiếu gốc trước thảo luận. Báo số ô Codex và Linh Khánh điền giống nhau trên số ô cả hai đã điền `0/1`, kèm số ô có `?` và các loại hay bất đồng. Ghi rõ đây là mức thống nhất giữa một lượt Codex chấm và một lượt Linh Khánh chấm.
 - Nếu sau thảo luận vẫn còn `?`, giữ nguyên và báo riêng số chưa rõ; không đổi thành `0`. Mỗi tỷ lệ ghi rõ mẫu số đã chốt của loại đó. Tỷ lệ “ít nhất một lỗi” dùng caption có ít nhất một `1` hoặc cả sáu ô đều `0`.
 - **Bốn ví dụ cuối:** sau khi chấm xong, lấy ID nhỏ nhất chưa dùng trong từng nhóm: A có lỗi/B không; B có lỗi/A không; A0 có lỗi/A không; cả A và B có lỗi. Chỉ dùng nhãn đã rõ. Nếu nhóm không còn ID phù hợp, ghi rõ rồi bổ sung ID nhỏ nhất có lỗi chưa dùng; nếu vẫn thiếu thì dùng ID nhỏ nhất còn lại. Mỗi ví dụ có ảnh, ID, caption, cả năm tham chiếu và lời giải thích. Đây là ví dụ trong mẫu 40, không đại diện toàn tập test.
 - **Gói bàn giao sau duyệt:** phiên bản phiếu đã chốt, `selection.json`, hai phiếu gốc, phiếu sau thống nhất, bảng tổng hợp và bốn ví dụ; giữ khóa ẩn danh riêng cho đến lúc khóa nhãn. Đây là phân tích mô tả trên 40 ảnh, không đủ để kết luận mô hình vượt trội trên mọi ảnh.
 
-**Trạng thái bàn giao.** Phiếu thử có đủ 18 mục mỗi phần và 40 ID test đã được chọn với phần chia 25/25, trùng 10. Các ô cần đối chiếu ở val nằm trong mục 3. Gói ẩn danh, nhãn và tỷ lệ lỗi trên test còn chờ prediction của các checkpoint đã chọn, gồm đúng bản B Kaggle. Mẫu ID test ở mục 4 vẫn giữ nguyên khi chuẩn bị gói.
+## 7. Kết quả chấm test
+
+### Đối chiếu hai phiếu gốc
+
+Vanh chọn dùng 75 nhãn do Codex chấm. Linh Khánh nộp phiếu riêng có Claude Code hỗ trợ và ghi rằng đã xem lại từng ảnh. Phiếu gửi khớp đủ 25 ảnh, 75 mã mục và nguyên văn caption. Đếm trực tiếp từ từng dòng của phiếu Linh Khánh cho **45 có lỗi, 11 chưa rõ, 19 toàn số 0**. Phần tóm tắt đầu bản gốc ghi 43/14/18. Bản gốc được giữ nguyên.
+
+Trên **30 caption của 10 ảnh chung**, hai phiếu trùng **168/172 ô có nhãn `0/1` (97,67%)**. Có 4 ô khác nhau và 8 ô cả hai cùng ghi `?`. Codex xử lý 4 ô bằng cách xem lại ảnh gốc khi tên mô hình còn ẩn, rồi khóa đủ 120 dòng trước khi mở bảng khóa. Đây là mức trùng giữa lượt Codex chấm và lượt Linh Khánh chấm, có hỗ trợ AI.
+
+| Ảnh | Ô khác nhau, Codex / Linh Khánh | Nhãn dùng và căn cứ |
+|---:|---|---|
+| 228 | QH 1/0, BD 0/1 | **QH = 1, BD = 0.** Hoa ở mái hiên, giỏ xe trống. “Xe đạp chở hoa” gán sai quan hệ giữa xe và hoa. HD giữ `?` vì ảnh tĩnh chưa rõ xe đang chạy. |
+| 2275 | BD 0/1 | **BD = 1.** “Quầy bán đồ trang sức” là ý sai riêng, vì kệ phía sau bày hộp và giỏ quà. VT vẫn là 1 cho chủ thể sai. |
+| 4107 | VT 1/0 | **VT = 0, BD = 1.** Quầy và người đều xuất hiện. Caption tả sai loại hàng và màu áo, tính một lần theo BD. |
+
+### Tỷ lệ lỗi theo mô hình
+
+Mỗi mô hình có 40 caption trên cùng 40 ảnh. Mỗi ô ghi số có lỗi / số đã rõ, tỷ lệ và số ô `?`. Với dòng tổng, caption có ít nhất một cờ `1` đã được tính là có lỗi dù một cờ khác còn `?`. Nếu chưa có cờ `1` và còn `?`, caption vẫn là chưa rõ.
+
+| Loại lỗi | A | B | A0 |
+|---|---:|---:|---:|
+| VT · Vật thể | 7/37 (18,92%) · 3 ? | 10/38 (26,32%) · 2 ? | 9/36 (25,00%) · 4 ? |
+| HD · Hành động | 5/36 (13,89%) · 4 ? | 6/38 (15,79%) · 2 ? | 3/34 (8,82%) · 6 ? |
+| QH · Quan hệ | 2/38 (5,26%) · 2 ? | 7/38 (18,42%) · 2 ? | 2/39 (5,13%) · 1 ? |
+| SL · Số lượng | 0/40 (0,00%) · 0 ? | 0/40 (0,00%) · 0 ? | 1/40 (2,50%) · 0 ? |
+| BD · Chi tiết bịa | 11/40 (27,50%) · 0 ? | 6/39 (15,38%) · 1 ? | 8/40 (20,00%) · 0 ? |
+| LT · Lặp từ | 0/40 (0,00%) · 0 ? | 1/40 (2,50%) · 0 ? | 0/40 (0,00%) · 0 ? |
+| **Có ít nhất một lỗi** | **20/34 (58,82%) · 6 ?** | **24/34 (70,59%) · 6 ?** | **23/33 (69,70%) · 7 ?** |
+
+Trong mẫu này, A có tỷ lệ caption lỗi thấp nhất trong các caption đã rõ, nhưng có nhiều cờ BD nhất. B có nhiều cờ QH nhất. Mỗi mô hình chỉ có 40 caption của một checkpoint, với cách chấm nêu trên. Kết quả mô tả mẫu test này.
+
+### Bốn ảnh minh họa
+
+Chọn ID nhỏ nhất chưa dùng trong từng nhóm đã định ở mục 6. Bốn nhóm đều có ảnh phù hợp.
+
+![Bốn ảnh test được chọn, ID 3091, 297, 756 và 66](assets/caption_error_test_examples.jpg)
+
+<details>
+<summary>1. Ảnh 3091 · A có lỗi, B không</summary>
+
+| Mô hình | Caption | Cờ lỗi |
+|---|---|---|
+| A | có một nhóm người đang chụp ảnh tập thể dục ở trên đường | HD |
+| B | có một nhóm người đang tụ tập ở trên đường | 0 |
+| A0 | có một nhóm người đang chụp ảnh tập thể dục | HD |
+
+Nhóm người đang sử dụng dụng cụ tập ngoài trời. A và A0 tả sai hành động khi nói đang chụp ảnh. B dùng cách mô tả chung và phiếu không ghi nhận lỗi ở câu đó.
+
+**Năm câu tham chiếu**
+
+- nhiều người đang tập thể dục ở trong công viên
+- nhiều người đang vận động ở bên trong công viên
+- có một nhóm người đang tập thể dục ở ngoài trời
+- ở ngoài trời có một vài người đang tập thể dục
+- có một nhóm người đang sử dụng những dụng cụ tập thể dục
+
+</details>
+
+<details>
+<summary>2. Ảnh 297 · B có lỗi, A không</summary>
+
+| Mô hình | Caption | Cờ lỗi |
+|---|---|---|
+| A | có nhiều loại hàng hoá đang được bày bán ở trên các kệ hàng | 0 |
+| B | có một vài người đang đứng ở bên trong siêu thị | VT |
+| A0 | có nhiều mặt hàng được bày bán ở trên các kệ hàng | 0 |
+
+Lối đi trong cửa hàng trống. Các khuôn mặt nhìn thấy nằm trên ảnh quảng cáo, nên B sai khi thêm người đang đứng. A và A0 tả các kệ hàng có trong ảnh.
+
+**Năm câu tham chiếu**
+
+- có nhiều mặt hàng được bày bán trong cửa hàng
+- có nhiều loại hàng hoá được bày bán trong cửa hàng
+- có nhiều loại hàng hoá xuất hiện ở trong cửa hàng
+- ở trong cửa hàng có sự xuất hiện của nhiều loại hàng hoá
+- có nhiều loại hàng hoá được bày ra trên các kệ hàng
+
+</details>
+
+<details>
+<summary>3. Ảnh 756 · A0 có lỗi, A không</summary>
+
+| Mô hình | Caption | Cờ lỗi |
+|---|---|---|
+| A | có một người phụ nữ mặc áo đen đang đứng bên một quầy hàng bán bánh kẹo | 0 |
+| B | có một người đàn ông đang đứng ở bên quầy hàng | VT |
+| A0 | có một người phụ nữ mặc áo xanh đang đứng bên một quầy hàng | BD |
+
+Người ở quầy mặc áo nền đen có họa tiết sáng. A0 tả áo xanh nên bị đánh dấu BD. B gọi người này là đàn ông nên bị đánh dấu VT.
+
+**Năm câu tham chiếu**
+
+- một người phụ nữ đang đứng trước một kệ hàng
+- một người phụ nữ đang chạm tay vào một sản phẩm trên kệ hàng
+- một người phụ nữ đang lựa chọn sản phẩm trên kệ hàng
+- ở trước kệ hàng có một người phụ nữ đang lựa hàng hoá
+- ở trước kệ hàng có sự xuất hiện của một người phụ nữ
+
+</details>
+
+<details>
+<summary>4. Ảnh 66 · Cả A và B có lỗi</summary>
+
+| Mô hình | Caption | Cờ lỗi |
+|---|---|---|
+| A | có một con thuyền đang di chuyển ở trên mặt nước | HD |
+| B | có một con thuyền đang di chuyển ở trên mặt nước | HD |
+| A0 | có một chiếc thuyền chở người xuất hiện ở trên mặt nước | VT |
+
+A và B sinh cùng một câu. Phiếu Linh Khánh chấm HD cho “đang di chuyển” vì thấy dây neo trước mũi thuyền. A0 nói thuyền chở người, trong khi phần nhìn rõ trên thuyền là các chậu cây cảnh.
+
+**Năm câu tham chiếu**
+
+- có một con tàu xuất hiện ở trên mặt nước
+- có những chậu cây cảnh xuất hiện ở trên con tàu
+- có những chậu cây cảnh được chở ở trên con tàu
+- ở trên mặt nước có một con tàu đang chở theo những chậu cây cảnh
+- ở trên sông có sự xuất hiện của một con tàu chở cây cảnh
+
+</details>
+
+### Nơi lưu phiếu và đầu ra
+
+- Bản gốc Linh Khánh và 25 ảnh từ bản xuất nằm ở `artifacts/manual_caption_review/linh_khanh/submitted/`. Bản JSON nhập nhãn nằm ở `linh_khanh/labels_linh_khanh_submitted.json` tính từ thư mục chấm. Phiếu gốc Codex nằm ở `vanh/labels_vanh_locked.json`.
+- Phiếu Markdown đủ 120 dòng, bản JSON đã khóa, bảng đối chiếu 30 mục chung và tổng hợp theo mô hình nằm ở `artifacts/manual_caption_review/final/`. Đã kiểm tra hash của ba checkpoint và ba tập prediction. Các file gốc, ảnh đầy đủ và bảng khóa nằm ngoài Git.
+- B dùng checkpoint `artifacts/checkpoints/ktvic/B_kaggle_seed42/best.pt`, epoch 6 với CIDEr val 72,42. Caption val trích từ checkpoint nằm ở `runs/transformer_b_kaggle_seed42/val_predictions.json`. JSON gửi kèm thuộc lượt RTX 2050, CIDEr val 70,47, và được lưu tại `runs/transformer_b_rtx2050_seed42/val_predictions.json`.
