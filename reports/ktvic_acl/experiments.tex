@@ -1,0 +1,77 @@
+\section{Thực nghiệm}
+
+\begin{table*}[t]
+  \centering
+  \begin{tabular}{@{}lrrrrrrrrr@{}}
+    \toprule
+    & \multicolumn{4}{c}{BLEU theo bậc} & &
+      \multicolumn{3}{c}{Recall (\%)} & \\
+    \cmidrule(lr){2-5}\cmidrule(lr){7-9}
+    Mô hình & 1 & 2 & 3 & 4 & CIDEr-D & R@1 & R@5 & R@10 & Hạng TV \\
+    \midrule
+    \modelA{} & 64,52 & 50,03 & 37,89 & 29,08 & \textbf{78,67}
+        & 3,84 & 12,90 & 19,39 & 71 \\
+    \modelAz{} & 64,00 & 49,56 & 37,75 & 29,13 & 78,48
+        & \textbf{4,59} & \textbf{13,23} & \textbf{19,50} & 76 \\
+    \modelB{} & 63,64 & 48,58 & 35,95 & 26,84 & 68,66
+        & 3,87 & 10,25 & 16,70 & 77 \\
+    \modelC{} & \textbf{66,55} & \textbf{51,74} & \textbf{39,60} & \textbf{30,51} & 75,98
+        & 3,19 & 11,04 & 16,85 & \textbf{68} \\
+    \bottomrule
+  \end{tabular}
+  \caption{Kết quả test trên 558 ảnh và 2.790 truy vấn, một checkpoint Kaggle T4 cho mỗi mô hình. Hạng TV là hạng trung vị của ảnh đúng, càng thấp càng tốt. In đậm là giá trị quan sát tốt nhất theo từng cột.}
+  \label{tab:test}
+\end{table*}
+
+\begin{table}[t]
+  \centering
+  \setlength{\tabcolsep}{4pt}
+  \begin{tabular}{@{}lrrrrr@{}}
+    \toprule
+     & Epoch & CIDEr-D & Tham số & Train & Sinh \\
+    & chọn & val & (triệu) & (s) & (s) \\
+    \midrule
+    \modelA{}  & 5 & 76,96 & 15,477 & 184,3 & 0,99 \\
+    \modelAz{} & 6 & 77,95 & 15,477 & 174,8 & 0,82 \\
+    \modelB{}  & 6 & 72,42 & 15,447 & 127,9 & 4,27 \\
+    \modelC{}  & 4 & 78,73 & 14,792 & 77,0  & 3,92 \\
+    \bottomrule
+  \end{tabular}
+  \caption{Checkpoint và chi phí. Train là tổng thời gian các epoch huấn luyện đến epoch chọn trên T4. Sinh là thời gian giải mã 558 ảnh trên RTX 2050 sau khởi động, từ đặc trưng đã nạp.}
+  \label{tab:cost}
+\end{table}
+
+\subsection{Thiết lập và thước đo}
+
+Các checkpoint của bảng test được huấn luyện trên Kaggle Tesla T4 với PyTorch 2.11.0+cu130, seed 42, batch 32 và dropout 0,1. Dùng AdamW với tốc độ học $3\times10^{-4}$ và weight decay $10^{-2}$, tối đa 20 epoch. Sau mỗi epoch, mô hình sinh câu cho toàn bộ tập kiểm định. Chúng tôi giữ epoch sớm nhất đạt CIDEr-D kiểm định cao nhất và dừng sau bốn epoch liên tiếp không cải thiện.
+
+Mỗi ảnh test được chấm với đủ năm câu tham chiếu sau cùng một bước chuẩn hóa. BLEU-$n$ gộp độ chính xác $j$-gram đã cắt theo tham chiếu, với $j=1,\ldots,n$, và phạt câu quá ngắn \citep{papineni2002bleu}. Gọi $p_j$ là độ chính xác $j$-gram, $c$ là tổng độ dài dự đoán và $r$ là tổng độ dài tham chiếu hiệu dụng. Với $c>0$:
+\begin{align}
+  \mathrm{BP}&=\exp\!\left(\min(0,1-r/c)\right),\\
+  \mathrm{BLEU}_n&=\mathrm{BP}\exp\!\left(
+                  \frac1n\sum_{j=1}^{n}\ln p_j\right).
+\end{align}
+CIDEr-D so khớp vector TF-IDF $n$-gram của câu sinh $d$ với từng tham chiếu $a$ của ảnh \citep{vedantam2015cider}. Gọi $v=g_n(d)$ và $u=g_n(a)$ là hai vector, $\Delta$ là độ chênh chiều dài câu và $\sigma=6$.
+\begin{equation}
+  G_n(d,a)=
+  \frac{\min(v,u)^\top u}{\lVert v\rVert_2\lVert u\rVert_2}
+  \exp\!\left(-\frac{\Delta^2}{2\sigma^2}\right).
+  \label{eq:cider}
+\end{equation}
+Phép $\min$ lấy theo từng phần tử. Cặp vector có chuẩn bằng 0 đóng góp điểm 0. Điểm CIDEr-D là trung bình của $G_n$ theo tham chiếu, bậc $n=1,\ldots,4$ và ảnh, rồi nhân 10. IDF tính từ tham chiếu của tập đang chấm. Điểm BLEU và CIDEr-D trong bảng đều đã nhân 100.
+
+Với tìm ảnh, mỗi câu tham chiếu là một truy vấn, lấy ID của ảnh gốc làm đáp án. Gọi $r_j$ là hạng của ảnh đúng ở truy vấn $j$, hoặc $+\infty$ nếu vector truy vấn bằng 0. Trên test có $N=558\times5=2\,790$ truy vấn. Chúng tôi dùng $k\in\{1,5,10\}$.
+\begin{equation}
+  \mathrm{Recall@}k=\frac{1}{N}
+    \sum_{j=1}^{N}\mathbf 1[r_j\le k].
+  \label{eq:recall}
+\end{equation}
+Để ước lượng khoảng tin cậy của chênh lệch Recall, chúng tôi lấy mẫu lại 2.000 lần theo ảnh, giữ năm truy vấn của ảnh trong cùng một cụm.
+
+\subsection{Kết quả trên tập test}
+
+Cùng dùng đặc trưng ResNet-50, \modelA{} hơn \modelB{} 10,01 điểm CIDEr-D và 2,24 điểm BLEU-4 (Bảng~\ref{tab:test}). Số tham số được khai báo của hai decoder chênh khoảng 0,2\% (Bảng~\ref{tab:cost}). \modelB{} dùng ít giây huấn luyện mỗi epoch hơn trong lượt đo, còn \modelA{} sinh nhanh hơn khi cả hai đọc cache có sẵn. Transformer hiện tính lại tiền tố ở mỗi bước giải mã. Thời gian trong bảng phản ánh cài đặt này.
+
+Thay ngữ cảnh động bằng trung bình vùng, \modelAz{} kém \modelA{} 0,19 điểm CIDEr-D, còn BLEU-4 cao hơn 0,05 điểm. Trên tập kiểm định, \modelAz{} cao hơn \modelA{} 0,99 điểm CIDEr-D. Hai khác biệt nhỏ và đổi chiều theo tập đối với CIDEr-D. Một cặp lượt huấn luyện chưa đủ để khẳng định lợi ích ổn định của attention học được.
+
+\modelC{} hơn \modelB{} 7,32 điểm CIDEr-D và 3,67 điểm BLEU-4. \modelC{} dẫn cả bốn mức BLEU, còn \modelA{} đạt CIDEr-D cao nhất. Chênh lệch B/C phản ánh việc thay cả encoder đã huấn luyện sẵn, quy trình xử lý ảnh và số chiều đầu vào của lớp chiếu.
