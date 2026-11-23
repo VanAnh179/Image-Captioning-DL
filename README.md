@@ -18,12 +18,4 @@ python -m scripts.run_scorer_trial --split val
 
 Để chấm caption của mô hình, xem định dạng file dự đoán và lệnh chấm trong [hướng dẫn KTVIC](docs/ktvic.md#chấm-caption).
 
-LSTM có attention đã có đầu ra logits, câu tự sinh và trọng số 49 vùng. [Báo cáo triển khai và lệnh kiểm tra](reports/Báo_cáo_cài_đặt_LSTM_có_attention.md)
-
-[Vòng train, checkpoint và lượt baseline A trên Kaggle](reports/Báo_cáo_huấn_luyện_khôi_phục_và_baseline_A.md)
-
-[Ghép encoder CLIP với Transformer và các log kiểm tra](reports/Báo_cáo_ghép_CLIP_với_Transformer.md)
-
-[Tìm ảnh TF-IDF trên CPU](reports/Báo_cáo_tìm_ảnh_TF_IDF.md) · [Đối chứng A0](reports/Báo_cáo_đối_chứng_A0.md)
-
-[Phiếu chấm thử lỗi caption và mẫu 40 ảnh test](reports/Đề_xuất_phiếu_chấm_lỗi_caption.md)
+Báo cáo nội bộ, log huấn luyện và kết quả đánh giá chi tiết được bàn giao riêng qua Media board.
