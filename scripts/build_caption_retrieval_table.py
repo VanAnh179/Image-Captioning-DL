@@ -39,9 +39,18 @@ def check_caption_scores(entry, prediction_file, references):
         raise ValueError(f"{entry['model']}: re-scoring gives {again}, table has {entry['test_scores']}")
 
 
-def read_ranks(path):
+def read_ranks(path, expected_queries=None):
     with Path(path).open(encoding="utf-8", newline="") as stream:
-        return [int(row["rank"]) if row["rank"] else None for row in csv.DictReader(stream)]
+        rows = list(csv.DictReader(stream))
+    if expected_queries is not None:
+        actual = [(int(row["query_number"]), int(row["image_id"]), int(row["reference_number"]), row["query"])
+                  for row in rows]
+        if actual != expected_queries:
+            raise ValueError(f"{path}: query IDs, references or order differ from the test manifest")
+        if any(row["zero_query"] not in ("0", "1") or (not row["rank"]) != (row["zero_query"] == "1")
+               for row in rows):
+            raise ValueError(f"{path}: a missing rank must correspond to an empty query vector")
+    return [int(row["rank"]) if row["rank"] else None for row in rows]
 
 
 def check_recall_slot(summary, slot, ranks, prediction_file, images, queries):
@@ -50,26 +59,32 @@ def check_recall_slot(summary, slot, ranks, prediction_file, images, queries):
     if (block["candidate_images"], block["queries"], len(ranks)) != (images, queries, queries):
         raise ValueError(f"slot {slot}: expected {images} images and {queries} queries, "
                          f"got {block['candidate_images']}, {block['queries']}, {len(ranks)} ranks")
+    ranked = [rank for rank in ranks if rank is not None]
+    if any(rank < 1 or rank > images for rank in ranked):
+        raise ValueError(f"slot {slot}: rank outside the candidate pool")
     for k in CUTOFFS:
-        hits = sum(rank is not None and rank <= k for rank in ranks)
-        if hits != block["recall"][f"R@{k}"]["hits_search_rule"]:
-            raise ValueError(f"slot {slot}: R@{k} recomputed {hits}, summary {block['recall'][f'R@{k}']['hits_search_rule']}")
-    median = statistics.median(rank for rank in ranks if rank is not None)
+        hits = sum(rank <= k for rank in ranked)
+        entry = block["recall"][f"R@{k}"]
+        if hits != entry["hits_search_rule"] or hits / queries != entry["search_rule"]:
+            raise ValueError(f"slot {slot}: R@{k} recomputed {hits}/{queries} disagrees with the summary")
+    median = statistics.median(ranked) if ranked else None
     if median != block["median_rank"]:
         raise ValueError(f"slot {slot}: median rank recomputed {median}, summary {block['median_rank']}")
     data = prediction_file.read_bytes()
     if block["predictions_sha256"] == sha256_bytes(data):
         return "identical"
-    if block["predictions_sha256"] == sha256_bytes(data.replace(b"\r\n", b"\n")):
+    lf = data.replace(b"\r\n", b"\n")
+    if block["predictions_sha256"] in (sha256_bytes(lf), sha256_bytes(lf.replace(b"\n", b"\r\n"))):
         return "same bytes except line endings"
     raise ValueError(f"slot {slot}: the index was built from a different caption file than {prediction_file.name}")
 
 
-def recall_cells(directory, names, results_dir, images, queries):
+def recall_cells(directory, names, results_dir, images, expected_queries):
     summary = json.loads((directory / "recall_summary.json").read_text(encoding="utf-8"))
+    queries = len(expected_queries)
     cells, notes = {}, {}
     for slot, name in zip(("A", "B"), names):
-        ranks = read_ranks(directory / f"ranks_{slot}.csv")
+        ranks = read_ranks(directory / f"ranks_{slot}.csv", expected_queries)
         notes[name] = check_recall_slot(summary, slot, ranks, results_dir / f"{name}_test_predictions.json", images, queries)
         block = summary["models"][slot]
         cells[name] = {"queries": queries, "median_rank": block["median_rank"],
@@ -93,7 +108,8 @@ def table_markdown(rows, lead_all, lead_first, first_models, queries):
     lines = ["| " + " | ".join(head) + " |", "|---|---|" + "---:|" * (len(head) - 2)]
     for row in rows:
         recall = [f"{vi(100 * row[f'R@{k}'] / queries)}% ({vi(row[f'R@{k}'], 0)})" if f"R@{k}" in row else "–" for k in CUTOFFS]
-        median = vi(row["median_rank"], 0) if row.get("median_rank") is not None else "–"
+        rank = row.get("median_rank")
+        median = vi(rank, 1 if rank % 1 else 0) if rank is not None else "–"
         lines.append(f"| {row['model']} | {ENCODERS[row['model']]} | "
                      + " | ".join(vi(row[m]) for m in METRICS) + " | " + " | ".join(recall) + f" | {median} |")
     columns = [*METRICS, "R@1", "R@5", "R@10", "median_rank"]
@@ -111,11 +127,23 @@ def main():
     parser.add_argument("--output-dir", type=Path, default=Path("reports/caption_retrieval_table"))
     args = parser.parse_args()
 
-    manifest = read_manifest(args.processed_dir / "test_manifest.jsonl")
+    manifest_path = args.processed_dir / "test_manifest.jsonl"
+    manifest = read_manifest(manifest_path)
     references = {row["image_id"]: row["captions"] for row in manifest}
-    images, queries = len(manifest), sum(len(v) for v in references.values())
+    images = len(manifest)
+    if not references or len(references) != images or any(len(captions) != 5 for captions in references.values()):
+        raise ValueError("Expected unique test IDs and five references per image")
+    query_rows = ((row["image_id"], number, caption)
+                  for row in manifest for number, caption in enumerate(row["captions"], 1))
+    expected_queries = [(order, *query) for order, query in enumerate(query_rows, 1)]
+    queries = len(expected_queries)
     table = json.loads((args.results_dir / "test_table.json").read_text(encoding="utf-8"))
+    if (table["split"], table["images"], table["references"]) != ("test", images, queries) or (
+            table["test_manifest_sha256"] != sha256_bytes(manifest_path.read_bytes())):
+        raise ValueError("The caption table was built from a different test manifest")
     rows = {entry["model"]: {"model": entry["model"], **entry["test_scores"]} for entry in table["models"]}
+    if set(rows) != set(ENCODERS) or len(table["models"]) != len(ENCODERS):
+        raise ValueError("Expected one caption-table row for each of A, B, A0 and C")
     for entry in table["models"]:
         check_caption_scores(entry, args.results_dir / f"{entry['model']}_test_predictions.json", references)
 
@@ -123,9 +151,9 @@ def main():
     for spec in args.recall:
         names, _, directory = spec.partition("=")
         names = names.split(",")
-        if len(names) != 2 or not directory or not set(names) <= set(rows):
+        if len(names) != 2 or names[0] == names[1] or not directory or not set(names) <= set(rows):
             parser.error(f"--recall needs NAME_A,NAME_B=DIR with names from {sorted(rows)}: {spec!r}")
-        cells, notes = recall_cells(Path(directory), names, args.results_dir, images, queries)
+        cells, notes = recall_cells(Path(directory), names, args.results_dir, images, expected_queries)
         first_models = first_models or names
         for name in names:
             if "R@1" in rows[name]:

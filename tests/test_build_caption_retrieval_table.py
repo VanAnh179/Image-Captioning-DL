@@ -10,7 +10,10 @@ COLUMNS = [("CIDEr", True), ("R@1", True), ("median_rank", False)]
 
 
 def summary_for(ranks, prediction_sha256):
-    recall = {f"R@{k}": {"hits_search_rule": sum(r is not None and r <= k for r in ranks)} for k in (1, 5, 10)}
+    recall = {}
+    for k in (1, 5, 10):
+        hits = sum(rank is not None and rank <= k for rank in ranks)
+        recall[f"R@{k}"] = {"hits_search_rule": hits, "search_rule": hits / len(ranks)}
     return {"models": {"A": {"candidate_images": 2, "queries": len(ranks), "recall": recall, "median_rank": 2.0,
                              "predictions_sha256": prediction_sha256}}}
 
@@ -29,9 +32,9 @@ class CaptionRetrievalTableTests(unittest.TestCase):
             prediction = Path(folder) / "A_test_predictions.json"
             prediction.write_bytes(b"[\r\n]\r\n")
             ranks_file = Path(folder) / "ranks_A.csv"
-            ranks_file.write_text("rank,query\n1,a\n2,b\n,c\n3,d\n", encoding="utf-8")
+            ranks_file.write_text("rank,query\n1,a\n2,b\n,c\n2,d\n", encoding="utf-8")
             ranks = read_ranks(ranks_file)
-            self.assertEqual(ranks, [1, 2, None, 3])
+            self.assertEqual(ranks, [1, 2, None, 2])
             lf_hash = hashlib.sha256(b"[\n]\n").hexdigest()
             summary = summary_for(ranks, lf_hash)
             summary["models"]["A"]["median_rank"] = 2.0
@@ -44,6 +47,24 @@ class CaptionRetrievalTableTests(unittest.TestCase):
             summary = summary_for(ranks, "0" * 64)
             with self.assertRaisesRegex(ValueError, "different caption file"):
                 check_recall_slot(summary, "A", ranks, prediction, 2, 4)
+
+    def test_rank_rows_must_match_test_ids_references_and_order(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / "ranks_A.csv"
+            path.write_text("query_number,image_id,reference_number,query,rank,zero_query\n1,20,1,the image,2,0\n",
+                            encoding="utf-8")
+            self.assertEqual(read_ranks(path, [(1, 20, 1, "the image")]), [2])
+            with self.assertRaisesRegex(ValueError, "differ from the test manifest"):
+                read_ranks(path, [(1, 99, 1, "the image")])
+
+    def test_recall_rejects_ranks_outside_the_candidate_pool(self):
+        with tempfile.TemporaryDirectory() as folder:
+            prediction = Path(folder) / "A_test_predictions.json"
+            prediction.write_bytes(b"[]")
+            ranks = [0, 1]
+            summary = summary_for(ranks, hashlib.sha256(prediction.read_bytes()).hexdigest())
+            with self.assertRaisesRegex(ValueError, "outside the candidate pool"):
+                check_recall_slot(summary, "A", ranks, prediction, 2, 2)
 
     def test_caption_file_must_be_the_one_the_scores_came_from(self):
         with tempfile.TemporaryDirectory() as folder:
