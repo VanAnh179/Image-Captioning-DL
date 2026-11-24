@@ -18,4 +18,11 @@ python -m scripts.run_scorer_trial --split val
 
 Để chấm caption của mô hình, xem định dạng file dự đoán và lệnh chấm trong [hướng dẫn KTVIC](docs/ktvic.md#chấm-caption).
 
+Demo offline: chọn ảnh để sinh caption, gõ một câu tiếng Việt để xem 5 ảnh phù hợp kèm caption của từng ảnh. Cần checkpoint A, chỉ mục `ktvic_a_val.npz` của A, ảnh KTVIC và trọng số ResNet-50 đã có trong cache của torch; không cần mạng.
+
+```sh
+python -m scripts.run_demo
+python -m scripts.run_demo --checkpoint <best.pt của A> --index <ktvic_a_val.npz của A> --device cpu
+```
+
 Báo cáo nội bộ, log huấn luyện và kết quả đánh giá chi tiết được bàn giao riêng qua Media board.
