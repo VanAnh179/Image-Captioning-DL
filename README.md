@@ -25,4 +25,10 @@ python -m scripts.run_demo
 python -m scripts.run_demo --checkpoint <best.pt của A> --index <ktvic_a_val.npz của A> --device cpu
 ```
 
+Cùng chức năng dưới dạng trang web chạy trên máy này (chỉ nghe ở 127.0.0.1, không cần mạng). Lệnh mở trình duyệt tại `http://127.0.0.1:8000`, đổi cổng bằng `--port`, tắt tự mở trình duyệt bằng `--no-browser`:
+
+```sh
+python -m scripts.run_web_demo
+```
+
 Báo cáo nội bộ, log huấn luyện và kết quả đánh giá chi tiết được bàn giao riêng qua Media board.
