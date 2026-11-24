@@ -143,12 +143,12 @@
     <div class="chips" id="chips"><span>Gợi ý:</span></div>
     <div class="note" id="searchNote" role="status" hidden></div>
     <div id="found" hidden>
-      <div class="head"><div id="foundTitle"></div><span>Sắp xếp theo độ khớp</span></div>
+      <div class="head"><div id="foundTitle"></div><span id="searchMethod"></span></div>
       <div class="cards" id="cards"></div>
     </div>
   </section>
 </main>
-<footer>Chạy hoàn toàn offline trên máy này. Kho tìm ảnh là tập val của KTVIC; độ khớp là độ giống cosine (TF-IDF) giữa câu bạn gõ và caption của ảnh.</footer>
+<footer>Chạy offline trên máy này. Mỗi ảnh kết quả có caption do mô hình tự sinh.</footer>
 
 <script>
 const $ = (id) => document.getElementById(id);
@@ -296,6 +296,8 @@ function make(tag, className, text) {
   return node;
 }
 function render(data) {
+  const visual = data.method === "visual";
+  $("searchMethod").textContent = visual ? "Xếp theo đặc trưng ảnh" : "Xếp theo từ khớp trong caption";
   $("foundTitle").textContent = "";
   $("foundTitle").append(data.hits.length + " ảnh khớp nhất với “" + data.query.trim() + "”");
   const cards = $("cards"); cards.replaceChildren();
@@ -303,14 +305,22 @@ function render(data) {
     const card = make("div", "card"), thumb = make("div", "thumb"), body = make("div", "body");
     const image = make("img"); image.src = hit.image_url; image.alt = "Ảnh " + hit.image_id; image.loading = "lazy";
     thumb.append(image, make("span", "rank", "#" + hit.rank));
-    const score = make("div", "score"), line = make("div"), track = make("div", "bar2"), fill = make("i");
-    line.append(make("span", "", "Độ khớp"), make("b", "", Math.round(hit.score * 100) + "%"));
-    fill.style.width = Math.round(hit.score * 100) + "%"; track.append(fill); score.append(line, track);
-    body.append(make("div", "cap", hit.caption), make("div", "words", "Từ khớp: " + hit.matched_words.join(", ")),
-                make("div", "score", "Ảnh ID " + hit.image_id), score);
+    body.append(make("div", "cap", hit.caption));
+    if (!visual) body.append(make("div", "words", "Từ khớp: " + hit.matched_words.join(", ")));
+    const score = make("div", "score"), line = make("div");
+    if (visual) {
+      line.append(make("span", "", "Cosine"), make("b", "", vi(hit.score, 3)));
+      score.append(line);
+    } else {
+      const percent = Math.round(hit.score * 100);
+      const track = make("div", "bar2"), fill = make("i");
+      line.append(make("span", "", "Độ khớp TF-IDF"), make("b", "", percent + "%"));
+      fill.style.width = percent + "%"; track.append(fill); score.append(line, track);
+    }
+    body.append(make("div", "score", "Ảnh ID " + hit.image_id), score);
     card.append(thumb, body); cards.append(card);
   });
-  if (data.hits.length < 5) showNote("Chỉ có " + data.hits.length + " ảnh có điểm khớp lớn hơn 0.");
+  if (data.hits.length < 5 && !visual) showNote("Chỉ có " + data.hits.length + " ảnh có điểm khớp lớn hơn 0.");
   $("found").hidden = false;
 }
 

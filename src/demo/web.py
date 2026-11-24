@@ -26,9 +26,11 @@ TOP_K = 5
 class WebDemo:
     """What the HTTP handler needs: the engine, a lock around the model, and the image lookup."""
 
-    def __init__(self, engine):
+    def __init__(self, engine, visual_search=None):
         self.engine = engine
+        self.visual_search = visual_search
         self.model_lock = threading.Lock()
+        self.search_lock = threading.Lock()
         root = engine.image_root.resolve()
         self.image_paths = {}
         for row in engine.index.records:
@@ -51,10 +53,16 @@ class WebDemo:
         return {"caption": caption, "seconds": round(time.perf_counter() - started, 2)}
 
     def search(self, query):
-        hits = self.engine.search(query, TOP_K)
-        return {"query": query, "hits": [
+        if self.visual_search is None:
+            method = "tfidf"
+            hits = self.engine.search(query, TOP_K)
+        else:
+            method = "visual"
+            with self.search_lock:
+                hits = self.visual_search.search(query, TOP_K)
+        return {"query": query, "method": method, "hits": [
             {"rank": hit["rank"], "image_id": hit["image_id"], "score": hit["score"], "caption": hit["caption"],
-             "matched_words": hit["matched_words"], "image_url": f"/image/{hit['image_id']}"} for hit in hits]}
+             "matched_words": hit.get("matched_words", []), "image_url": f"/image/{hit['image_id']}"} for hit in hits]}
 
 
 def make_handler(demo):
@@ -131,7 +139,7 @@ def make_handler(demo):
     return Handler
 
 
-def serve(engine, host="127.0.0.1", port=8000):
-    server = ThreadingHTTPServer((host, port), make_handler(WebDemo(engine)))
+def serve(engine, host="127.0.0.1", port=8000, *, visual_search=None):
+    server = ThreadingHTTPServer((host, port), make_handler(WebDemo(engine, visual_search)))
     server.daemon_threads = True
     return server

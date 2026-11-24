@@ -16,6 +16,7 @@ import torch
 
 from src.demo.engine import DEFAULT_CHECKPOINTS, DEFAULT_INDEX, DemoEngine, first_existing
 from src.demo.web import serve
+from src.retrieval.visual_search import MiniLMEncoder, VisualImageSearch, VisualSearchIndex
 
 
 def open_app_window(url):
@@ -41,6 +42,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--checkpoint", type=Path, help="A's best.pt (default: the version-list path, else ./best.pt)")
     parser.add_argument("--index", type=Path, default=Path(DEFAULT_INDEX))
+    parser.add_argument("--visual-index", type=Path,
+                        help="use an offline visual index instead of TF-IDF to rank results")
     parser.add_argument("--image-root", type=Path, default=Path("data/raw/ktvic"))
     parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     parser.add_argument("--port", type=int, default=8000)
@@ -54,7 +57,12 @@ def main():
         checkpoint = args.checkpoint or first_existing(DEFAULT_CHECKPOINTS)
         print(f"Đang nạp mô hình A ({checkpoint}) và chỉ mục ({args.index}) trên {args.device}…", flush=True)
         engine = DemoEngine(checkpoint, args.index, args.image_root, args.device)
-        server = serve(engine, port=args.port)
+        visual_search = None
+        if args.visual_index is not None:
+            visual_index = VisualSearchIndex.load(args.visual_index)
+            visual_search = VisualImageSearch(visual_index, engine.index, MiniLMEncoder(args.device))
+            print(f"Đã nạp chế độ tìm theo đặc trưng ảnh ({args.visual_index}).", flush=True)
+        server = serve(engine, port=args.port, visual_search=visual_search)
     except (FileNotFoundError, ValueError, RuntimeError, OSError) as error:
         sys.exit(f"Không mở được demo: {error}")
     url = f"http://127.0.0.1:{server.server_port}"

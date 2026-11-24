@@ -39,7 +39,8 @@ class WebDemoTests(unittest.TestCase):
         (Path(self.folder.name) / "val").mkdir()
         for image_id in (10, 11, 12):
             (Path(self.folder.name) / "val" / f"{image_id}.jpg").write_bytes(b"jpeg-bytes")
-        self.server = ThreadingHTTPServer(("127.0.0.1", 0), make_handler(WebDemo(FakeEngine(self.folder.name))))
+        self.demo = WebDemo(FakeEngine(self.folder.name))
+        self.server = ThreadingHTTPServer(("127.0.0.1", 0), make_handler(self.demo))
         threading.Thread(target=self.server.serve_forever, daemon=True).start()
         self.base = f"http://127.0.0.1:{self.server.server_port}"
 
@@ -75,10 +76,23 @@ class WebDemoTests(unittest.TestCase):
     def test_search_returns_hits_with_caption_words_and_image_url(self):
         status, data = self.post_json("/api/search", {"query": "kệ hàng"})
         self.assertEqual(status, 200)
+        self.assertEqual(data["method"], "tfidf")
         self.assertEqual([hit["image_id"] for hit in data["hits"]], [11])
         hit = data["hits"][0]
         self.assertEqual((hit["rank"], hit["caption"], hit["image_url"]), (1, "kệ hàng bày nhiều hàng hoá", "/image/11"))
         self.assertGreater(hit["score"], 0)
+
+    def test_visual_ranking_returns_caption_without_keyword_explanation(self):
+        class VisualStub:
+            def search(self, query, k):
+                return [{"rank": 1, "image_id": 10, "score": 0.42, "caption": "xe máy đỗ bên đường"}]
+
+        self.demo.visual_search = VisualStub()
+        status, data = self.post_json("/api/search", {"query": "phương tiện đang đậu"})
+        self.assertEqual((status, data["method"]), (200, "visual"))
+        hit = data["hits"][0]
+        self.assertEqual((hit["image_url"], hit["caption"], hit["matched_words"]),
+                         ("/image/10", "xe máy đỗ bên đường", []))
 
     def test_bad_queries_get_a_message_not_a_crash(self):
         self.assertEqual(self.post_json("/api/search", {"query": "  "})[0], 400)
