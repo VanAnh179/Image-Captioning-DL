@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<title>ViCaption — Mô tả ảnh và tìm ảnh bằng tiếng Việt</title>
+<style>
+  :root {
+    --bg: #f6f7f9; --card: #ffffff; --ink: #14181f; --muted: #5b6573; --line: #e3e6eb;
+    --accent: #1d4ed8; --accent-ink: #ffffff; --tint: #eef2ff; --tint-ink: #1e3a8a;
+    --good: #0f766e; --bad: #b42318; --soft: #f1f3f6;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f1218; --card: #171b23; --ink: #eceff4; --muted: #9aa5b5; --line: #2a303b;
+      --accent: #6e93ff; --accent-ink: #0b1020; --tint: #1c2438; --tint-ink: #c9d6ff;
+      --good: #5ccfc2; --bad: #ff8f85; --soft: #1e232d;
+    }
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font: 15px/1.5 "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif; }
+  header { position: sticky; top: 0; z-index: 5; background: var(--card); border-bottom: 1px solid var(--line); }
+  .bar { max-width: 1120px; margin: 0 auto; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; }
+  .logo { width: 28px; height: 28px; border-radius: 8px; background: var(--accent); color: var(--accent-ink);
+          display: grid; place-items: center; font-size: 15px; }
+  nav { display: flex; gap: 4px; background: var(--soft); padding: 3px; border-radius: 999px; }
+  nav a { padding: 5px 14px; border-radius: 999px; font-size: 13px; color: var(--muted); text-decoration: none; font-weight: 600; }
+  nav a.on { background: var(--ink); color: var(--bg); }
+  main { max-width: 1120px; margin: 0 auto; padding: 28px 20px 60px; }
+  h1 { margin: 0 0 6px; font-size: 30px; line-height: 1.2; text-align: center; }
+  .lead { margin: 0 auto 26px; max-width: 560px; color: var(--muted); text-align: center; }
+  section { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 22px; margin-bottom: 22px; }
+  h2 { display: flex; align-items: center; gap: 10px; margin: 0 0 16px; font-size: 17px; }
+  .num { width: 24px; height: 24px; border-radius: 50%; background: var(--tint); color: var(--tint-ink);
+         display: grid; place-items: center; font-size: 13px; }
+  .grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; }
+  .drop { position: relative; height: 250px; border: 2px dashed var(--line); border-radius: 12px; background: var(--soft);
+          display: grid; place-items: center; text-align: center; color: var(--muted); overflow: hidden; cursor: pointer; }
+  .drop.over { border-color: var(--accent); background: var(--tint); }
+  .drop img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: var(--soft); }
+  .meta { margin-top: 8px; display: flex; justify-content: space-between; gap: 10px; font-size: 12.5px; color: var(--muted); }
+  .meta span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  button { font: inherit; font-weight: 600; font-size: 14px; border-radius: 8px; padding: 8px 14px; cursor: pointer;
+           border: 1px solid var(--line); background: var(--card); color: var(--ink); }
+  button.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  button:disabled { opacity: .5; cursor: not-allowed; }
+  button:focus-visible, input:focus-visible, .drop:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  .hint { margin-top: 8px; font-size: 12.5px; color: var(--muted); }
+  .result { border-radius: 12px; background: var(--tint); padding: 18px; min-height: 160px; }
+  .result small { display: flex; justify-content: space-between; font-size: 11.5px; letter-spacing: .06em; font-weight: 700; color: var(--tint-ink); }
+  .result .time { letter-spacing: 0; font-weight: 500; opacity: .85; }
+  .quote { margin: 12px 0 0; font-size: 21px; line-height: 1.35; font-weight: 700; color: var(--ink); }
+  .empty { margin: 14px 0 0; color: var(--muted); }
+  .ask { display: flex; gap: 10px; }
+  input[type=text] { flex: 1; min-width: 0; font: inherit; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px;
+                     background: var(--card); color: var(--ink); }
+  label { display: block; margin-bottom: 6px; font-size: 13px; font-weight: 600; }
+  .chips { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 12.5px; color: var(--muted); }
+  .chip { padding: 4px 12px; font-size: 12.5px; font-weight: 500; border-radius: 999px; background: var(--soft); }
+  .head { margin: 22px 0 10px; display: flex; justify-content: space-between; gap: 10px; font-size: 13.5px; font-weight: 700; }
+  .head span { font-weight: 500; color: var(--muted); font-size: 12.5px; }
+  .cards { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+  .card { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--card); display: flex; flex-direction: column; }
+  .thumb { position: relative; aspect-ratio: 4 / 3; background: var(--soft); }
+  .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .rank { position: absolute; left: 6px; top: 6px; background: rgba(15, 18, 24, .82); color: #fff; border-radius: 6px;
+          padding: 1px 8px; font-size: 12px; font-weight: 700; }
+  .body { padding: 10px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .cap { font-size: 13.5px; line-height: 1.4; }
+  .score { margin-top: auto; font-size: 12px; color: var(--muted); }
+  .score div { display: flex; justify-content: space-between; }
+  .bar2 { height: 5px; margin-top: 4px; border-radius: 3px; background: var(--soft); overflow: hidden; }
+  .bar2 i { display: block; height: 100%; background: var(--accent); }
+  .words { font-size: 12px; color: var(--good); }
+  .note { margin-top: 14px; padding: 10px 12px; border-radius: 8px; background: var(--soft); color: var(--muted); font-size: 13.5px; }
+  .note.err { color: var(--bad); }
+  footer { max-width: 1120px; margin: 0 auto; padding: 0 20px 36px; font-size: 12.5px; color: var(--muted); text-align: center; }
+  @media (max-width: 900px) { .cards { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (max-width: 720px) {
+    .grid { grid-template-columns: 1fr; } .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    h1 { font-size: 24px; } .ask { flex-direction: column; } nav { display: none; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <div class="brand"><span class="logo" aria-hidden="true">V</span>ViCaption</div>
+    <nav aria-label="Chức năng">
+      <a href="#caption" class="on" id="navCaption">Ảnh → Caption</a>
+      <a href="#search" id="navSearch">Câu → Tìm ảnh</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <h1>Mô tả ảnh và tìm ảnh bằng tiếng Việt</h1>
+  <p class="lead">Chọn một ảnh để sinh câu mô tả, hoặc gõ một câu tiếng Việt để xem tối đa 5 ảnh khớp nhất kèm caption.</p>
+
+  <section id="caption" aria-labelledby="h-caption">
+    <h2 id="h-caption"><span class="num">1</span>Sinh caption cho ảnh</h2>
+    <div class="grid">
+      <div>
+        <div class="drop" id="drop" tabindex="0" role="button" aria-label="Chọn ảnh hoặc kéo thả ảnh vào đây">
+          <span id="dropText">Ảnh xem trước<br><small>Kéo thả ảnh vào đây hoặc bấm để chọn</small></span>
+          <img id="preview" alt="Ảnh đã chọn" hidden>
+        </div>
+        <div class="meta"><span id="fileInfo">Chưa chọn ảnh</span><span>Ảnh chỉ được xử lý trên máy này</span></div>
+        <div class="row">
+          <button id="pick" type="button">Chọn ảnh</button>
+          <button id="make" type="button" class="primary" disabled>Sinh caption</button>
+        </div>
+        <p class="hint">Hỗ trợ JPG, PNG, WEBP · tối đa 10 MB</p>
+        <input type="file" id="file" accept="image/jpeg,image/png,image/webp" hidden>
+      </div>
+      <div>
+        <div class="result" aria-live="polite">
+          <small><span>CAPTION ĐƯỢC SINH</span><span class="time" id="time"></span></small>
+          <p class="empty" id="captionEmpty">Chọn một ảnh rồi bấm “Sinh caption”.</p>
+          <p class="quote" id="captionText" hidden></p>
+          <div class="row" id="captionActions" hidden>
+            <button id="copy" type="button">Sao chép</button>
+            <button id="useIt" type="button" class="primary">Dùng câu này để tìm ảnh →</button>
+          </div>
+        </div>
+        <div class="note err" id="captionError" role="alert" hidden></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="search" aria-labelledby="h-search">
+    <h2 id="h-search"><span class="num">2</span>Tìm ảnh bằng câu tiếng Việt</h2>
+    <label for="query">Nhập câu mô tả</label>
+    <div class="ask">
+      <input type="text" id="query" placeholder="Ví dụ: có nhiều loại hàng hoá được bày ra trên các kệ hàng" autocomplete="off">
+      <button id="go" type="button" class="primary">Tìm 5 ảnh</button>
+    </div>
+    <div class="chips" id="chips"><span>Gợi ý:</span></div>
+    <div class="note" id="searchNote" role="status" hidden></div>
+    <div id="found" hidden>
+      <div class="head"><div id="foundTitle"></div><span>Sắp xếp theo độ khớp</span></div>
+      <div class="cards" id="cards"></div>
+    </div>
+  </section>
+</main>
+<footer>Chạy hoàn toàn offline trên máy này. Kho tìm ảnh là tập val của KTVIC; độ khớp là độ giống cosine (TF-IDF) giữa câu bạn gõ và caption của ảnh.</footer>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const SUGGESTIONS = [
+  "có nhiều loại hàng hoá được bày ra trên các kệ hàng",
+  "một người đàn ông đang ngồi trên xe máy",
+  "những chiếc xe máy đang chạy trên đường",
+  "một nhóm người đang đứng trên đường phố"
+];
+let chosen = null, previewUrl = null, lastCaption = "";
+let captionRequest = null, searchRequest = null;
+
+function vi(number, digits) { return number.toFixed(digits).replace(".", ","); }
+function showError(box, text) { box.textContent = text; box.hidden = !text; }
+
+// 1. caption
+function resetCaption(message) {
+  lastCaption = "";
+  $("captionText").hidden = true;
+  $("captionActions").hidden = true;
+  $("time").textContent = "";
+  $("captionEmpty").hidden = false;
+  $("captionEmpty").textContent = message;
+}
+function takeFile(file) {
+  if (!file) return;
+  captionRequest?.abort();
+  captionRequest = null;
+  chosen = null;
+  if (previewUrl) URL.revokeObjectURL(previewUrl);
+  previewUrl = null;
+  $("preview").hidden = true;
+  $("preview").removeAttribute("src");
+  $("dropText").hidden = false;
+  $("fileInfo").textContent = "Chưa chọn ảnh";
+  $("make").disabled = true;
+  $("make").textContent = "Sinh caption";
+  resetCaption("Chọn một ảnh rồi bấm “Sinh caption”.");
+  showError($("captionError"), "");
+  const supported = file.type ? /^image\/(jpeg|png|webp)$/.test(file.type) : /\.(jpe?g|png|webp)$/i.test(file.name);
+  if (!supported) { showError($("captionError"), "Chỉ hỗ trợ ảnh JPG, PNG hoặc WEBP."); return; }
+  if (!file.size) { showError($("captionError"), "Tệp ảnh rỗng. Hãy chọn ảnh khác."); return; }
+  if (file.size > 10 * 1024 * 1024) { showError($("captionError"), "Ảnh lớn hơn 10 MB. Hãy chọn ảnh nhỏ hơn."); return; }
+  chosen = file;
+  previewUrl = URL.createObjectURL(file);
+  $("preview").src = previewUrl; $("preview").hidden = false; $("dropText").hidden = true;
+  $("fileInfo").textContent = file.name + " · " + vi(file.size / 1048576, 1) + " MB";
+  $("make").disabled = false;
+  resetCaption("Bấm “Sinh caption” để mô tả ảnh này.");
+}
+$("pick").onclick = () => $("file").click();
+$("drop").onclick = () => $("file").click();
+$("drop").onkeydown = (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); $("file").click(); } };
+$("file").onchange = (e) => { takeFile(e.target.files[0]); e.target.value = ""; };
+$("drop").ondragover = (e) => { e.preventDefault(); $("drop").classList.add("over"); };
+$("drop").ondragleave = () => $("drop").classList.remove("over");
+$("drop").ondrop = (e) => { e.preventDefault(); $("drop").classList.remove("over"); takeFile(e.dataTransfer.files[0]); };
+
+$("make").onclick = async () => {
+  if (!chosen || captionRequest) return;
+  const request = new AbortController();
+  captionRequest = request;
+  resetCaption("Đang sinh caption…");
+  $("make").disabled = true; $("make").textContent = "Đang sinh…"; showError($("captionError"), "");
+  try {
+    const reply = await fetch("/api/caption", { method: "POST", body: chosen, signal: request.signal });
+    const data = await reply.json();
+    if (request.signal.aborted) return;
+    if (!reply.ok) throw new Error(data.error || "Không sinh được caption.");
+    if (!data.caption) { resetCaption("Mô hình chưa sinh được caption cho ảnh này."); return; }
+    lastCaption = data.caption;
+    $("captionText").textContent = "“" + data.caption + "”";
+    $("captionText").hidden = false; $("captionEmpty").hidden = true; $("captionActions").hidden = false;
+    $("time").textContent = "Xử lý trong " + vi(data.seconds, 1) + " giây";
+  } catch (error) {
+    if (!request.signal.aborted) {
+      resetCaption("Bạn có thể thử lại hoặc chọn ảnh khác.");
+      showError($("captionError"), error instanceof TypeError ? "Không kết nối được máy chủ demo. Kiểm tra cửa sổ terminal đang chạy." : error.message);
+    }
+  } finally {
+    if (captionRequest === request) {
+      captionRequest = null;
+      $("make").disabled = false;
+      $("make").textContent = "Sinh caption";
+    }
+  }
+};
+$("copy").onclick = async () => {
+  try { await navigator.clipboard.writeText(lastCaption); $("copy").textContent = "Đã sao chép"; }
+  catch (e) { $("copy").textContent = "Không sao chép được"; }
+  setTimeout(() => { $("copy").textContent = "Sao chép"; }, 1500);
+};
+$("useIt").onclick = () => { $("query").value = lastCaption; search(); $("search").scrollIntoView({ behavior: "smooth" }); };
+
+// 2. search
+SUGGESTIONS.forEach((text) => {
+  const chip = document.createElement("button");
+  chip.type = "button"; chip.className = "chip"; chip.textContent = text;
+  chip.onclick = () => { $("query").value = text; search(); };
+  $("chips").appendChild(chip);
+});
+$("query").onkeydown = (e) => { if (e.key === "Enter" && !e.isComposing) search(); };
+$("go").onclick = search;
+
+async function search() {
+  const query = $("query").value.trim();
+  searchRequest?.abort();
+  $("found").hidden = true;
+  if (!query) {
+    searchRequest = null;
+    $("go").disabled = false;
+    showNote("Hãy nhập một câu tiếng Việt để tìm ảnh.", true);
+    $("query").focus();
+    return;
+  }
+  const request = new AbortController();
+  searchRequest = request;
+  showNote("Đang tìm ảnh…");
+  $("go").disabled = true;
+  try {
+    const reply = await fetch("/api/search", { method: "POST", headers: { "Content-Type": "application/json" },
+                                               body: JSON.stringify({ query }), signal: request.signal });
+    const data = await reply.json();
+    if (request.signal.aborted) return;
+    if (!reply.ok) { showNote(data.error || "Chưa tìm được.", true); return; }
+    if (!data.hits.length) { showNote("Không có ảnh nào có từ trùng với câu này. Hãy thử mô tả khác.", true); return; }
+    showNote("");
+    render(data);
+  } catch (error) {
+    if (!request.signal.aborted) showNote("Không kết nối được máy chủ demo. Kiểm tra cửa sổ terminal đang chạy.", true);
+  } finally {
+    if (searchRequest === request) {
+      searchRequest = null;
+      $("go").disabled = false;
+    }
+  }
+}
+function showNote(text, isError) {
+  $("searchNote").textContent = text; $("searchNote").hidden = !text; $("searchNote").classList.toggle("err", !!isError);
+}
+function make(tag, className, text) {
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  if (text !== undefined) node.textContent = text;
+  return node;
+}
+function render(data) {
+  $("foundTitle").textContent = "";
+  $("foundTitle").append(data.hits.length + " ảnh khớp nhất với “" + data.query.trim() + "”");
+  const cards = $("cards"); cards.replaceChildren();
+  data.hits.forEach((hit) => {
+    const card = make("div", "card"), thumb = make("div", "thumb"), body = make("div", "body");
+    const image = make("img"); image.src = hit.image_url; image.alt = "Ảnh " + hit.image_id; image.loading = "lazy";
+    thumb.append(image, make("span", "rank", "#" + hit.rank));
+    const score = make("div", "score"), line = make("div"), track = make("div", "bar2"), fill = make("i");
+    line.append(make("span", "", "Độ khớp"), make("b", "", Math.round(hit.score * 100) + "%"));
+    fill.style.width = Math.round(hit.score * 100) + "%"; track.append(fill); score.append(line, track);
+    body.append(make("div", "cap", hit.caption), make("div", "words", "Từ khớp: " + hit.matched_words.join(", ")),
+                make("div", "score", "Ảnh ID " + hit.image_id), score);
+    card.append(thumb, body); cards.append(card);
+  });
+  if (data.hits.length < 5) showNote("Chỉ có " + data.hits.length + " ảnh có điểm khớp lớn hơn 0.");
+  $("found").hidden = false;
+}
+
+// nav highlight
+const links = { caption: $("navCaption"), search: $("navSearch") };
+const watcher = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (!entry.isIntersecting) return;
+    Object.values(links).forEach((a) => a.classList.remove("on"));
+    links[entry.target.id].classList.add("on");
+  });
+}, { rootMargin: "-40% 0px -50% 0px" });
+watcher.observe($("caption")); watcher.observe($("search"));
+</script>
+</body>
+</html>

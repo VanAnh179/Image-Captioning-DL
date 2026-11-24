@@ -34,12 +34,12 @@ def pixel_sha256(rgb):
     return digest.hexdigest()
 
 
-def load_image(path, size=IMAGE_SIZE):
+def load_image(path, size=IMAGE_SIZE, *, formats=None):
     """Return (float32 [3, size, size] in [0, 1], pixel hash of the untransposed RGB image).
 
     Same steps as make_caption_batch: EXIF transpose, RGB, bilinear resize.
     """
-    with Image.open(path) as source:
+    with Image.open(path, formats=formats) as source:
         digest = pixel_sha256(source.convert("RGB"))
         rgb = ImageOps.exif_transpose(source).convert("RGB")
         rgb = rgb.resize((size, size), Image.Resampling.BILINEAR)
@@ -50,10 +50,16 @@ def load_image(path, size=IMAGE_SIZE):
 class FrozenResNet50Grid(nn.Module):
     """ResNet-50 up to layer4, frozen: [B, 3, 224, 224] in [0, 1] -> [B, 49, 2048]."""
 
-    def __init__(self, pretrained=True):
+    def __init__(self, pretrained=True, *, local_only=False):
         super().__init__()
         weights = torchvision.models.ResNet50_Weights[WEIGHTS_NAME] if pretrained else None
-        net = torchvision.models.resnet50(weights=weights)
+        if local_only and weights is not None:
+            cache = Path(torch.hub.get_dir()) / "checkpoints" / weights.url.rsplit("/", 1)[-1]
+            state = torch.load(cache, map_location="cpu", weights_only=True)
+            net = torchvision.models.resnet50(weights=None)
+            net.load_state_dict(state)
+        else:
+            net = torchvision.models.resnet50(weights=weights)
         self.body = nn.Sequential(net.conv1, net.bn1, net.relu, net.maxpool,
                                   net.layer1, net.layer2, net.layer3, net.layer4)
         self.register_buffer("mean", torch.tensor(IMAGENET_MEAN).view(1, 3, 1, 1))
