@@ -6,7 +6,9 @@ Then open http://127.0.0.1:8000. Runs from local files only, same as scripts.run
 
 import argparse
 import os
+import subprocess
 import sys
+import tempfile
 import webbrowser
 from pathlib import Path
 
@@ -19,6 +21,22 @@ from src.demo.engine import DEFAULT_CHECKPOINTS, DEFAULT_INDEX, DemoEngine, firs
 from src.demo.web import serve
 
 
+def open_app_window(url):
+    """Open url as a standalone window with Edge or Chrome app mode; False when neither is installed."""
+    roots = [os.environ.get(name) for name in ("ProgramFiles(x86)", "ProgramFiles", "LOCALAPPDATA")]
+    candidates = [Path(root) / relative for root in roots if root for relative in
+                  ("Microsoft/Edge/Application/msedge.exe", "Google/Chrome/Application/chrome.exe")]
+    for browser in candidates:
+        if browser.is_file():
+            # A separate profile folder makes the browser start its own process, so the app window is not folded into
+            # the user's open browser as another tab.
+            profile = Path(tempfile.gettempdir()) / "vicaption_app_profile"
+            subprocess.Popen([str(browser), f"--app={url}", "--window-size=1200,900", f"--user-data-dir={profile}",
+                              "--no-first-run", "--no-default-browser-check"])
+            return True
+    return False
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--checkpoint", type=Path, help="A's best.pt (default: the version-list path, else ./best.pt)")
@@ -27,6 +45,8 @@ def main():
     parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     parser.add_argument("--port", type=int, default=8000)
     parser.add_argument("--no-browser", action="store_true", help="do not open the page automatically")
+    parser.add_argument("--window", action="store_true",
+                        help="open the page in its own app-style window (Edge or Chrome, no tabs or address bar)")
     args = parser.parse_args()
     try:
         checkpoint = args.checkpoint or first_existing(DEFAULT_CHECKPOINTS)
@@ -38,7 +58,8 @@ def main():
     url = f"http://127.0.0.1:{args.port}"
     print(f"Demo đang chạy tại {url} (chỉ máy này truy cập được). Nhấn Ctrl+C để dừng.", flush=True)
     if not args.no_browser:
-        webbrowser.open(url)
+        if not (args.window and open_app_window(url)):
+            webbrowser.open(url)
     try:
         server.serve_forever()
     except KeyboardInterrupt:
