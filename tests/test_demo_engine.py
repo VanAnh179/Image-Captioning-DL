@@ -1,7 +1,9 @@
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
+from src.data.region_features import FrozenResNet50Grid
 from src.demo.app import vi_score
 from src.demo.engine import DemoEngine, check_index_matches_checkpoint, first_existing
 from src.retrieval.caption_search import CaptionSearchIndex, SearchInputError
@@ -61,6 +63,14 @@ class DemoEngineTests(unittest.TestCase):
             with self.assertRaisesRegex(FileNotFoundError, "--checkpoint"):
                 first_existing([str(Path(folder) / "missing.pt")])
         self.assertEqual(vi_score(0.694144), "0,694")
+
+    def test_offline_encoder_stops_when_weights_are_missing(self):
+        with (tempfile.TemporaryDirectory() as folder,
+              patch("src.data.region_features.torch.hub.get_dir", return_value=folder),
+              patch("src.data.region_features.torchvision.models.resnet50") as model):
+            with self.assertRaisesRegex(FileNotFoundError, "resnet50-0676ba61.pth"):
+                FrozenResNet50Grid(local_only=True)
+            model.assert_not_called()
 
 
 if __name__ == "__main__":

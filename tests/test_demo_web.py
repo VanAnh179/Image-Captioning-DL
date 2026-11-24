@@ -1,3 +1,4 @@
+import io
 import json
 import tempfile
 import threading
@@ -5,8 +6,9 @@ import unittest
 import urllib.error
 import urllib.request
 from pathlib import Path
+from PIL import Image
 
-from src.demo.web import MAX_UPLOAD_BYTES, WebDemo, make_handler
+from src.demo.web import MAX_SEARCH_BYTES, MAX_UPLOAD_BYTES, WebDemo, make_handler
 from src.retrieval.caption_search import CaptionSearchIndex
 from http.server import ThreadingHTTPServer
 
@@ -25,9 +27,9 @@ class FakeEngine:
         hits = self.index.search(query, k, self.image_root)
         return [{**hit, "rank": rank, "matched_words": ["kệ"]} for rank, hit in enumerate(hits, 1)]
 
-    def caption_image(self, path, max_len=40):
-        if Path(path).read_bytes().startswith(b"NOT"):
-            raise OSError("cannot identify image file")
+    def caption_image(self, path, *, formats):
+        with Image.open(path, formats=formats) as image:
+            image.load()
         return "một con mèo"
 
 
@@ -35,7 +37,8 @@ class WebDemoTests(unittest.TestCase):
     def setUp(self):
         self.folder = tempfile.TemporaryDirectory()
         (Path(self.folder.name) / "val").mkdir()
-        (Path(self.folder.name) / "val" / "11.jpg").write_bytes(b"jpeg-bytes")
+        for image_id in (10, 11, 12):
+            (Path(self.folder.name) / "val" / f"{image_id}.jpg").write_bytes(b"jpeg-bytes")
         self.server = ThreadingHTTPServer(("127.0.0.1", 0), make_handler(WebDemo(FakeEngine(self.folder.name))))
         threading.Thread(target=self.server.serve_forever, daemon=True).start()
         self.base = f"http://127.0.0.1:{self.server.server_port}"
@@ -86,7 +89,9 @@ class WebDemoTests(unittest.TestCase):
         self.assertEqual(self.call("/api/search", b"[1]")[0], 400)
 
     def test_caption_upload(self):
-        status, body, _ = self.call("/api/caption", b"fake image bytes")
+        image = io.BytesIO()
+        Image.new("RGB", (2, 2)).save(image, format="PNG")
+        status, body, _ = self.call("/api/caption", image.getvalue())
         data = json.loads(body)
         self.assertEqual((status, data["caption"]), (200, "một con mèo"))
         self.assertGreaterEqual(data["seconds"], 0)
@@ -97,8 +102,20 @@ class WebDemoTests(unittest.TestCase):
         status, body, _ = self.call("/api/caption", b"NOT an image")
         self.assertEqual(status, 400)
         self.assertIn("ảnh", json.loads(body)["error"])
-        status, _, _ = self.call("/api/caption", b"x" * (MAX_UPLOAD_BYTES + 2048))
+        status, _, _ = self.call("/api/caption", b"x" * (MAX_UPLOAD_BYTES + 1))
         self.assertEqual(status, 413)
+
+    def test_search_has_its_own_body_limit(self):
+        data = json.dumps({"query": "x" * MAX_SEARCH_BYTES}).encode()
+        status, body, _ = self.call("/api/search", data)
+        self.assertEqual(status, 413)
+        self.assertIn("quá dài", json.loads(body)["error"])
+
+    def test_startup_reports_missing_candidate_image(self):
+        candidate = Path(self.folder.name) / "val" / "11.jpg"
+        candidate.unlink()
+        with self.assertRaisesRegex(FileNotFoundError, "ID 11"):
+            WebDemo(FakeEngine(self.folder.name))
 
     def test_unknown_paths_are_404(self):
         self.assertEqual(self.call("/nothing")[0], 404)

@@ -5,12 +5,8 @@ Runs from local files only (A checkpoint, TF-IDF index of A's captions, KTVIC im
 """
 
 import argparse
-import os
 import sys
 import tkinter as tk
-
-# Windows conda installs often load two copies of the OpenMP runtime (torch + numpy/MKL) and abort with OMP Error #15.
-os.environ.setdefault("KMP_DUPLICATE_LIB_OK", "TRUE")
 from pathlib import Path
 
 import torch

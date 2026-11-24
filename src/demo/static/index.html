@@ -19,6 +19,7 @@
     }
   }
   * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
   body { margin: 0; background: var(--bg); color: var(--ink);
          font: 15px/1.5 "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif; }
   header { position: sticky; top: 0; z-index: 5; background: var(--card); border-bottom: 1px solid var(--line); }
@@ -99,7 +100,7 @@
 
 <main>
   <h1>Mô tả ảnh và tìm ảnh bằng tiếng Việt</h1>
-  <p class="lead">Chọn một ảnh để hệ thống sinh câu mô tả, hoặc gõ một câu tiếng Việt để tìm 5 ảnh khớp nhất kèm caption của từng ảnh.</p>
+  <p class="lead">Chọn một ảnh để sinh câu mô tả, hoặc gõ một câu tiếng Việt để xem tối đa 5 ảnh khớp nhất kèm caption.</p>
 
   <section id="caption" aria-labelledby="h-caption">
     <h2 id="h-caption"><span class="num">1</span>Sinh caption cho ảnh</h2>
@@ -127,7 +128,7 @@
             <button id="useIt" type="button" class="primary">Dùng câu này để tìm ảnh →</button>
           </div>
         </div>
-        <div class="note err" id="captionError" hidden></div>
+        <div class="note err" id="captionError" role="alert" hidden></div>
       </div>
     </div>
   </section>
@@ -140,7 +141,7 @@
       <button id="go" type="button" class="primary">Tìm 5 ảnh</button>
     </div>
     <div class="chips" id="chips"><span>Gợi ý:</span></div>
-    <div class="note" id="searchNote" hidden></div>
+    <div class="note" id="searchNote" role="status" hidden></div>
     <div id="found" hidden>
       <div class="head"><div id="foundTitle"></div><span>Sắp xếp theo độ khớp</span></div>
       <div class="cards" id="cards"></div>
@@ -157,47 +158,83 @@ const SUGGESTIONS = [
   "những chiếc xe máy đang chạy trên đường",
   "một nhóm người đang đứng trên đường phố"
 ];
-let chosen = null, lastCaption = "";
+let chosen = null, previewUrl = null, lastCaption = "";
+let captionRequest = null, searchRequest = null;
 
 function vi(number, digits) { return number.toFixed(digits).replace(".", ","); }
 function showError(box, text) { box.textContent = text; box.hidden = !text; }
 
 // 1. caption
+function resetCaption(message) {
+  lastCaption = "";
+  $("captionText").hidden = true;
+  $("captionActions").hidden = true;
+  $("time").textContent = "";
+  $("captionEmpty").hidden = false;
+  $("captionEmpty").textContent = message;
+}
 function takeFile(file) {
-  showError($("captionError"), "");
   if (!file) return;
-  if (!/^image\/(jpeg|png|webp)$/.test(file.type)) { showError($("captionError"), "Chỉ hỗ trợ ảnh JPG, PNG hoặc WEBP."); return; }
+  captionRequest?.abort();
+  captionRequest = null;
+  chosen = null;
+  if (previewUrl) URL.revokeObjectURL(previewUrl);
+  previewUrl = null;
+  $("preview").hidden = true;
+  $("preview").removeAttribute("src");
+  $("dropText").hidden = false;
+  $("fileInfo").textContent = "Chưa chọn ảnh";
+  $("make").disabled = true;
+  $("make").textContent = "Sinh caption";
+  resetCaption("Chọn một ảnh rồi bấm “Sinh caption”.");
+  showError($("captionError"), "");
+  const supported = file.type ? /^image\/(jpeg|png|webp)$/.test(file.type) : /\.(jpe?g|png|webp)$/i.test(file.name);
+  if (!supported) { showError($("captionError"), "Chỉ hỗ trợ ảnh JPG, PNG hoặc WEBP."); return; }
+  if (!file.size) { showError($("captionError"), "Tệp ảnh rỗng. Hãy chọn ảnh khác."); return; }
   if (file.size > 10 * 1024 * 1024) { showError($("captionError"), "Ảnh lớn hơn 10 MB. Hãy chọn ảnh nhỏ hơn."); return; }
   chosen = file;
-  const url = URL.createObjectURL(file);
-  $("preview").src = url; $("preview").hidden = false; $("dropText").hidden = true;
+  previewUrl = URL.createObjectURL(file);
+  $("preview").src = previewUrl; $("preview").hidden = false; $("dropText").hidden = true;
   $("fileInfo").textContent = file.name + " · " + vi(file.size / 1048576, 1) + " MB";
   $("make").disabled = false;
-  $("captionText").hidden = true; $("captionActions").hidden = true; $("time").textContent = "";
-  $("captionEmpty").hidden = false; $("captionEmpty").textContent = "Bấm “Sinh caption” để mô tả ảnh này.";
+  resetCaption("Bấm “Sinh caption” để mô tả ảnh này.");
 }
 $("pick").onclick = () => $("file").click();
 $("drop").onclick = () => $("file").click();
 $("drop").onkeydown = (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); $("file").click(); } };
-$("file").onchange = (e) => takeFile(e.target.files[0]);
+$("file").onchange = (e) => { takeFile(e.target.files[0]); e.target.value = ""; };
 $("drop").ondragover = (e) => { e.preventDefault(); $("drop").classList.add("over"); };
 $("drop").ondragleave = () => $("drop").classList.remove("over");
 $("drop").ondrop = (e) => { e.preventDefault(); $("drop").classList.remove("over"); takeFile(e.dataTransfer.files[0]); };
 
 $("make").onclick = async () => {
-  if (!chosen) return;
+  if (!chosen || captionRequest) return;
+  const request = new AbortController();
+  captionRequest = request;
+  resetCaption("Đang sinh caption…");
   $("make").disabled = true; $("make").textContent = "Đang sinh…"; showError($("captionError"), "");
   try {
-    const reply = await fetch("/api/caption", { method: "POST", body: chosen });
+    const reply = await fetch("/api/caption", { method: "POST", body: chosen, signal: request.signal });
     const data = await reply.json();
+    if (request.signal.aborted) return;
     if (!reply.ok) throw new Error(data.error || "Không sinh được caption.");
+    if (!data.caption) { resetCaption("Mô hình chưa sinh được caption cho ảnh này."); return; }
     lastCaption = data.caption;
     $("captionText").textContent = "“" + data.caption + "”";
     $("captionText").hidden = false; $("captionEmpty").hidden = true; $("captionActions").hidden = false;
     $("time").textContent = "Xử lý trong " + vi(data.seconds, 1) + " giây";
   } catch (error) {
-    showError($("captionError"), error.message === "Failed to fetch" ? "Không kết nối được máy chủ demo. Kiểm tra cửa sổ terminal đang chạy." : error.message);
-  } finally { $("make").disabled = false; $("make").textContent = "Sinh caption"; }
+    if (!request.signal.aborted) {
+      resetCaption("Bạn có thể thử lại hoặc chọn ảnh khác.");
+      showError($("captionError"), error instanceof TypeError ? "Không kết nối được máy chủ demo. Kiểm tra cửa sổ terminal đang chạy." : error.message);
+    }
+  } finally {
+    if (captionRequest === request) {
+      captionRequest = null;
+      $("make").disabled = false;
+      $("make").textContent = "Sinh caption";
+    }
+  }
 };
 $("copy").onclick = async () => {
   try { await navigator.clipboard.writeText(lastCaption); $("copy").textContent = "Đã sao chép"; }
@@ -213,23 +250,41 @@ SUGGESTIONS.forEach((text) => {
   chip.onclick = () => { $("query").value = text; search(); };
   $("chips").appendChild(chip);
 });
-$("query").onkeydown = (e) => { if (e.key === "Enter") search(); };
+$("query").onkeydown = (e) => { if (e.key === "Enter" && !e.isComposing) search(); };
 $("go").onclick = search;
 
 async function search() {
-  const query = $("query").value;
-  $("found").hidden = true; showNote("");
+  const query = $("query").value.trim();
+  searchRequest?.abort();
+  $("found").hidden = true;
+  if (!query) {
+    searchRequest = null;
+    $("go").disabled = false;
+    showNote("Hãy nhập một câu tiếng Việt để tìm ảnh.", true);
+    $("query").focus();
+    return;
+  }
+  const request = new AbortController();
+  searchRequest = request;
+  showNote("Đang tìm ảnh…");
   $("go").disabled = true;
   try {
     const reply = await fetch("/api/search", { method: "POST", headers: { "Content-Type": "application/json" },
-                                               body: JSON.stringify({ query }) });
+                                               body: JSON.stringify({ query }), signal: request.signal });
     const data = await reply.json();
+    if (request.signal.aborted) return;
     if (!reply.ok) { showNote(data.error || "Chưa tìm được.", true); return; }
     if (!data.hits.length) { showNote("Không có ảnh nào có từ trùng với câu này. Hãy thử mô tả khác.", true); return; }
+    showNote("");
     render(data);
   } catch (error) {
-    showNote("Không kết nối được máy chủ demo. Kiểm tra cửa sổ terminal đang chạy.", true);
-  } finally { $("go").disabled = false; }
+    if (!request.signal.aborted) showNote("Không kết nối được máy chủ demo. Kiểm tra cửa sổ terminal đang chạy.", true);
+  } finally {
+    if (searchRequest === request) {
+      searchRequest = null;
+      $("go").disabled = false;
+    }
+  }
 }
 function showNote(text, isError) {
   $("searchNote").textContent = text; $("searchNote").hidden = !text; $("searchNote").classList.toggle("err", !!isError);

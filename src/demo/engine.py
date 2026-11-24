@@ -42,28 +42,27 @@ class DemoEngine:
         if checkpoint["model_name"] not in ("A", "A0"):
             raise ValueError(f"Demo chỉ nạp checkpoint LSTM A hoặc A0, file này là {checkpoint['model_name']}")
         self.index = CaptionSearchIndex.load(index_path)
-        if check_index_matches_checkpoint(self.index, checkpoint) is False:
+        self.index_checked = check_index_matches_checkpoint(self.index, checkpoint)
+        if self.index_checked is False:
             raise ValueError(f"Chỉ mục {index_path} không được lập từ caption của checkpoint {checkpoint_path}. "
                              "Dùng chỉ mục ktvic_a_val.npz của A Kaggle (SHA-256 0ea7de4c…) hoặc lập lại bằng "
                              "python -m scripts.build_image_search_index.")
-        self.index_checked = check_index_matches_checkpoint(self.index, checkpoint)
         self.device = torch.device(device)
         self.vocabulary = CaptionVocabulary(checkpoint["vocabulary"])
         self.model = LSTMAttentionCaptionDecoder(**checkpoint["config"]).to(self.device)
         self.model.load_state_dict(checkpoint["model_state"])
         self.model.eval()
         try:
-            self.encoder = FrozenResNet50Grid(pretrained=True).to(self.device)
-        except Exception as error:  # torchvision tries to download when the weights are not in the local cache
-            raise RuntimeError("Không nạp được trọng số ResNet-50 (IMAGENET1K_V1). Máy chưa có file "
-                               "resnet50-0676ba61.pth trong thư mục cache của torch, và demo offline không tải về.") from error
+            self.encoder = FrozenResNet50Grid(local_only=True).to(self.device)
+        except FileNotFoundError as error:
+            raise FileNotFoundError(f"Thiếu trọng số ResNet-50 dùng cho demo offline: {error.filename}") from error
         self.image_root = Path(image_root)
         self.checkpoint_epoch = checkpoint["epoch"]
 
     @torch.no_grad()
-    def caption_image(self, path, max_len=40):
+    def caption_image(self, path, max_len=40, *, formats=None):
         """Caption of any image file, using the same preprocessing and greedy decoding as the evaluation."""
-        pixels, _ = load_image(path)
+        pixels, _ = load_image(path, formats=formats)
         features = self.encoder(pixels.unsqueeze(0).to(self.device)).to(torch.float16)  # the caches are float16
         output = self.model.generate(features, max_len=max_len)
         length = int(output["lengths"][0])

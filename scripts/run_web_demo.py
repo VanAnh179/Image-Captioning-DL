@@ -12,9 +12,6 @@ import tempfile
 import webbrowser
 from pathlib import Path
 
-# Windows conda installs often load two copies of the OpenMP runtime (torch + numpy/MKL) and abort with OMP Error #15.
-os.environ.setdefault("KMP_DUPLICATE_LIB_OK", "TRUE")
-
 import torch
 
 from src.demo.engine import DEFAULT_CHECKPOINTS, DEFAULT_INDEX, DemoEngine, first_existing
@@ -31,8 +28,11 @@ def open_app_window(url):
             # A separate profile folder makes the browser start its own process, so the app window is not folded into
             # the user's open browser as another tab.
             profile = Path(tempfile.gettempdir()) / "vicaption_app_profile"
-            subprocess.Popen([str(browser), f"--app={url}", "--window-size=1200,900", f"--user-data-dir={profile}",
-                              "--no-first-run", "--no-default-browser-check"])
+            try:
+                subprocess.Popen([str(browser), f"--app={url}", "--window-size=1200,900", f"--user-data-dir={profile}",
+                                  "--no-first-run", "--no-default-browser-check"])
+            except OSError:
+                continue
             return True
     return False
 
@@ -48,6 +48,8 @@ def main():
     parser.add_argument("--window", action="store_true",
                         help="open the page in its own app-style window (Edge or Chrome, no tabs or address bar)")
     args = parser.parse_args()
+    if not 0 <= args.port <= 65535:
+        parser.error("--port phải nằm trong khoảng 0 đến 65535.")
     try:
         checkpoint = args.checkpoint or first_existing(DEFAULT_CHECKPOINTS)
         print(f"Đang nạp mô hình A ({checkpoint}) và chỉ mục ({args.index}) trên {args.device}…", flush=True)
@@ -55,7 +57,7 @@ def main():
         server = serve(engine, port=args.port)
     except (FileNotFoundError, ValueError, RuntimeError, OSError) as error:
         sys.exit(f"Không mở được demo: {error}")
-    url = f"http://127.0.0.1:{args.port}"
+    url = f"http://127.0.0.1:{server.server_port}"
     print(f"Demo đang chạy tại {url} (chỉ máy này truy cập được). Nhấn Ctrl+C để dừng.", flush=True)
     if not args.no_browser:
         if not (args.window and open_app_window(url)):

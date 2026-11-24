@@ -18,17 +18,16 @@ python -m scripts.run_scorer_trial --split val
 
 Để chấm caption của mô hình, xem định dạng file dự đoán và lệnh chấm trong [hướng dẫn KTVIC](docs/ktvic.md#chấm-caption).
 
-Demo offline: chọn ảnh để sinh caption, gõ một câu tiếng Việt để xem 5 ảnh phù hợp kèm caption của từng ảnh. Cần checkpoint A, chỉ mục `ktvic_a_val.npz` của A, ảnh KTVIC và trọng số ResNet-50 đã có trong cache của torch; không cần mạng.
+## Demo offline
 
-```sh
-python -m scripts.run_demo
-python -m scripts.run_demo --checkpoint <best.pt của A> --index <ktvic_a_val.npz của A> --device cpu
-```
-
-Cùng chức năng dưới dạng trang web chạy trên máy này (chỉ nghe ở 127.0.0.1, không cần mạng). Lệnh mở trình duyệt tại `http://127.0.0.1:8000`, đổi cổng bằng `--port`, tắt tự mở trình duyệt bằng `--no-browser`, hoặc mở thành cửa sổ riêng như một ứng dụng (cần Edge hoặc Chrome) bằng `--window`:
+Chọn ảnh để sinh caption, hoặc gõ câu tiếng Việt để xem tối đa 5 ảnh khớp nhất và caption dưới từng ảnh. Demo web chạy tại `http://127.0.0.1:8000` và dùng môi trường đã cài `requirements.txt`.
 
 ```sh
 python -m scripts.run_web_demo
 ```
+
+Đặt checkpoint A Kaggle epoch 5 ở `runs/kaggle_matched_inspection/project/runs/a_baseline_matched/best.pt` hoặc `best.pt` tại gốc repo. Đặt chỉ mục tương ứng ở `artifacts/retrieval/ktvic_a_val.npz` và ảnh KTVIC dưới `data/raw/ktvic/`. Máy cần có sẵn file `resnet50-0676ba61.pth` trong thư mục `checkpoints` của cache Torch Hub. Demo nạp trọng số từ file local.
+
+Có thể chỉ định vị trí khác bằng `--checkpoint`, `--index` và `--image-root`. Dùng `--device cpu` để chạy trên CPU. Dùng `--no-browser` để tự mở địa chỉ được in trong terminal, `--port` để đổi cổng hoặc `--window` để mở cửa sổ riêng bằng Edge hay Chrome. Bản Tkinter chạy bằng `python -m scripts.run_demo`.
 
 Báo cáo nội bộ, log huấn luyện và kết quả đánh giá chi tiết được bàn giao riêng qua Media board.
