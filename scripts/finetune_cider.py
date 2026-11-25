@@ -1,4 +1,4 @@
-"""Self-critical (CIDEr-D) fine-tuning of an A checkpoint on cached ResNet regions.
+"""Self-critical (CIDEr-D) fine-tuning of an A, A0, B or C checkpoint on its cached regions.
 
 Each step samples K captions per image, rewards each with CIDEr-D against the train references (document frequencies
 from train), and uses the mean reward of the other K-1 samples of the same image as the baseline. Every epoch the model
@@ -19,8 +19,11 @@ from src.data.paths import resolve_processed_dir
 from src.data.region_features import RegionFeatureStore, read_manifest
 from src.data.vietnamese_caption_batch import BOS, EOS, PAD, CaptionVocabulary, normalize_caption
 from src.evaluation.caption_scorer import load_references, score_captions
+from scripts.generate_caption_predictions import resolve_feature_prefix
+from src.data.region_features import FEATURE_DIM, NUM_REGIONS
+from src.models.beam_search import generate_beam, logits_of
 from src.models.lstm_attention_decoder import LSTMAttentionCaptionDecoder
-from src.training.caption_trainer import atomic_save, cpu_snapshot, load_checkpoint
+from src.training.caption_trainer import atomic_save, build_model, cpu_snapshot, load_checkpoint
 from src.training.cider_reward import CiderD
 
 
@@ -46,16 +49,40 @@ def sample_captions(model, regions, samples, max_len):
     return torch.stack(tokens, 1), torch.stack(log_probs, 1), torch.stack(masks, 1)
 
 
+def sample_and_score_transformer(model, regions, samples, max_len):
+    """Transformer decoders have no incremental state: sample without gradients, then re-read the sampled captions in
+    one teacher-forced pass to get their log-probabilities. Dropout stays off for both, so the two passes agree.
+
+    Returns token ids [B*K,T], log-probs [B*K,T] and mask [B*K,T] like sample_captions.
+    """
+    regions = regions.repeat_interleave(samples, dim=0)
+    prefix = torch.full((regions.shape[0], 1), BOS, dtype=torch.long, device=regions.device)
+    finished = torch.zeros(regions.shape[0], dtype=torch.bool, device=regions.device)
+    with torch.no_grad():
+        for _ in range(max_len):
+            logits = logits_of(model(regions, prefix))[:, -1].float()
+            logits[:, [PAD, BOS]] = float("-inf")
+            token = Categorical(logits=logits).sample().masked_fill(finished, PAD)
+            prefix = torch.cat((prefix, token.unsqueeze(1)), dim=1)
+            finished = finished | token.eq(EOS)
+            if finished.all():
+                break
+    tokens = prefix[:, 1:]
+    log_probs = torch.log_softmax(logits_of(model(regions, prefix[:, :-1])).float(), dim=-1)
+    log_probs = log_probs.gather(2, tokens.unsqueeze(2)).squeeze(2)
+    return tokens, log_probs, tokens.ne(PAD)
+
+
 def decode(vocabulary, token_ids, mask):
     return [vocabulary.decode(row[:int(length)].cpu()) for row, length in zip(token_ids, mask.sum(dim=1))]
 
 
 @torch.no_grad()
-def beam_predictions(model, store, ids, vocabulary, device, beam_size, length_penalty, max_len, batch_size=64):
+def beam_predictions(model, store, ids, vocabulary, device, beam_size, length_penalty, max_len, batch_size=32):
     predictions = []
     for start in range(0, len(ids), batch_size):
         batch = ids[start:start + batch_size]
-        output = model.generate_beam(store.get_batch(batch).to(device), beam_size, max_len, length_penalty)
+        output = generate_beam(model, store.get_batch(batch).to(device), beam_size, max_len, length_penalty)
         for row, image_id in enumerate(batch):
             length = int(output["lengths"][row])
             predictions.append((image_id, vocabulary.decode(output["token_ids"][row, :length].cpu())))
@@ -64,7 +91,7 @@ def beam_predictions(model, store, ids, vocabulary, device, beam_size, length_pe
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--checkpoint", type=Path, required=True, help="A checkpoint to start from (best.pt)")
+    parser.add_argument("--checkpoint", type=Path, required=True, help="checkpoint of A, A0, B or C to start from (best.pt)")
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--epochs", type=int, default=20)
     parser.add_argument("--batch-size", type=int, default=32, help="images per step")
@@ -89,16 +116,20 @@ def main():
     processed = args.processed_dir or resolve_processed_dir()
     vocabulary = CaptionVocabulary.load(processed / "caption_vocabulary.json")
     base = load_checkpoint(args.checkpoint)
-    if base["model_name"] != "A" or base["vocabulary"] != vocabulary.tokens:
-        raise ValueError("Start from an A checkpoint with the processed vocabulary")
+    if base["model_name"] not in ("A", "A0", "B") or base["vocabulary"] != vocabulary.tokens:
+        raise ValueError("Start from an A, A0, B or C checkpoint with the processed vocabulary")
     device = torch.device(args.device)
-    model = LSTMAttentionCaptionDecoder(**base["config"]).to(device)
+    model = build_model(base["model_name"], base["config"]).to(device)
+    recurrent = isinstance(model, LSTMAttentionCaptionDecoder)
+    prefix = resolve_feature_prefix(base["config"])
+    shape = {"prefix": prefix, "feature_dim": base["config"].get("feature_dim", FEATURE_DIM),
+             "num_regions": base["config"].get("num_regions", NUM_REGIONS)}
     model.load_state_dict(base["model_state"])
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.learning_rate, weight_decay=args.weight_decay)
 
     train_rows = read_manifest(processed / "train_manifest.jsonl")
-    train_store = RegionFeatureStore.load(args.features, "train")
-    val_store = RegionFeatureStore.load(args.features, "val")
+    train_store = RegionFeatureStore.load(args.features, "train", **shape)
+    val_store = RegionFeatureStore.load(args.features, "val", **shape)
     val_ids = [row["image_id"] for row in read_manifest(processed / "val_manifest.jsonl")]
     val_refs = load_references(processed / "val_manifest.jsonl")
     train_refs = {row["image_id"]: [normalize_caption(c) for c in row["captions"]] for row in train_rows}
@@ -119,13 +150,16 @@ def main():
     args.output.mkdir(parents=True, exist_ok=True)
     started = time.perf_counter()
     for epoch in range(1, args.epochs + 1):
-        model.train()
+        model.train() if recurrent else model.eval()
         order = random.sample(train_ids, len(train_ids))
         reward_sum, count = 0.0, 0
         for start in range(0, len(order), args.batch_size):
             batch = order[start:start + args.batch_size]
             regions = train_store.get_batch(batch).to(device)
-            tokens, log_probs, mask = sample_captions(model, regions, args.samples, args.max_len)
+            if recurrent:
+                tokens, log_probs, mask = sample_captions(model, regions, args.samples, args.max_len)
+            else:
+                tokens, log_probs, mask = sample_and_score_transformer(model, regions, args.samples, args.max_len)
             captions = decode(vocabulary, tokens, mask)
             rewards = torch.tensor([reward.score(normalize_caption(caption), prepared[batch[i // args.samples]])
                                     for i, caption in enumerate(captions)], device=device)
