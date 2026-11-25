@@ -1,0 +1,20 @@
+# Môi trường conda cho đồ án. Từ gốc repo:
+#   conda env create -f environment.yml
+#   conda activate ktvic
+# Các gói pip trùng từng dòng với requirements.txt (có kiểm thử giữ hai file khớp nhau).
+# Windows và GPU NVIDIA: pip của PyPI chỉ cài torch bản CPU, xem mục "Môi trường" trong README để đổi sang bản CUDA.
+name: ktvic
+channels:
+  - conda-forge
+dependencies:
+  - python=3.13
+  - pip
+  - pip:
+      - torch==2.11.0
+      - torchvision==0.26.0
+      - Pillow==12.2.0
+      - PyYAML==6.0.3
+      - numpy==2.4.4
+      - pycocoevalcap==1.2
+      - matplotlib==3.10.7
+      - transformers==5.8.1
