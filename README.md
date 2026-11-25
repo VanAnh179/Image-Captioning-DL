@@ -43,7 +43,7 @@ python -m scripts.export_text_model
 
 Lệnh thứ hai gom mô hình văn bản vào `artifacts/models/paraphrase-multilingual-MiniLM-L12-v2/` (480 MB). Máy chạy offline chỉ cần thư mục này, không cần cache Hugging Face. Demo đặt `HF_HUB_OFFLINE=1` và `TRANSFORMERS_OFFLINE=1`, nên không tải gì từ mạng. Thiếu thư mục thì demo báo rõ và hướng dẫn tạo lại.
 
-Hai lệnh sau cũng chạy offline. Lệnh đầu học phép chiếu từ ảnh và câu tham chiếu train, rồi lưu vector ảnh val vào `artifacts/retrieval/visual/ktvic_val.pt`. Cần cache ResNet-50 của train và val.
+Hai lệnh sau cũng chạy offline. Lệnh đầu học phép chiếu từ ảnh và câu tham chiếu train, rồi lưu vector ảnh val vào `artifacts/retrieval/visual/ktvic_val.pt`. Cần cache ResNet-50 của train và val. Thêm `--with-clip` để ghép đặc trưng CLIP ViT-B/32 (cần cache `clip_vit_b32_7x7` của train và val). Chỉ mục chỉ chứa vector ảnh, nên lúc chạy demo không cần nạp CLIP.
 
 ```sh
 python -m scripts.build_visual_search_index

@@ -97,3 +97,20 @@ class TextModelFolderTests(unittest.TestCase):
             self.make_folder(folder, revision="old")
             with self.assertRaisesRegex(ValueError, "không phải bản"):
                 check_text_model_dir(folder)
+
+
+class FeatureMixTests(unittest.TestCase):
+    def test_one_feature_keeps_the_original_normalization_and_two_features_give_unit_vectors(self):
+        from torch.nn import functional as F
+
+        from scripts.build_visual_search_index import normalize_parts
+
+        torch.manual_seed(0)
+        first, second = torch.randn(6, 8), torch.randn(6, 5)
+        state_first = (first.mean(0), first.std(0).clamp_min(0.025))
+        state_second = (second.mean(0), second.std(0).clamp_min(1e-3))
+        single = normalize_parts([first], [state_first])
+        torch.testing.assert_close(single, F.normalize((first - state_first[0]) / state_first[1], dim=1))
+        both = normalize_parts([first, second], [state_first, state_second])
+        self.assertEqual(both.shape, (6, 13))
+        torch.testing.assert_close(both.norm(dim=1), torch.ones(6))
