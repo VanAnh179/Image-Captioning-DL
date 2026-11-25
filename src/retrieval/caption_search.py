@@ -1,5 +1,6 @@
 """CPU TF-IDF search fitted on train captions and indexed over model-generated captions."""
 
+import hashlib
 import json
 import os
 import tempfile
@@ -10,6 +11,11 @@ import numpy as np
 
 from src.data.vietnamese_caption_batch import normalize_caption
 from src.evaluation.caption_scorer import validate
+
+
+def pool_digest(digests):
+    """Manifest digest of a candidate pool made of several splits, in the given order."""
+    return hashlib.sha256("+".join(digests).encode("ascii")).hexdigest()
 
 
 class SearchInputError(ValueError):

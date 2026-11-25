@@ -41,6 +41,19 @@ class VisualSearchTests(unittest.TestCase):
         self.assertEqual([hit["rank"] for hit in results], [1, 2])
         self.assertEqual([hit["caption"] for hit in results], ["caption 10", "caption 20"])
 
+    def test_val_and_test_pool_is_checked_against_the_pool_digest(self):
+        from src.retrieval.caption_search import pool_digest
+
+        digest = pool_digest(["a" * 64, "b" * 64])
+        index = VisualSearchIndex(torch.tensor([30, 20, 10]), torch.stack((vector(0, 1), vector(1), vector(1))),
+                                  vector(0), "val+test", digest)
+        captions = caption_index()
+        captions.metadata = {"candidate_split": "val+test", "val+test_manifest_sha256": digest}
+        VisualImageSearch(index, captions, self.encoder)
+        captions.metadata["val+test_manifest_sha256"] = pool_digest(["b" * 64, "a" * 64])  # other split order
+        with self.assertRaisesRegex(ValueError, "manifest"):
+            VisualImageSearch(index, captions, self.encoder)
+
     def test_validates_manifest_and_candidate_ids(self):
         captions = caption_index()
         captions.metadata["val_manifest_sha256"] = "b" * 64

@@ -84,7 +84,7 @@ class VisualSearchIndex:
                 or not torch.is_tensor(text_center) or text_center.shape != (384,)):
             raise ValueError("Chỉ mục ảnh có ID hoặc kích thước vector không hợp lệ.")
         if (not torch.isfinite(vectors).all() or not torch.isfinite(text_center).all()
-                or split not in ("val", "test") or not isinstance(manifest_sha256, str)
+                or split not in ("val", "test", "val+test") or not isinstance(manifest_sha256, str)
                 or len(manifest_sha256) != 64):
             raise ValueError("Chỉ mục ảnh có vector hoặc thông tin tập dữ liệu không hợp lệ.")
         self.image_ids = image_ids.cpu().numpy()

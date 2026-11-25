@@ -12,6 +12,7 @@ from torch.nn import functional as F
 
 from src.data.paths import resolve_processed_dir
 from src.data.region_features import RegionFeatureStore, read_manifest
+from src.retrieval.caption_search import pool_digest
 from src.retrieval.visual_search import DEFAULT_INDEX_DIR, FORMAT_VERSION, TEXT_MODEL, TEXT_REVISION, MiniLMEncoder
 
 
@@ -87,6 +88,8 @@ def main():
     parser.add_argument("--with-clip", action="store_true",
                         help="add pooled CLIP ViT-B/32 features to the ResNet-50 ones (needs the CLIP caches of train and the split)")
     parser.add_argument("--splits", nargs="+", choices=("val", "test"), default=["val"])
+    parser.add_argument("--combine", action="store_true",
+                        help="also save one index over val and test together (ktvic_val_test.pt); needs both splits")
     parser.add_argument("--text-model-dir", type=Path, help="folder made by scripts.export_text_model")
     parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     args = parser.parse_args()
@@ -100,15 +103,30 @@ def main():
         captions = [caption for row in train_rows for caption in row["captions"]]
         print(f"Đang học phép chiếu từ {len(train_rows)} ảnh và {len(captions)} câu train…", flush=True)
         state, text_center, projection = fit_projection(train_images, captions, encoder, names)
+        if args.combine and not {"val", "test"} <= set(args.splits):
+            raise ValueError("--combine cần cả hai tập: --splits val test")
+        parts = {}
         for split in dict.fromkeys(args.splits):
             _, digest, ids, images = load_split(processed, args.features, split, args.device, names)
             vectors = F.normalize(normalize_parts(images, state) @ projection, dim=1)
-            path = args.output_dir / f"ktvic_{split}.pt"
+            parts[split] = (digest, ids, vectors.cpu())
+
+        def save(name, split, digest, ids, vectors):
+            path = args.output_dir / f"ktvic_{name}.pt"
             save_index(path, {"format_version": FORMAT_VERSION, "text_model": TEXT_MODEL,
                               "text_revision": TEXT_REVISION, "split": split, "manifest_sha256": digest,
-                              "train_manifest_sha256": train_digest, "image_features": list(names), "image_ids": torch.tensor(ids),
-                              "vectors": vectors.cpu(), "text_center": text_center.cpu()})
+                              "train_manifest_sha256": train_digest, "image_features": list(names),
+                              "image_ids": torch.tensor(ids), "vectors": vectors, "text_center": text_center.cpu()})
             print(f"Đã lưu {len(ids)} vector ảnh {split} vào {path}.", flush=True)
+
+        for split, (digest, ids, vectors) in parts.items():
+            save(split, split, digest, ids, vectors)
+        if args.combine:
+            ids = parts["val"][1] + parts["test"][1]
+            if len(set(ids)) != len(ids):
+                raise ValueError("Val và test có ID ảnh trùng nhau.")
+            save("val_test", "val+test", pool_digest([parts["val"][0], parts["test"][0]]), ids,
+                 torch.cat((parts["val"][2], parts["test"][2])))
     except (OSError, ValueError, RuntimeError) as error:
         parser.exit(1, f"Không tạo được chỉ mục ảnh: {error}\n")
 

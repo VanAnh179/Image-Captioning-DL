@@ -50,6 +50,16 @@ python -m scripts.build_visual_search_index
 python -m scripts.run_web_demo
 ```
 
+### Kho tìm ảnh val và test
+
+Mặc định kho tìm là 375 ảnh val. Có thể dùng kho 933 ảnh val và test (đều là ảnh mô hình chưa học). Không dùng ảnh train cho kho, vì phép chiếu đã học chính các ảnh đó và sẽ làm kết quả tìm trông tốt hơn thực tế.
+
+```sh
+python -m scripts.build_image_search_index --predictions <val_predictions.json của A> <test_predictions.json của A> --candidate-splits val test --output artifacts/retrieval/ktvic_a_val_test.npz
+python -m scripts.build_visual_search_index --splits val test --combine --with-clip
+python -m scripts.run_web_demo --index artifacts/retrieval/ktvic_a_val_test.npz --visual-index artifacts/retrieval/visual/ktvic_val_test.pt
+```
+
 ### Sinh caption tốt hơn
 
 Demo sinh caption bằng beam search 3 (phạt độ dài 0,7), chọn trên val; `--beam-size 1` quay về greedy. Có thể tinh chỉnh mô hình A theo CIDEr-D (huấn luyện tự phê bình, chạy được trên máy có GPU 4 GB, khoảng 10 phút) rồi dùng checkpoint mới cho demo. Chỉ mục caption của demo phải lập lại từ chính checkpoint đó.

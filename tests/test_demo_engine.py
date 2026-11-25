@@ -55,6 +55,13 @@ class DemoEngineTests(unittest.TestCase):
         self.assertFalse(check_index_matches_checkpoint(index, {"validation_predictions": other}))
         self.assertIsNone(check_index_matches_checkpoint(index, {}))
 
+    def test_index_may_hold_extra_images_but_must_not_miss_or_change_validation_captions(self):
+        index = tiny_engine().index
+        validation = [{"image_id": 10, "caption": "xe máy đỗ bên đường"}, {"image_id": 11, "caption": "kệ hàng bày nhiều hàng hoá"}]
+        self.assertTrue(check_index_matches_checkpoint(index, {"validation_predictions": validation}))  # image 12 is extra
+        absent = validation + [{"image_id": 99, "caption": "x"}]
+        self.assertFalse(check_index_matches_checkpoint(index, {"validation_predictions": absent}))
+
     def test_default_checkpoint_lookup_and_score_format(self):
         with tempfile.TemporaryDirectory() as folder:
             present = Path(folder) / "best.pt"

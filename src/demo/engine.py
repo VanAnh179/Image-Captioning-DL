@@ -32,11 +32,13 @@ def first_existing(paths):
 
 
 def check_index_matches_checkpoint(index, checkpoint):
-    """True if the index holds exactly the captions this checkpoint wrote for validation, None if it cannot be told."""
+    """True if the index holds the captions this checkpoint wrote for every validation image (it may hold more images,
+    such as test), False if one differs or is missing, None if it cannot be told."""
     saved = checkpoint.get("validation_predictions")
     if not saved:
         return None
-    return {row["image_id"]: row["caption"] for row in saved} == {row["image_id"]: row["caption"] for row in index.records}
+    held = {row["image_id"]: row["caption"] for row in index.records}
+    return all(held.get(row["image_id"]) == row["caption"] for row in saved)
 
 
 class DemoEngine:
