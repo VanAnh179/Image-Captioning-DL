@@ -6,6 +6,7 @@ import json
 import sys
 from pathlib import Path
 
+from src.data.paths import PROCESSED_DIR, RETRIEVAL_DIR
 from src.data.region_features import read_manifest
 from src.evaluation.caption_scorer import load_predictions
 from src.retrieval.caption_search import CaptionSearchIndex
@@ -14,8 +15,8 @@ from src.retrieval.caption_search import CaptionSearchIndex
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--predictions", type=Path, required=True, help="A's val_predictions.json")
-    parser.add_argument("--processed-dir", type=Path, default=Path("data/processed/ktvic"))
-    parser.add_argument("--output", type=Path, default=Path("artifacts/retrieval/ktvic_a_val.npz"))
+    parser.add_argument("--processed-dir", type=Path, default=PROCESSED_DIR)
+    parser.add_argument("--output", type=Path, default=RETRIEVAL_DIR / "ktvic_a_val.npz")
     args = parser.parse_args()
     train = args.processed_dir / "train_manifest.jsonl"
     val = args.processed_dir / "val_manifest.jsonl"

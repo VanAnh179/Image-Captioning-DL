@@ -13,6 +13,7 @@ from pathlib import Path
 
 import numpy as np
 
+from src.data.paths import PROCESSED_DIR, RETRIEVAL_DIR
 from src.data.region_features import read_manifest
 from src.evaluation.caption_scorer import load_predictions
 from src.retrieval.caption_search import CaptionSearchIndex
@@ -58,8 +59,8 @@ def main():
     parser.add_argument("--predictions-a", type=Path, required=True)
     parser.add_argument("--predictions-b", type=Path, required=True)
     parser.add_argument("--split", choices=("val", "test"), default="val")
-    parser.add_argument("--processed-dir", type=Path, default=Path("data/processed/ktvic"))
-    parser.add_argument("--index-dir", type=Path, default=Path("artifacts/retrieval/recall_eval"))
+    parser.add_argument("--processed-dir", type=Path, default=PROCESSED_DIR)
+    parser.add_argument("--index-dir", type=Path, default=RETRIEVAL_DIR / "recall_eval")
     parser.add_argument("--output-dir", type=Path, help="Default: reports/retrieval_recall for val, runs/retrieval_test_eval for test")
     args = parser.parse_args()
     train_path = args.processed_dir / "train_manifest.jsonl"

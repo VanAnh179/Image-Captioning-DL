@@ -9,6 +9,7 @@ from pathlib import Path
 import numpy as np
 import torch
 
+from src.data.paths import CHECKPOINT_DIR, RETRIEVAL_DIR
 from src.data.region_features import FrozenResNet50Grid, load_image
 from src.data.vietnamese_caption_batch import CaptionVocabulary
 from src.models.lstm_attention_decoder import LSTMAttentionCaptionDecoder
@@ -16,8 +17,9 @@ from src.retrieval.caption_search import CaptionSearchIndex
 from src.training.caption_trainer import load_checkpoint
 
 # A Kaggle epoch 5 is the checkpoint chosen for the demo; the first path is where the version list puts it.
-DEFAULT_CHECKPOINTS = ("runs/kaggle_matched_inspection/project/runs/a_baseline_matched/best.pt", "best.pt")
-DEFAULT_INDEX = "artifacts/retrieval/ktvic_a_val.npz"
+DEFAULT_CHECKPOINTS = ((CHECKPOINT_DIR / "A" / "best.pt").as_posix(),
+                       "runs/kaggle_matched_inspection/project/runs/a_baseline_matched/best.pt", "best.pt")
+DEFAULT_INDEX = (RETRIEVAL_DIR / "ktvic_a_val.npz").as_posix()
 TOP_WORDS = 5
 
 

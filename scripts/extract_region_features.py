@@ -12,7 +12,8 @@ from pathlib import Path
 import torch
 import torchvision
 
-from src.data.paths import resolve_image_root, resolve_processed_dir
+from src.training.run_log import tee_log
+from src.data.paths import FEATURE_DIR, LOG_DIR, resolve_image_root, resolve_processed_dir
 from src.data.region_features import (
     FEATURE_DIM, FORMAT_VERSION, GRID, IMAGE_SIZE, IMAGENET_MEAN, IMAGENET_STD, NUM_REGIONS,
     WEIGHTS_NAME, FrozenResNet50Grid, extract_split, feature_path, read_manifest,
@@ -28,7 +29,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--processed-dir", type=Path, help="Folder with *_manifest.jsonl (auto-detected)")
     parser.add_argument("--image-root", type=Path, help="Folder with train-images/ (auto-detected)")
-    parser.add_argument("--output", type=Path, default=Path("artifacts/features/ktvic"))
+    parser.add_argument("--output", type=Path, default=FEATURE_DIR)
     parser.add_argument("--splits", nargs="+", choices=["train", "val", "test"], default=["train", "val", "test"])
     parser.add_argument("--batch-size", type=int, default=32)
     parser.add_argument("--workers", type=int, default=0)
@@ -88,4 +89,5 @@ def main():
 if __name__ == "__main__":
     sys.stdout.reconfigure(encoding="utf-8")
     sys.stderr.reconfigure(encoding="utf-8")
-    main()
+    with tee_log(LOG_DIR / "extract_region_features.log"):
+        main()

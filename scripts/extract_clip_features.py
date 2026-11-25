@@ -13,7 +13,8 @@ from src.data.clip_features import (
     CLIP_CACHE_PREFIX, CLIP_FEATURE_DIM, CLIP_MODEL, CLIP_REVISION, FORMAT_VERSION,
     FrozenCLIPVisionGrid, load_clip_processor, make_clip_image_loader,
 )
-from src.data.paths import resolve_image_root, resolve_processed_dir
+from src.training.run_log import tee_log
+from src.data.paths import FEATURE_DIR, LOG_DIR, resolve_image_root, resolve_processed_dir
 from src.data.region_features import GRID, NUM_REGIONS, extract_split, feature_path, read_manifest
 
 
@@ -26,7 +27,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--processed-dir", type=Path, help="Folder with *_manifest.jsonl (auto-detected)")
     parser.add_argument("--image-root", type=Path, help="Folder with train-images/ (auto-detected)")
-    parser.add_argument("--output", type=Path, default=Path("artifacts/features/ktvic"))
+    parser.add_argument("--output", type=Path, default=FEATURE_DIR)
     parser.add_argument("--splits", nargs="+", default=["train", "val", "test"])
     parser.add_argument("--batch-size", type=int, default=32)
     parser.add_argument("--workers", type=int, default=0)
@@ -78,4 +79,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    with tee_log(LOG_DIR / "extract_clip_features.log"):
+        main()

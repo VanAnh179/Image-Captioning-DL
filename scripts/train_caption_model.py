@@ -9,17 +9,19 @@ import torch
 import yaml
 
 from src.data.cached_caption_dataset import CachedCaptionDataset
-from src.data.paths import resolve_processed_dir
+from src.data.paths import CHECKPOINT_DIR, FEATURE_DIR, LOG_DIR, resolve_processed_dir
 from src.data.region_features import CACHE_PREFIX, FEATURE_DIM, NUM_REGIONS
 from src.data.vietnamese_caption_batch import CaptionVocabulary
 from src.training.caption_trainer import fit
+from src.training.run_log import tee_log
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--model", choices=["A", "A0", "B"], required=True)
     parser.add_argument("--config", type=Path)
-    parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--output", type=Path, help=f"Run folder for best.pt, last.pt and history.json (default: {CHECKPOINT_DIR}/<model>_seed<seed>)")
+    parser.add_argument("--log-dir", type=Path, default=LOG_DIR, help="Folder for the console log of this run")
     parser.add_argument("--resume", type=Path)
     parser.add_argument("--epochs", type=int, default=20, help="Total target epochs, including completed epochs")
     parser.add_argument("--batch-size", type=int, default=32)
@@ -32,11 +34,12 @@ def main():
     parser.add_argument("--overfit-pairs", type=int, default=0, help="Sample this many train images, first caption only, and evaluate on those pairs")
     parser.add_argument("--dropout", type=float, help="Override model dropout, e.g. 0 for an overfit check")
     parser.add_argument("--processed-dir", type=Path)
-    parser.add_argument("--features", type=Path, default=Path("artifacts/features/ktvic"))
+    parser.add_argument("--features", type=Path, default=FEATURE_DIR)
     parser.add_argument("--feature-prefix", default=CACHE_PREFIX,
                         help="Feature cache prefix, e.g. clip_vit_b32_7x7 together with configs/clip_transformer.yaml")
     parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     args = parser.parse_args()
+    args.output = args.output or CHECKPOINT_DIR / f"{args.model}_seed{args.seed}"
     processed = args.processed_dir or resolve_processed_dir()
     vocabulary = CaptionVocabulary.load(processed / "caption_vocabulary.json")
     default_config = {"A": "lstm_attention.yaml", "A0": "lstm_attention_uniform.yaml", "B": "transformer_decoder.yaml"}[args.model]
@@ -62,7 +65,9 @@ def main():
                 "max_len": args.max_len, "seed": args.seed,
                 "patience": args.patience,
                 "purpose": f"overfit_{args.overfit_pairs}_train_pairs" if args.overfit_pairs else "full_training"}
-    fit(args.model, config, train_data, val_data, args.output, settings, args.epochs, args.device, args.resume)
+    with tee_log(args.log_dir / f"train_{args.output.name}.log"):
+        print(f"Chạy {args.model}: checkpoint -> {args.output}, log -> {args.log_dir / ('train_' + args.output.name + '.log')}", flush=True)
+        fit(args.model, config, train_data, val_data, args.output, settings, args.epochs, args.device, args.resume)
 
 
 if __name__ == "__main__":

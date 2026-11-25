@@ -11,7 +11,9 @@ from src.data.cached_caption_dataset import CachedCaptionDataset
 from src.data.paths import resolve_processed_dir
 from src.data.region_features import CACHE_PREFIX, FEATURE_DIM, NUM_REGIONS
 from src.data.vietnamese_caption_batch import CaptionVocabulary
+from src.data.paths import FEATURE_DIR, LOG_DIR
 from src.training.caption_trainer import build_model, load_checkpoint, predict_captions
+from src.training.run_log import tee_log
 
 
 def resolve_feature_prefix(config, explicit=None):
@@ -80,21 +82,23 @@ def main():
     parser.add_argument("--split", choices=("val", "test"), required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--processed-dir", type=Path)
-    parser.add_argument("--features", type=Path, default=Path("artifacts/features/ktvic"))
+    parser.add_argument("--features", type=Path, default=FEATURE_DIR)
+    parser.add_argument("--log-dir", type=Path, default=LOG_DIR, help="Folder for the console log")
     parser.add_argument("--feature-prefix", default=None,
                         help="Feature cache prefix. Default: inferred from the checkpoint "
                              "(resnet50_7x7 for A, B and A0; clip_vit_b32_7x7 for C).")
     parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     args = parser.parse_args()
 
-    try:
-        records, _ = generate_predictions(args.checkpoint, args.split, args.device, args.processed_dir,
-                                          args.features, args.feature_prefix)
-    except GenerationInputError as error:
-        parser.error(str(error))
-    args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(json.dumps(records, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(f"Generated {len(records)} captions in {args.output}")
+    with tee_log(args.log_dir / f"generate_{args.output.stem}.log"):
+        try:
+            records, _ = generate_predictions(args.checkpoint, args.split, args.device, args.processed_dir,
+                                              args.features, args.feature_prefix)
+        except GenerationInputError as error:
+            parser.error(str(error))
+        args.output.parent.mkdir(parents=True, exist_ok=True)
+        args.output.write_text(json.dumps(records, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        print(f"Generated {len(records)} captions in {args.output}")
 
 
 if __name__ == "__main__":
