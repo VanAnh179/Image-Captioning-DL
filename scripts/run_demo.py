@@ -12,7 +12,7 @@ from pathlib import Path
 import torch
 
 from src.demo.app import DemoApp
-from src.demo.engine import DEFAULT_CHECKPOINTS, DEFAULT_INDEX, DemoEngine, first_existing
+from src.demo.engine import DEFAULT_BEAM_SIZE, DEFAULT_CHECKPOINTS, DEFAULT_INDEX, DemoEngine, first_existing
 
 
 def main():
@@ -20,12 +20,13 @@ def main():
     parser.add_argument("--checkpoint", type=Path, help="A's best.pt (default: the version-list path, else ./best.pt)")
     parser.add_argument("--index", type=Path, default=Path(DEFAULT_INDEX))
     parser.add_argument("--image-root", type=Path, default=Path("data/raw/ktvic"))
+    parser.add_argument("--beam-size", type=int, default=DEFAULT_BEAM_SIZE, help="beam width for captions (1 = greedy)")
     parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     args = parser.parse_args()
     try:
         checkpoint = args.checkpoint or first_existing(DEFAULT_CHECKPOINTS)
         print(f"Đang nạp mô hình A ({checkpoint}) và chỉ mục ({args.index}) trên {args.device}…", flush=True)
-        engine = DemoEngine(checkpoint, args.index, args.image_root, args.device)
+        engine = DemoEngine(checkpoint, args.index, args.image_root, args.device, beam_size=args.beam_size)
     except (FileNotFoundError, ValueError, RuntimeError) as error:
         sys.exit(f"Không mở được demo: {error}")
     try:  # sharp text on high-DPI Windows screens

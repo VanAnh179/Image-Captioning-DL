@@ -18,7 +18,7 @@ os.environ.setdefault("TRANSFORMERS_OFFLINE", "1")
 
 import torch
 
-from src.demo.engine import DEFAULT_CHECKPOINTS, DEFAULT_INDEX, DemoEngine, first_existing
+from src.demo.engine import DEFAULT_BEAM_SIZE, DEFAULT_CHECKPOINTS, DEFAULT_INDEX, DemoEngine, first_existing
 from src.demo.web import serve
 from src.retrieval.visual_search import DEFAULT_INDEX_DIR, MiniLMEncoder, VisualImageSearch, VisualSearchIndex
 
@@ -52,6 +52,7 @@ def main():
     parser.add_argument("--text-model-dir", type=Path,
                         help="folder made by scripts.export_text_model (default: artifacts/models/..., else the Hugging Face cache)")
     parser.add_argument("--image-root", type=Path, default=Path("data/raw/ktvic"))
+    parser.add_argument("--beam-size", type=int, default=DEFAULT_BEAM_SIZE, help="beam width for captions (1 = greedy)")
     parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     parser.add_argument("--port", type=int, default=8000)
     parser.add_argument("--no-browser", action="store_true", help="do not open the page automatically")
@@ -63,7 +64,7 @@ def main():
     try:
         checkpoint = args.checkpoint or first_existing(DEFAULT_CHECKPOINTS)
         print(f"Đang nạp mô hình A ({checkpoint}) và chỉ mục ({args.index}) trên {args.device}…", flush=True)
-        engine = DemoEngine(checkpoint, args.index, args.image_root, args.device)
+        engine = DemoEngine(checkpoint, args.index, args.image_root, args.device, beam_size=args.beam_size)
         visual_search = None
         visual_path = args.visual_index or (DEFAULT_INDEX_DIR / "ktvic_val.pt")
         if args.visual_index is not None and args.tfidf:

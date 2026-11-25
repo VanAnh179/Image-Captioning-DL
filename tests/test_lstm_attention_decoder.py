@@ -94,6 +94,23 @@ class LSTMAttentionTests(unittest.TestCase):
             torch.testing.assert_close(generated["logits"][row, :length], teacher["logits"][row, :length])
             torch.testing.assert_close(generated["attention"][row, :length], teacher["attention"][row, :length])
 
+    def test_beam_one_equals_greedy_and_wider_beams_keep_the_contract(self):
+        greedy = self.model.generate(self.regions, max_len=6)
+        beam_one = self.model.generate_beam(self.regions, beam_size=1, max_len=6, length_penalty=0.7)
+        for row, length in enumerate(greedy["lengths"].tolist()):
+            self.assertEqual(int(beam_one["lengths"][row]), length)
+            self.assertEqual(beam_one["token_ids"][row, :length].tolist(), greedy["token_ids"][row, :length].tolist())
+        wide = self.model.generate_beam(self.regions, beam_size=4, max_len=6)
+        self.assertEqual(wide["token_ids"].shape[0], 2)
+        for row, length in enumerate(wide["lengths"].tolist()):
+            tokens = wide["token_ids"][row, :length].tolist()
+            self.assertTrue(1 <= length <= 6)
+            self.assertNotIn(PAD, tokens)
+            self.assertNotIn(BOS, tokens)
+            self.assertNotIn(EOS, tokens[:-1])  # EOS may only end the caption
+        with self.assertRaises(ValueError):
+            self.model.generate_beam(self.regions, beam_size=0)
+
     def test_mixed_eos_lengths_and_masked_special_tokens(self):
         step_number = 0
 

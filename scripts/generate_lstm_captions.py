@@ -24,6 +24,8 @@ def main():
     parser.add_argument("--output", type=Path, default=Path("runs/lstm_predictions"))
     parser.add_argument("--batch-size", type=int, default=32)
     parser.add_argument("--max-len", type=int, default=40)
+    parser.add_argument("--beam-size", type=int, default=1, help="1 = greedy with logits and attention traces; >1 = beam search, predictions only")
+    parser.add_argument("--length-penalty", type=float, default=0.7)
     parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     args = parser.parse_args()
     if args.batch_size <= 0 or args.max_len <= 0:
@@ -48,13 +50,19 @@ def main():
     predictions, records = [], []
     for start in range(0, len(ids), args.batch_size):
         batch_ids = ids[start:start + args.batch_size]
-        output = model.generate(store.get_batch(batch_ids).to(args.device), max_len=args.max_len)
+        regions = store.get_batch(batch_ids).to(args.device)
+        if args.beam_size > 1:
+            output = model.generate_beam(regions, args.beam_size, args.max_len, args.length_penalty)
+        else:
+            output = model.generate(regions, max_len=args.max_len)
         output = {key: value.cpu() for key, value in output.items()}
         for row, image_id in enumerate(batch_ids):
             length = int(output["lengths"][row])
             token_ids = output["token_ids"][row, :length]
             caption = vocabulary.decode(token_ids)
             predictions.append({"image_id": image_id, "caption": caption})
+            if args.beam_size > 1:
+                continue  # beam search keeps no per-token logits or attention
             records.append({**store.trace(image_id), "caption": caption, "token_ids": token_ids,
                             "tokens": [vocabulary.tokens[i] for i in token_ids.tolist()],
                             "logits": output["logits"][row, :length],
@@ -63,6 +71,9 @@ def main():
     args.output.mkdir(parents=True, exist_ok=True)
     (args.output / f"{args.split}_predictions.json").write_text(
         json.dumps(predictions, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    if args.beam_size > 1:
+        print(f"Generated {len(predictions)} captions with beam {args.beam_size} (length penalty {args.length_penalty}) in {args.output}")
+        return
     torch.save({"checkpoint": str(args.checkpoint), "split": args.split,
                 "checkpoint_purpose": checkpoint.get("purpose", "unspecified"),
                 "max_len": args.max_len, "grid_shape": [7, 7],

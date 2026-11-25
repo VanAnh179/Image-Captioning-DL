@@ -117,3 +117,51 @@ class LSTMAttentionCaptionDecoder(nn.Module):
             }
         finally:
             self.train(training)
+
+    @torch.no_grad()
+    def generate_beam(self, regions, beam_size=3, max_len=40, length_penalty=1.0):
+        """Beam search from BOS; returns token_ids [B,L] (PAD after EOS) and lengths (EOS included) of the best beam.
+
+        Beams are ranked by summed log-probability divided by length ** length_penalty (0 = no normalization).
+        beam_size 1 equals greedy decoding. PAD and BOS are never chosen, as in generate().
+        """
+        if max_len <= 0 or beam_size <= 0:
+            raise ValueError("max_len and beam_size must be positive")
+        training = self.training
+        self.eval()
+        try:
+            memory, keys, state = self._prepare(regions)
+            batch, beams, device = regions.shape[0], beam_size, regions.device
+            memory, keys = memory.repeat_interleave(beams, dim=0), keys.repeat_interleave(beams, dim=0)
+            state = tuple(part.repeat_interleave(beams, dim=0) for part in state)
+            token = torch.full((batch * beams,), BOS, dtype=torch.long, device=device)
+            scores = torch.zeros(batch, beams, device=device)
+            scores[:, 1:] = float("-inf")  # all beams start identical; keep one alive
+            finished = torch.zeros(batch * beams, dtype=torch.bool, device=device)
+            lengths = torch.zeros(batch * beams, dtype=torch.long, device=device)
+            sequences = torch.empty(batch * beams, 0, dtype=torch.long, device=device)
+            offset = (torch.arange(batch, device=device) * beams).unsqueeze(1)
+            for _ in range(max_len):
+                logits, _, next_state = self._step(token, memory, keys, state)
+                log_probs = torch.log_softmax(logits, dim=-1)
+                log_probs[:, [PAD, BOS]] = float("-inf")
+                done = log_probs.new_full(log_probs.shape, float("-inf"))
+                done[:, PAD] = 0  # a finished beam only continues with PAD at no cost
+                log_probs = torch.where(finished.unsqueeze(1), done, log_probs)
+                vocab = log_probs.shape[1]
+                candidates = (scores.reshape(-1, 1) + log_probs).reshape(batch, beams * vocab)
+                scores, chosen = candidates.topk(beams, dim=1)
+                parent = (offset + chosen // vocab).reshape(-1)
+                token = (chosen % vocab).reshape(-1)
+                state = tuple(part[parent] for part in next_state)
+                was_finished = finished[parent]
+                lengths = lengths[parent] + (~was_finished).long()
+                sequences = torch.cat((sequences[parent], token.unsqueeze(1)), dim=1)
+                finished = was_finished | token.eq(EOS)
+                if finished.all():
+                    break
+            ranked = scores.reshape(-1) / lengths.clamp_min(1).float() ** length_penalty
+            best = ranked.reshape(batch, beams).argmax(dim=1) + offset.squeeze(1)
+            return {"token_ids": sequences[best], "lengths": lengths[best]}
+        finally:
+            self.train(training)

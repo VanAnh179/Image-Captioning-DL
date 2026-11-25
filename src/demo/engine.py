@@ -19,6 +19,9 @@ from src.training.caption_trainer import load_checkpoint
 DEFAULT_CHECKPOINTS = ("runs/kaggle_matched_inspection/project/runs/a_baseline_matched/best.pt", "best.pt")
 DEFAULT_INDEX = "artifacts/retrieval/ktvic_a_val.npz"
 TOP_WORDS = 5
+# Beam search chosen on val: CIDEr 76.96 (greedy) -> 83.93; beam_size=1 gives the original greedy captions.
+DEFAULT_BEAM_SIZE = 3
+DEFAULT_LENGTH_PENALTY = 0.7
 
 
 def first_existing(paths):
@@ -37,7 +40,8 @@ def check_index_matches_checkpoint(index, checkpoint):
 
 
 class DemoEngine:
-    def __init__(self, checkpoint_path, index_path, image_root, device="cpu"):
+    def __init__(self, checkpoint_path, index_path, image_root, device="cpu", *, beam_size=DEFAULT_BEAM_SIZE,
+                 length_penalty=DEFAULT_LENGTH_PENALTY):
         checkpoint = load_checkpoint(checkpoint_path)
         if checkpoint["model_name"] not in ("A", "A0"):
             raise ValueError(f"Demo chỉ nạp checkpoint LSTM A hoặc A0, file này là {checkpoint['model_name']}")
@@ -58,13 +62,17 @@ class DemoEngine:
             raise FileNotFoundError(f"Thiếu trọng số ResNet-50 dùng cho demo offline: {error.filename}") from error
         self.image_root = Path(image_root)
         self.checkpoint_epoch = checkpoint["epoch"]
+        self.beam_size, self.length_penalty = beam_size, length_penalty
 
     @torch.no_grad()
     def caption_image(self, path, max_len=40, *, formats=None):
-        """Caption of any image file, using the same preprocessing and greedy decoding as the evaluation."""
+        """Caption of any image file, using the same preprocessing as the evaluation and beam search (1 = greedy)."""
         pixels, _ = load_image(path, formats=formats)
         features = self.encoder(pixels.unsqueeze(0).to(self.device)).to(torch.float16)  # the caches are float16
-        output = self.model.generate(features, max_len=max_len)
+        if self.beam_size > 1:
+            output = self.model.generate_beam(features, self.beam_size, max_len, self.length_penalty)
+        else:
+            output = self.model.generate(features, max_len=max_len)
         length = int(output["lengths"][0])
         return self.vocabulary.decode(output["token_ids"][0, :length].cpu())
 
