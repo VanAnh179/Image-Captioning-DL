@@ -50,4 +50,14 @@ python -m scripts.build_visual_search_index
 python -m scripts.run_web_demo
 ```
 
+### Sinh caption tốt hơn
+
+Demo sinh caption bằng beam search 3 (phạt độ dài 0,7), chọn trên val; `--beam-size 1` quay về greedy. Có thể tinh chỉnh mô hình A theo CIDEr-D (huấn luyện tự phê bình, chạy được trên máy có GPU 4 GB, khoảng 10 phút) rồi dùng checkpoint mới cho demo. Chỉ mục caption của demo phải lập lại từ chính checkpoint đó.
+
+```sh
+python -m scripts.finetune_cider --checkpoint <best.pt của A> --output runs/scst_a_seed42
+python -m scripts.build_image_search_index --predictions <val_predictions.json của checkpoint mới> --output artifacts/retrieval/ktvic_a_scst_val.npz
+python -m scripts.run_web_demo --checkpoint runs/scst_a_seed42/best.pt --index artifacts/retrieval/ktvic_a_scst_val.npz
+```
+
 Báo cáo nội bộ, log huấn luyện và kết quả đánh giá chi tiết được bàn giao riêng qua Media board.
