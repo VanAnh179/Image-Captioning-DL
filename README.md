@@ -32,19 +32,22 @@ Có thể chỉ định vị trí khác bằng `--checkpoint`, `--index` và `--
 
 ### Tìm theo đặc trưng ảnh
 
-Trên bản có chế độ này, chuẩn bị cache ResNet-50 của train và val. MiniLM phải có sẵn trong cache Hugging Face trên máy chạy demo. Để chuẩn bị cache một lần trên máy có mạng, dùng revision đã ghim.
+Chế độ này xếp ảnh theo độ tương đồng giữa câu truy vấn và đặc trưng ảnh, không đi qua caption. Caption của A chỉ để hiển thị. Demo tự dùng chế độ này khi có `artifacts/retrieval/visual/ktvic_val.pt`, và dùng `--tfidf` để quay lại xếp hạng TF-IDF.
+
+Cần chuẩn bị một lần trên máy có mạng, rồi chép các thư mục kết quả sang máy chạy offline:
 
 ```sh
 python -c "from huggingface_hub import snapshot_download; snapshot_download('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2', revision='e8f8c211226b894fcb81acc59f3b34ba3efd5f42', allow_patterns=['config.json', 'model.safetensors', 'tokenizer.json', 'tokenizer_config.json', 'special_tokens_map.json'])"
+python -m scripts.export_text_model
 ```
 
-Hai lệnh sau chạy offline. Bước tạo chỉ mục học phép chiếu từ ảnh và câu tham chiếu train, rồi lưu vector ảnh val vào `artifacts/retrieval/visual/ktvic_val.pt`.
+Lệnh thứ hai gom mô hình văn bản vào `artifacts/models/paraphrase-multilingual-MiniLM-L12-v2/` (480 MB). Máy chạy offline chỉ cần thư mục này, không cần cache Hugging Face. Demo đặt `HF_HUB_OFFLINE=1` và `TRANSFORMERS_OFFLINE=1`, nên không tải gì từ mạng. Thiếu thư mục thì demo báo rõ và hướng dẫn tạo lại.
+
+Hai lệnh sau cũng chạy offline. Lệnh đầu học phép chiếu từ ảnh và câu tham chiếu train, rồi lưu vector ảnh val vào `artifacts/retrieval/visual/ktvic_val.pt`. Cần cache ResNet-50 của train và val.
 
 ```sh
 python -m scripts.build_visual_search_index
-python -m scripts.run_web_demo --visual-index artifacts/retrieval/visual/ktvic_val.pt
+python -m scripts.run_web_demo
 ```
-
-Chế độ này xếp ảnh theo độ tương đồng giữa câu truy vấn và đặc trưng ảnh. Chỉ mục caption A cung cấp caption và đường dẫn cho từng thẻ. Chạy lệnh demo cơ bản để dùng xếp hạng TF-IDF.
 
 Báo cáo nội bộ, log huấn luyện và kết quả đánh giá chi tiết được bàn giao riêng qua Media board.

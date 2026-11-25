@@ -12,11 +12,15 @@ import tempfile
 import webbrowser
 from pathlib import Path
 
+# The demo only reads local files. These make Hugging Face libraries refuse any network access.
+os.environ.setdefault("HF_HUB_OFFLINE", "1")
+os.environ.setdefault("TRANSFORMERS_OFFLINE", "1")
+
 import torch
 
 from src.demo.engine import DEFAULT_CHECKPOINTS, DEFAULT_INDEX, DemoEngine, first_existing
 from src.demo.web import serve
-from src.retrieval.visual_search import MiniLMEncoder, VisualImageSearch, VisualSearchIndex
+from src.retrieval.visual_search import DEFAULT_INDEX_DIR, MiniLMEncoder, VisualImageSearch, VisualSearchIndex
 
 
 def open_app_window(url):
@@ -43,7 +47,10 @@ def main():
     parser.add_argument("--checkpoint", type=Path, help="A's best.pt (default: the version-list path, else ./best.pt)")
     parser.add_argument("--index", type=Path, default=Path(DEFAULT_INDEX))
     parser.add_argument("--visual-index", type=Path,
-                        help="use an offline visual index instead of TF-IDF to rank results")
+                        help="visual index used to rank results (default: artifacts/retrieval/visual/ktvic_val.pt when it exists)")
+    parser.add_argument("--tfidf", action="store_true", help="rank by TF-IDF over A's captions instead of the visual index")
+    parser.add_argument("--text-model-dir", type=Path,
+                        help="folder made by scripts.export_text_model (default: artifacts/models/..., else the Hugging Face cache)")
     parser.add_argument("--image-root", type=Path, default=Path("data/raw/ktvic"))
     parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     parser.add_argument("--port", type=int, default=8000)
@@ -58,10 +65,15 @@ def main():
         print(f"Đang nạp mô hình A ({checkpoint}) và chỉ mục ({args.index}) trên {args.device}…", flush=True)
         engine = DemoEngine(checkpoint, args.index, args.image_root, args.device)
         visual_search = None
-        if args.visual_index is not None:
-            visual_index = VisualSearchIndex.load(args.visual_index)
-            visual_search = VisualImageSearch(visual_index, engine.index, MiniLMEncoder(args.device))
-            print(f"Đã nạp chế độ tìm theo đặc trưng ảnh ({args.visual_index}).", flush=True)
+        visual_path = args.visual_index or (DEFAULT_INDEX_DIR / "ktvic_val.pt")
+        if args.visual_index is not None and args.tfidf:
+            parser.error("--visual-index và --tfidf không dùng cùng nhau.")
+        if not args.tfidf and (args.visual_index is not None or visual_path.is_file()):
+            visual_index = VisualSearchIndex.load(visual_path)
+            visual_search = VisualImageSearch(visual_index, engine.index, MiniLMEncoder(args.device, args.text_model_dir))
+            print(f"Tìm ảnh theo đặc trưng ảnh ({visual_path}).", flush=True)
+        else:
+            print("Tìm ảnh theo TF-IDF trên caption của A (chưa có chỉ mục đặc trưng ảnh hoặc dùng --tfidf).", flush=True)
         server = serve(engine, port=args.port, visual_search=visual_search)
     except (FileNotFoundError, ValueError, RuntimeError, OSError) as error:
         sys.exit(f"Không mở được demo: {error}")

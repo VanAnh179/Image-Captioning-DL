@@ -1,5 +1,6 @@
 """Vietnamese text-to-image search with locally cached MiniLM and projected ResNet features."""
 
+import json
 import pickle
 from pathlib import Path
 
@@ -14,22 +15,49 @@ TEXT_MODEL = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
 TEXT_REVISION = "e8f8c211226b894fcb81acc59f3b34ba3efd5f42"
 FORMAT_VERSION = 1
 DEFAULT_INDEX_DIR = Path("artifacts/retrieval/visual")
+DEFAULT_TEXT_MODEL_DIR = Path("artifacts/models/paraphrase-multilingual-MiniLM-L12-v2")
+TEXT_MODEL_FILES = ("config.json", "model.safetensors", "tokenizer.json", "tokenizer_config.json",
+                    "special_tokens_map.json")
+SOURCE_FILE = "source.json"
+
+
+def check_text_model_dir(folder):
+    """Raise unless folder holds the pinned MiniLM files exported by scripts.export_text_model."""
+    folder = Path(folder)
+    missing = [name for name in (*TEXT_MODEL_FILES, SOURCE_FILE) if not (folder / name).is_file()]
+    if missing:
+        raise FileNotFoundError(f"Thư mục mô hình văn bản {folder} thiếu: {', '.join(missing)}. "
+                                "Tạo lại bằng python -m scripts.export_text_model.")
+    source = json.loads((folder / SOURCE_FILE).read_text(encoding="utf-8"))
+    if source.get("model") != TEXT_MODEL or source.get("revision") != TEXT_REVISION:
+        raise ValueError(f"Thư mục {folder} không phải bản {TEXT_MODEL} ({TEXT_REVISION}).")
 
 
 class MiniLMEncoder:
     """Encode text using the model's mean pooling and a 128-token limit."""
 
-    def __init__(self, device):
+    def __init__(self, device, model_dir=None):
+        """Load from model_dir (or the default project folder when it exists), else from the Hugging Face cache.
+
+        Only local files are read; nothing is downloaded.
+        """
         from transformers import AutoModel, AutoTokenizer
 
         self.device = torch.device(device)
-        options = {"revision": TEXT_REVISION, "local_files_only": True}
+        if model_dir is None and DEFAULT_TEXT_MODEL_DIR.is_dir():
+            model_dir = DEFAULT_TEXT_MODEL_DIR
+        if model_dir is not None:
+            check_text_model_dir(model_dir)
+            source, options = str(model_dir), {"local_files_only": True}
+        else:
+            source, options = TEXT_MODEL, {"revision": TEXT_REVISION, "local_files_only": True}
         try:
-            self.tokenizer = AutoTokenizer.from_pretrained(TEXT_MODEL, **options)
-            self.model = AutoModel.from_pretrained(TEXT_MODEL, **options, use_safetensors=True)
+            self.tokenizer = AutoTokenizer.from_pretrained(source, **options)
+            self.model = AutoModel.from_pretrained(source, **options, use_safetensors=True)
         except OSError as error:
-            raise FileNotFoundError(f"Thiếu bản MiniLM trong cache Hugging Face: {TEXT_MODEL} ({TEXT_REVISION}). "
-                                    "Chuẩn bị cache trước khi chạy offline.") from error
+            raise FileNotFoundError(f"Không thấy mô hình văn bản MiniLM ({TEXT_MODEL}, {TEXT_REVISION}) trong thư mục "
+                                    f"{DEFAULT_TEXT_MODEL_DIR} hay cache Hugging Face. Trên máy có mô hình, chạy "
+                                    "python -m scripts.export_text_model rồi chép thư mục đó sang máy này.") from error
         self.model.to(self.device).eval()
 
     @torch.inference_mode()

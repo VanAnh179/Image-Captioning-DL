@@ -1,3 +1,4 @@
+import json
 import tempfile
 import unittest
 from pathlib import Path
@@ -6,7 +7,8 @@ from types import SimpleNamespace
 import torch
 
 from src.retrieval.caption_search import SearchInputError
-from src.retrieval.visual_search import FORMAT_VERSION, TEXT_MODEL, TEXT_REVISION, VisualImageSearch, VisualSearchIndex
+from src.retrieval.visual_search import (FORMAT_VERSION, SOURCE_FILE, TEXT_MODEL, TEXT_MODEL_FILES, TEXT_REVISION,
+                                         VisualImageSearch, VisualSearchIndex, check_text_model_dir)
 
 DIGEST = "a" * 64
 
@@ -70,3 +72,28 @@ class VisualSearchTests(unittest.TestCase):
             torch.save({**data, "text_revision": "old"}, path)
             with self.assertRaisesRegex(ValueError, "phiên bản"):
                 VisualSearchIndex.load(path)
+
+
+class TextModelFolderTests(unittest.TestCase):
+    def make_folder(self, folder, revision=TEXT_REVISION):
+        for name in TEXT_MODEL_FILES:
+            (Path(folder) / name).write_bytes(b"x")
+        (Path(folder) / SOURCE_FILE).write_text(json.dumps({"model": TEXT_MODEL, "revision": revision}), encoding="utf-8")
+
+    def test_complete_folder_is_accepted(self):
+        with tempfile.TemporaryDirectory() as folder:
+            self.make_folder(folder)
+            check_text_model_dir(folder)
+
+    def test_missing_file_names_the_file_and_the_export_command(self):
+        with tempfile.TemporaryDirectory() as folder:
+            self.make_folder(folder)
+            (Path(folder) / "model.safetensors").unlink()
+            with self.assertRaisesRegex(FileNotFoundError, "model.safetensors.*export_text_model"):
+                check_text_model_dir(folder)
+
+    def test_other_revision_is_refused(self):
+        with tempfile.TemporaryDirectory() as folder:
+            self.make_folder(folder, revision="old")
+            with self.assertRaisesRegex(ValueError, "không phải bản"):
+                check_text_model_dir(folder)

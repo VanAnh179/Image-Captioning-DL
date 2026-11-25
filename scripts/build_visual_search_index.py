@@ -69,6 +69,7 @@ def main():
     parser.add_argument("--features", type=Path, default=Path("artifacts/features/ktvic"))
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_INDEX_DIR)
     parser.add_argument("--splits", nargs="+", choices=("val", "test"), default=["val"])
+    parser.add_argument("--text-model-dir", type=Path, help="folder made by scripts.export_text_model")
     parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     args = parser.parse_args()
     try:
@@ -76,7 +77,7 @@ def main():
         train_rows, train_digest, _, train_images = load_split(processed, args.features, "train", args.device)
         if not all(len(row["captions"]) == 5 for row in train_rows):
             raise ValueError("Mỗi ảnh train phải có đúng năm caption tham chiếu.")
-        encoder = MiniLMEncoder(args.device)
+        encoder = MiniLMEncoder(args.device, args.text_model_dir)
         captions = [caption for row in train_rows for caption in row["captions"]]
         print(f"Đang học phép chiếu từ {len(train_rows)} ảnh và {len(captions)} câu train…", flush=True)
         center, scale, text_center, projection = fit_projection(train_images, captions, encoder)
